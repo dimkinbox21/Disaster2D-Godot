@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/net/obj_lobby.gd" id="1"]
+[ext_resource type="Script" path="res://src/net/obj_lobby_waiting_anim.gd" id="2"]
+[ext_resource type="Script" path="res://src/net/obj_lobby_prolet.gd" id="3"]
+[ext_resource type="Script" path="res://src/menu/obj_menu_money.gd" id="4"]
+[ext_resource type="Script" path="res://src/menu/gm_plain.gd" id="5"]
+[ext_resource type="Script" path="res://src/menu/gm_background.gd" id="6"]
+
+[node name="room_lobby" type="Node2D"]
+
+[node name="Mercoin1" type="Node2D" parent="."]
+
+[node name="asset_1" type="Node2D" parent="Mercoin1"]
+script = ExtResource("5")
+depth = 0
+position = Vector2(408.0, 2.0)
+gm_name = "gm_asset"
+sprite_name = "spr_mercoin"
+
+[node name="Mercoin2" type="Node2D" parent="."]
+script = ExtResource("4")
+depth = 100
+position = Vector2(437.0, 5.0)
+gm_name = "obj_menu_money"
+
+[node name="lobby_waiting" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2")
+depth = 200
+position = Vector2(239.5, 0.0)
+gm_name = "obj_lobby_waiting"
+sprite_name = "spr_lobby_waiting"
+
+[node name="lobby" type="Node2D" parent="."]
+script = ExtResource("1")
+depth = 300
+position = Vector2(0.0, 0.0)
+gm_name = "obj_lobby"
+
+[node name="prolet" type="Node2D" parent="."]
+visible = false
+script = ExtResource("3")
+depth = 500
+position = Vector2(0.0, 0.0)
+gm_name = "obj_lobby_prolet"
+sprite_name = ""
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("6")
+depth = 600
+position = Vector2(0.0, 0.0)
+gm_name = "gm_background"
+sprite_name = "background_test"
+htiled = true
+vtiled = true
+hspeed = -0.2
+vspeed = 0.0

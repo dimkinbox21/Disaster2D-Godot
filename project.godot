@@ -1,0 +1,51 @@
+; Engine configuration file.
+; Sonic.exe The Disaster 2D Remake — Godot port (stage 1: menu)
+config_version=5
+
+[application]
+
+config/name="Sonic.exe The Disaster 2D Remake (Godot)"
+run/main_scene="res://scenes/logo.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[audio]
+
+buses/default_bus_layout=""
+
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=270
+window/size/window_width_override=480
+window/size/window_height_override=270
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+window/stretch/scale_mode="integer"
+
+[autoload]
+
+GM="*res://src/autoload/gm.gd"
+Globals="*res://src/autoload/globals.gd"
+Palletes="*res://src/autoload/palletes.gd"
+GameConfig="*res://src/autoload/game_config.gd"
+Unlockables="*res://src/autoload/unlockables.gd"
+Achievements="*res://src/autoload/achievements.gd"
+GameAudio="*res://src/autoload/game_audio.gd"
+Net="*res://src/autoload/net.gd"
+DbgShot="*res://src/autoload/dbg_shot.gd"
+DbgProbe="*res://src/autoload/dbg_probe.gd"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false
+
+[physics]
+
+common/physics_ticks_per_second=60
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

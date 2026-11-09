@@ -1,0 +1,11 @@
+# Godot import cache (generated)
+.godot/
+
+# engine binary - download Godot 4.7 into Godot\ (Godot.exe) separately
+Godot/
+
+# debug leftovers
+da.log
+gen/
+ОТЛАДКА
+shot_frame*

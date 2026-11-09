@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/net/obj_message.gd" id="1"]
+
+[node name="room_message" type="Node2D"]
+
+[node name="message" type="Node2D" parent="."]
+script = ExtResource("1")
+depth = 0
+position = Vector2(240.0, 135.0)
+gm_name = "obj_message"
+sprite_name = "spr_menu_error"

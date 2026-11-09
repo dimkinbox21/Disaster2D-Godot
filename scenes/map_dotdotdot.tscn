@@ -1,0 +1,2898 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://src/game/map_controller.gd" id="x1"]
+[ext_resource type="Script" path="res://src/menu/gm_plain.gd" id="x2"]
+[ext_resource type="Script" path="res://src/game/obj_parallax.gd" id="x3"]
+[ext_resource type="Script" path="res://src/game/obj_solid_block.gd" id="x4"]
+[ext_resource type="Script" path="res://src/game/obj_platform_jumptrough.gd" id="x5"]
+[ext_resource type="Script" path="res://src/game/obj_spring.gd" id="x6"]
+[ext_resource type="Script" path="res://src/game/obj_spike.gd" id="x7"]
+[ext_resource type="Script" path="res://src/game/obj_simple_map.gd" id="x8"]
+[ext_resource type="Script" path="res://src/game/obj_dotdotdot_i.gd" id="x9"]
+[ext_resource type="Script" path="res://src/game/obj_movingspike.gd" id="x10"]
+[ext_resource type="Script" path="res://src/game/obj_soundemitter.gd" id="x11"]
+[ext_resource type="Script" path="res://src/game/obj_ladder.gd" id="x12"]
+[ext_resource type="Script" path="res://src/game/obj_deathtp.gd" id="x13"]
+[ext_resource type="Script" path="res://src/menu/gm_background.gd" id="x14"]
+[ext_resource type="Script" path="res://src/game/gm_tile.gd" id="x15"]
+
+[node name="map_dotdotdot" type="Node2D"]
+script = ExtResource("x1")
+lvl_id = 2
+parallax_json = "[[\"Background\", 0.4, 0.2, 0.0], [\"Background_1\", 0.4, 0.2, 0.0], [\"Background_2\", 0.4, 0.2, 0.0]]"
+room_w = 4544
+room_h = 1888
+strips = "[\"tiles_spr_dot_tiles1\", \"tiles_spr_dot_tiles\"]"
+
+[node name="Stairs" type="Node2D" parent="."]
+		visible = false
+		[node name="i_1" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(625.7056, 654.2944)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 3.250001
+			image_yscale = 14.250001
+			sprite_rotation = -45.0
+		[node name="i_2" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(1903.0295, 975.02954)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 3.250001
+			image_yscale = 24.500002
+			sprite_rotation = -45.0
+		[node name="i_3" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(3119.0295, 1439.0294)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 6.25
+			sprite_rotation = -45.0
+		[node name="i_4" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(3287.0303, 1543.0302)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.7500008
+			image_yscale = 11.0
+			sprite_rotation = -45.0
+		[node name="i_5" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(3767.0295, 1375.0294)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 6.2500005
+			sprite_rotation = -45.0
+		[node name="i_6" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(1162.0905, 453.39243)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 5.75
+			sprite_rotation = 47.61927
+		[node name="i_7" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(1512.0, 336.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 7.5
+			sprite_rotation = 61.553185
+		[node name="i_8" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(1024.0, 576.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 0.5
+		[node name="i_9" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(1296.0, 448.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 0.5
+		[node name="i_10" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(1680.0, 392.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 8.5
+			sprite_rotation = -61.054226
+		[node name="i_11" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(2824.0, 344.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 8.0
+			sprite_rotation = -135.0
+		[node name="i_12" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(3635.3137, 163.31372)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 7.75
+			sprite_rotation = -45.0
+		[node name="i_13" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(2468.6863, 771.3137)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 4.5
+			sprite_rotation = 45.0
+		[node name="i_14" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(2616.402, 703.598)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 2.5
+			sprite_rotation = 45.0
+		[node name="i_15" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(2920.0, 648.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 1.750001
+			image_yscale = 3.0
+			sprite_rotation = 45.0
+		[node name="i_16" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(3688.0, 1744.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 3.75
+		[node name="i_17" type="Node2D" parent="Stairs"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -200
+			position = Vector2(3104.0, 288.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 13.000001
+
+[node name="Light" type="Node2D" parent="."]
+		visible = false
+		[node name="i_18" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(2665.5938, 992.0)
+			gm_name = "obj_dotdotdot_trigger2"
+			sprite_name = "spr_abyss"
+			gm_visible = false
+			image_xscale = -113.40625
+			image_yscale = 11.75
+		[node name="i_19" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(2154.0, 1415.0)
+			gm_name = "obj_dotdotdot_trigger2"
+			sprite_name = "spr_abyss"
+			gm_visible = false
+			image_xscale = 11.25
+			image_yscale = 15.0
+		[node name="i_20" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(3551.25, 1927.0)
+			gm_name = "obj_dotdotdot_trigger3"
+			sprite_name = "spr_green"
+			gm_visible = false
+			image_xscale = 72.25
+			image_yscale = 29.25
+		[node name="i_21" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(1330.5, 616.0)
+			gm_name = "obj_dotdotdot_trigger"
+			sprite_name = "spr_green"
+			gm_visible = false
+			image_xscale = 78.625
+			image_yscale = 5.5
+		[node name="i_22" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(2434.625, 440.0)
+			gm_name = "obj_dotdotdot_trigger"
+			sprite_name = "spr_green"
+			gm_visible = false
+			image_xscale = 143.375
+			image_yscale = 13.78125
+		[node name="i_23" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(3614.5, 616.0)
+			gm_name = "obj_dotdotdot_trigger2"
+			sprite_name = "spr_abyss"
+			gm_visible = false
+			image_xscale = 65.50001
+			image_yscale = 5.5
+		[node name="i_24" type="Node2D" parent="Light"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = -100
+			position = Vector2(827.0, 920.0)
+			gm_name = "obj_dotdotdot_trigger"
+			sprite_name = "spr_green"
+			gm_visible = false
+			image_xscale = 9.125001
+			image_yscale = 9.5
+
+[node name="Instances" type="Node2D" parent="."]
+		visible = true
+		[node name="i_25" type="Node2D" parent="Instances"]
+			script = ExtResource("x3")
+			depth = 0
+			position = Vector2(0.0, -16.0)
+			gm_name = "obj_parallax"
+		[node name="i_26" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(-24.0, -83.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 38.3125
+			image_yscale = 0.6484375
+		[node name="i_27" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(0.0, 608.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.3125
+			image_yscale = 10.0
+		[node name="i_28" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(680.0, 928.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 10.0625
+			image_yscale = 7.5
+		[node name="i_29" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1968.0, 1440.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 9.25
+			image_yscale = 3.5
+		[node name="i_30" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3264.0, 1552.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 1.75
+		[node name="i_31" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3152.0, 1776.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 10.25
+			image_yscale = 0.9375
+		[node name="i_32" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3808.0, 1696.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.875
+		[node name="i_33" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4128.0, 1696.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.875
+		[node name="i_34" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4448.0, 1696.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 1.5625
+		[node name="i_35" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3968.0, 1616.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.625
+		[node name="i_36" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4288.0, 1616.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.625
+		[node name="i_37" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3808.0, 1504.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.0
+			image_yscale = 0.875
+		[node name="i_38" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3680.0, 1376.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_yscale = 1.875
+		[node name="i_39" type="Node2D" parent="Instances"]
+			script = ExtResource("x5")
+			gm_static = true
+			depth = 0
+			position = Vector2(3584.0, 1536.0)
+			gm_name = "obj_platform_jumptrough"
+			sprite_name = "spr_platform"
+			gm_visible = false
+			image_xscale = 1.5
+		[node name="i_40" type="Node2D" parent="Instances"]
+			script = ExtResource("x5")
+			gm_static = true
+			depth = 0
+			position = Vector2(2608.0, 1360.0)
+			gm_name = "obj_platform_jumptrough"
+			sprite_name = "spr_platform"
+			gm_visible = false
+			image_xscale = 2.25
+		[node name="i_41" type="Node2D" parent="Instances"]
+			script = ExtResource("x5")
+			gm_static = true
+			depth = 0
+			position = Vector2(2864.0, 1280.0)
+			gm_name = "obj_platform_jumptrough"
+			sprite_name = "spr_platform"
+			gm_visible = false
+			image_xscale = 2.25
+		[node name="i_42" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3104.0, 1184.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 3.5
+			image_yscale = 0.75
+		[node name="i_43" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2976.0, 992.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.5
+			image_yscale = 0.75
+		[node name="i_44" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3552.0, 992.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.0
+			image_yscale = 2.25
+		[node name="i_45" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3808.0, 992.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.75
+			image_yscale = 1.5
+		[node name="i_46" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2912.0, 992.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 0.5
+		[node name="i_47" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2848.0, 928.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 0.75
+		[node name="i_48" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2240.0, 928.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.75
+			image_yscale = 0.5
+		[node name="i_49" type="Node2D" parent="Instances"]
+			script = ExtResource("x5")
+			gm_static = true
+			depth = 0
+			position = Vector2(960.0, 608.0)
+			gm_name = "obj_platform_jumptrough"
+			sprite_name = "spr_platform"
+			gm_visible = false
+			image_xscale = 1.25
+		[node name="i_50" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1176.0, 480.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.5625
+		[node name="i_51" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1040.0, 608.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.625
+			image_yscale = 0.375
+		[node name="i_52" type="Node2D" parent="Instances"]
+			script = ExtResource("x5")
+			gm_static = true
+			depth = 0
+			position = Vector2(1264.0, 848.0)
+			gm_name = "obj_platform_jumptrough"
+			sprite_name = "spr_platform"
+			gm_visible = false
+			image_xscale = 2.25
+		[node name="i_53" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1472.0, 768.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.25
+			image_yscale = 0.5
+		[node name="i_54" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1632.0, 560.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.5
+			image_yscale = 1.625
+		[node name="i_55" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1760.0, 768.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.25
+		[node name="i_56" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1824.0, 560.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.25
+			image_yscale = 1.125
+		[node name="i_57" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1824.0, 704.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.25
+		[node name="i_58" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2384.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.875
+			image_yscale = 1.875
+		[node name="i_59" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1520.0, 368.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.375
+			image_yscale = 0.875
+		[node name="i_60" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(960.0, 0.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.5
+			image_yscale = 2.0
+		[node name="i_61" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1536.0, 0.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 3.75
+			image_yscale = 1.25
+		[node name="i_62" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2496.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.5000002
+			image_yscale = 2.0
+		[node name="i_63" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2496.0, 576.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.5
+		[node name="i_64" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2528.0, 576.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.25
+		[node name="i_65" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2976.0, 144.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_yscale = 1.3750001
+		[node name="i_66" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2816.0, 480.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_yscale = 0.75
+		[node name="i_67" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2816.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.875
+			image_yscale = 1.25
+		[node name="i_68" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3520.0, 144.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.125
+			image_yscale = 1.375
+		[node name="i_69" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3840.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.75
+			image_yscale = 1.25
+		[node name="i_70" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3568.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.125
+			image_yscale = 1.25
+		[node name="i_71" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4064.0, 384.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.75
+			image_yscale = 0.75
+		[node name="i_72" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4288.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_yscale = 1.25
+		[node name="i_73" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4256.0, 608.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.5
+		[node name="i_74" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3968.0, 608.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.5
+		[node name="i_75" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4160.0, 672.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.5
+		[node name="i_76" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3840.0, 864.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.5
+		[node name="i_77" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3680.0, 672.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.25
+			image_yscale = 2.5
+		[node name="i_78" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3072.0, 864.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.75
+		[node name="i_79" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3456.0, 672.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.75
+			image_yscale = 0.5
+		[node name="i_80" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2928.0, 672.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.875
+			image_yscale = 0.5
+		[node name="i_81" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3616.0, 736.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 0.5
+		[node name="i_82" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2880.0, 736.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.5
+			image_yscale = 1.9999998
+		[node name="i_83" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2640.0, 736.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.875
+			image_yscale = 1.5
+		[node name="i_84" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2480.0, 800.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.25
+		[node name="i_85" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(3840.0, 864.0)
+			gm_name = "obj_yspring_up"
+			sprite_name = "spr_yspring_up"
+			xdir = 0
+			ydir = -11
+		[node name="i_86" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(3368.0, 864.0)
+			gm_name = "obj_yspring_up"
+			sprite_name = "spr_yspring_up"
+			xdir = 0
+			ydir = -11
+		[node name="i_87" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(4512.0, 1696.0)
+			gm_name = "obj_yspring_up"
+			sprite_name = "spr_yspring_up"
+			xdir = 0
+			ydir = -11
+		[node name="i_88" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(3648.0, 1536.0)
+			gm_name = "obj_bspring_up"
+			sprite_name = "spr_bspring_up"
+			xdir = 0
+			ydir = -10
+		[node name="i_89" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(3104.0, 320.0)
+			gm_name = "obj_bspring_up"
+			sprite_name = "spr_bspring_up"
+			xdir = 0
+			ydir = -10
+		[node name="i_90" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(3488.0, 320.0)
+			gm_name = "obj_bspring_up"
+			sprite_name = "spr_bspring_up"
+			xdir = 0
+			ydir = -10
+		[node name="i_91" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(3232.0, 832.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_92" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(88.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_speed = 0.0
+		[node name="i_93" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(256.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_xscale = -1.0
+			image_index = 2.0
+			image_speed = 0.0
+		[node name="i_94" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(496.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 2.0
+			image_speed = 0.0
+		[node name="i_95" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(650.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_xscale = -1.0
+			image_speed = 0.0
+		[node name="i_96" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(976.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 2.0
+			image_speed = 0.0
+		[node name="i_97" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(1232.0, 480.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_speed = 0.0
+		[node name="i_98" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(2560.0, 320.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 2.0
+			image_speed = 0.0
+		[node name="i_99" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3914.0, 320.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_speed = 0.0
+		[node name="i_100" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4064.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_101" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4128.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_102" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4160.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_103" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4096.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_104" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4192.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_105" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(4393.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_106" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(4056.0, 608.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 1.0
+			image_speed = 0.0
+		[node name="i_107" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(4201.0, 864.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 1.0
+			image_speed = 0.0
+		[node name="i_108" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(4023.0, 864.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_xscale = -1.0
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_109" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(4393.0, 864.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_110" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3512.0, 864.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_111" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3112.0, 864.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 1.0
+			image_speed = 0.0
+		[node name="i_112" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3112.0, 672.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_113" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(2744.0, 736.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 1.0
+			image_speed = 0.0
+		[node name="i_114" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(2280.0, 896.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_115" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(1680.0, 928.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 5.0
+			image_speed = 0.0
+		[node name="i_116" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(1576.0, 768.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_xscale = -1.0
+			image_index = -1.0
+			image_speed = 0.0
+		[node name="i_117" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(1336.0, 848.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 1.0
+			image_speed = 0.0
+		[node name="i_118" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3512.0, 1184.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 3.0
+			image_speed = 0.0
+		[node name="i_119" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3240.0, 1184.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 3.0
+			image_speed = 0.0
+		[node name="i_120" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3384.0, 1184.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 4.0
+			image_speed = 0.0
+		[node name="i_121" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(2680.0, 1360.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 3.0
+			image_speed = 0.0
+		[node name="i_122" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(2936.0, 1280.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 4.0
+			image_speed = 0.0
+		[node name="i_123" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3304.0, 1552.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 3.0
+			image_speed = 0.0
+		[node name="i_124" type="Node2D" parent="Instances"]
+			script = ExtResource("x8")
+			gm_static = true
+			depth = 0
+			position = Vector2(3752.0, 1376.0)
+			gm_name = "obj_eggstatue"
+			sprite_name = "spr_dot_eggstatue"
+			image_index = 3.0
+			image_speed = 0.0
+		[node name="i_125" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1968.2218, 928.2218)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 6.0234375
+			image_yscale = 0.625
+			sprite_rotation = 45.0
+		[node name="i_126" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1040.0, 608.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.4609375
+			image_yscale = 0.1875
+			sprite_rotation = -43.276924
+		[node name="i_127" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1304.872, 483.63193)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.9140625
+			image_yscale = 0.1875
+			sprite_rotation = -28.0
+		[node name="i_128" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1696.0, 368.00003)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.9765625
+			image_yscale = 0.1875
+			sprite_rotation = 27.845375
+		[node name="i_129" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2800.0, 320.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.9453124
+			image_yscale = 0.1875
+			sprite_rotation = -45.0
+		[node name="i_130" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3664.0, 144.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.0078125
+			image_yscale = 0.1875
+			sprite_rotation = 45.0
+		[node name="i_131" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2864.0, 736.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.71093756
+			image_yscale = 0.1328125
+			sprite_rotation = -45.0
+		[node name="i_132" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2571.4802, 804.5198)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.7578124
+			image_yscale = 0.1875
+			sprite_rotation = -45.0
+		[node name="i_133" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2384.0, 896.00006)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.0624999
+			image_yscale = 0.1875
+			sprite_rotation = -45.0
+		[node name="i_134" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3152.0, 1440.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.2578125
+			image_yscale = 0.1875
+			sprite_rotation = 45.0
+		[node name="i_135" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3327.9998, 1551.9999)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.5078125
+			image_yscale = 0.1875
+			sprite_rotation = 45.0
+		[node name="i_136" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3808.0, 1376.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.4453125
+			image_yscale = 0.1875
+			sprite_rotation = 45.0
+		[node name="i_137" type="Node2D" parent="Instances"]
+			script = ExtResource("x9")
+			depth = 0
+			position = Vector2(-24.0, -16.0)
+			gm_name = "obj_dotdotdot_i"
+		[node name="i_138" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3312.0, 80.0)
+			gm_name = "obj_ringspawn"
+			sprite_name = "spr_ringspawn"
+			gm_visible = false
+		[node name="i_139" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4208.0, 584.0)
+			gm_name = "obj_ringspawn"
+			sprite_name = "spr_ringspawn"
+			gm_visible = false
+		[node name="i_140" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4264.0, 1344.0)
+			gm_name = "obj_ringspawn"
+			sprite_name = "spr_ringspawn"
+			gm_visible = false
+		[node name="i_141" type="Node2D" parent="Instances"]
+			script = ExtResource("x5")
+			gm_static = true
+			depth = 0
+			position = Vector2(4192.0, 1424.0)
+			gm_name = "obj_platform_jumptrough"
+			sprite_name = "spr_platform"
+			gm_visible = false
+			image_xscale = 2.25
+		[node name="i_142" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(40.0, 608.0)
+			gm_name = "obj_spawnpoint"
+			sprite_name = "spr_spawnpoint"
+			gm_visible = false
+		[node name="i_143" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(1624.0, 368.0)
+			gm_name = "obj_spawnpoint"
+			sprite_name = "spr_spawnpoint"
+			gm_visible = false
+		[node name="i_144" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3792.0, 672.0)
+			gm_name = "obj_spawnpoint"
+			sprite_name = "spr_spawnpoint"
+			gm_visible = false
+		[node name="i_145" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4408.0, 608.0)
+			gm_name = "obj_spawnpoint"
+			sprite_name = "spr_spawnpoint"
+			gm_visible = false
+		[node name="i_146" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3984.0, 320.0)
+			gm_name = "obj_spawnpoint"
+			sprite_name = "spr_spawnpoint"
+			gm_visible = false
+		[node name="i_147" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3600.0, 1536.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_148" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4320.0, 1776.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_149" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3968.0, 1776.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_150" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4096.0, 1504.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_151" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2704.0, 736.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_152" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(1440.0, 936.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_153" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2936.0, 1280.0)
+			gm_name = "obj_exespawn"
+			sprite_name = "spr_exespawn"
+			gm_visible = false
+		[node name="i_154" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2656.0, 320.0)
+			gm_name = "obj_spawnpoint"
+			sprite_name = "spr_spawnpoint"
+			gm_visible = false
+		[node name="i_155" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4160.0, 640.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_156" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4192.0, 640.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_157" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4224.0, 640.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_158" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(128.0, 584.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_159" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(200.0, 584.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_160" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(600.0, 584.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_161" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(528.0, 584.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_162" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(1272.0, 448.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_163" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(1576.0, 344.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_164" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(1648.0, 344.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_165" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2607.0, 294.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_166" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2655.0, 294.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_167" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2695.0, 294.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_168" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3024.0, 112.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_169" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3304.0, 80.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_170" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3592.0, 120.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_171" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4072.0, 296.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_172" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4176.0, 256.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_173" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4264.0, 296.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_174" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4352.0, 584.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_175" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4080.0, 584.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_176" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3560.0, 840.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_177" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3600.0, 840.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_178" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3640.0, 840.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_179" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3144.0, 840.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_180" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(1536.0, 744.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_181" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3848.0, 1672.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_182" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4008.0, 1752.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_183" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4168.0, 1672.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_184" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4336.0, 1752.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_185" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4256.0, 840.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_186" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4128.0, 840.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_187" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3264.0, 144.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.25
+		[node name="i_188" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(680.0, 608.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 3.7734375
+			image_yscale = 0.625
+			sprite_rotation = 44.0
+		[node name="i_189" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(2352.0, 528.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_190" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(2320.0, 528.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_191" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2328.0, 488.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_192" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2360.0, 488.0)
+			gm_name = "obj_ring_spawner"
+			sprite_name = "spr_ring"
+			gm_visible = false
+		[node name="i_193" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1888.0, 486.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.375
+			image_yscale = 0.578125
+		[node name="i_194" type="Node2D" parent="Instances"]
+			script = ExtResource("x6")
+			depth = 0
+			position = Vector2(1980.0, 560.0)
+			gm_name = "obj_spring_right"
+			sprite_name = "spr_spring_right"
+			xdir = 12
+			ydir = -12
+		[node name="i_195" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4224.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_196" type="Node2D" parent="Instances"]
+			script = ExtResource("x7")
+			gm_static = true
+			depth = 0
+			position = Vector2(4256.0, 352.0)
+			gm_name = "obj_spike"
+			sprite_name = "spr_spike"
+		[node name="i_197" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2176.0, 896.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.6874999
+			image_yscale = 0.25
+		[node name="i_198" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3147.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_199" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3177.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_200" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3207.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_201" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3237.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_202" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3267.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_203" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3297.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_204" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3327.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_205" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3357.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_206" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3387.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_207" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3417.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_208" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3447.0, 292.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_209" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3778.0, 1748.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_210" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3748.0, 1748.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_211" type="Node2D" parent="Instances"]
+			script = ExtResource("x10")
+			depth = 0
+			position = Vector2(3719.0, 1748.0)
+			gm_name = "obj_movingspike"
+			sprite_name = "spr_spike_moving"
+		[node name="i_212" type="Node2D" parent="Instances"]
+			script = ExtResource("x11")
+			depth = 0
+			position = Vector2(3312.0, 320.0)
+			gm_name = "obj_soundemitter"
+			sprite_name = "spr_soundemitter"
+			gm_visible = false
+			stype = 0
+		[node name="i_213" type="Node2D" parent="Instances"]
+			script = ExtResource("x11")
+			depth = 0
+			position = Vector2(3760.0, 1776.0)
+			gm_name = "obj_soundemitter"
+			sprite_name = "spr_soundemitter"
+			gm_visible = false
+			stype = 0
+		[node name="i_214" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4040.0, 288.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 2.25
+			image_yscale = 3.0
+		[node name="i_215" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4240.0, 288.0)
+			gm_name = "obj_angleanuller"
+			sprite_name = "spr_ramphelper_right"
+			gm_visible = false
+			image_xscale = 2.25
+			image_yscale = 3.0
+		[node name="i_216" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4224.0, 1336.0)
+			gm_name = "obj_corpse_eggman"
+			sprite_name = "spr_corpse_eggman"
+			gm_visible = false
+		[node name="i_217" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(686.961, 597.34)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 14.250001
+			image_yscale = 0.5
+			sprite_rotation = 45.0
+		[node name="i_218" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(1970.3231, 924.26416)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 22.75
+			image_yscale = 0.75
+			sprite_rotation = 45.0
+		[node name="i_219" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(3156.6863, 1435.3137)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 5.0
+			sprite_rotation = 45.0
+		[node name="i_220" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(3331.9417, 1546.5691)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 10.03125
+			sprite_rotation = 45.0
+		[node name="i_221" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(3812.725, 1371.3524)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 5.6562505
+			sprite_rotation = 45.0
+		[node name="i_222" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(1700.0, 356.78458)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 8.5
+			image_yscale = 0.75
+			sprite_rotation = 30.0
+		[node name="i_223" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(1304.0, 483.71283)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 8.0
+			image_yscale = 0.5
+			sprite_rotation = -30.0
+		[node name="i_224" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(1037.5159, 602.73456)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 6.0
+			image_yscale = 0.5
+			sprite_rotation = -42.0
+		[node name="i_225" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(2795.3137, 315.3137)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 8.25
+			sprite_rotation = -45.0
+		[node name="i_226" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(3660.6863, 131.31369)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 8.25
+			sprite_rotation = 45.0
+		[node name="i_227" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(2856.0, 736.0)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 3.25
+			image_yscale = 0.5
+			sprite_rotation = -45.0
+		[node name="i_228" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(2563.3137, 803.3137)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 3.25
+			sprite_rotation = -45.0
+		[node name="i_229" type="Node2D" parent="Instances"]
+			script = ExtResource("x12")
+			depth = 0
+			position = Vector2(2379.1467, 891.1471)
+			gm_name = "obj_dotdotdot_shitladder"
+			sprite_name = "spr_merfurmu2"
+			image_xscale = 4.5
+			sprite_rotation = -45.0
+		[node name="i_230" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(960.0, 640.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.625
+			image_yscale = 0.5
+		[node name="i_231" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1056.0, 656.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 1.125
+		[node name="i_232" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(992.0, 704.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 0.25
+		[node name="i_233" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1024.0, 736.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.25
+		[node name="i_234" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1040.0, 656.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.125
+			image_yscale = 0.375
+		[node name="i_235" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1856.0, 704.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 3.75
+			image_yscale = 0.5
+		[node name="i_236" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1824.0, 736.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.25
+		[node name="i_237" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2336.0, 704.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 0.25
+		[node name="i_238" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2272.0, 992.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.5
+			image_yscale = 0.25
+		[node name="i_239" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2304.0, 1024.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 4.75
+			image_yscale = 0.25
+		[node name="i_240" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2328.0, 1056.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 5.0625
+			image_yscale = 0.25
+		[node name="i_241" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2368.0, 1088.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.5
+			image_yscale = 0.25
+		[node name="i_242" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2400.0, 1120.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.25
+			image_yscale = 0.25
+		[node name="i_243" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2432.0, 1152.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_yscale = 0.25
+		[node name="i_244" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2464.0, 1184.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.75
+			image_yscale = 0.25
+		[node name="i_245" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2496.0, 1216.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 0.25
+		[node name="i_246" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3232.0, 1280.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.75
+			image_yscale = 0.25
+		[node name="i_247" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3264.0, 1312.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.5
+			image_yscale = 0.25
+		[node name="i_248" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3296.0, 1344.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.25
+			image_yscale = 0.25
+		[node name="i_249" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3328.0, 1376.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_yscale = 0.25
+		[node name="i_250" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(2248.0, 528.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_251" type="Node2D" parent="Instances"]
+			script = ExtResource("x13")
+			depth = 0
+			position = Vector2(2353.5, 536.0)
+			gm_name = "obj_deathtp"
+			sprite_name = "spr_deathtp"
+			gm_visible = false
+			image_xscale = 1.90625
+			image_yscale = 0.5
+		[node name="i_252" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3040.0, 112.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_253" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3552.0, 112.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_254" type="Node2D" parent="Instances"]
+			script = ExtResource("x13")
+			depth = 0
+			position = Vector2(3316.0, 316.0)
+			gm_name = "obj_deathtp"
+			sprite_name = "spr_deathtp"
+			gm_visible = false
+			image_xscale = 11.25
+			image_yscale = 0.25
+		[node name="i_255" type="Node2D" parent="Instances"]
+			script = ExtResource("x13")
+			depth = 0
+			position = Vector2(4176.0, 368.0)
+			gm_name = "obj_deathtp"
+			sprite_name = "spr_deathtp"
+			gm_visible = false
+			image_xscale = 7.0
+		[node name="i_256" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4320.0, 288.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_257" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4000.0, 288.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_258" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4288.0, 576.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_259" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(4096.0, 576.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_260" type="Node2D" parent="Instances"]
+			script = ExtResource("x13")
+			depth = 0
+			position = Vector2(4208.0, 656.0)
+			gm_name = "obj_deathtp"
+			sprite_name = "spr_deathtp"
+			gm_visible = false
+			image_xscale = 3.0
+		[node name="i_261" type="Node2D" parent="Instances"]
+			script = ExtResource("x2")
+			gm_static = true
+			depth = 0
+			position = Vector2(3648.0, 1744.0)
+			gm_name = "obj_deathtp_point"
+			sprite_name = "spr_deathtp_point"
+			gm_visible = false
+		[node name="i_262" type="Node2D" parent="Instances"]
+			script = ExtResource("x13")
+			depth = 0
+			position = Vector2(3764.0, 1772.0)
+			gm_name = "obj_deathtp"
+			sprite_name = "spr_deathtp"
+			gm_visible = false
+			image_xscale = 2.75
+			image_yscale = 0.25
+		[node name="i_263" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(680.0, 776.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 1.25
+			image_yscale = 1.1875
+		[node name="i_264" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1968.0, 1224.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 2.1875
+			image_yscale = 1.6875
+		[node name="i_265" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3152.0, 1552.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.875
+			image_yscale = 1.75
+		[node name="i_266" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3328.0, 1672.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.875
+			image_yscale = 0.8125
+		[node name="i_267" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1424.0, 424.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.7499999
+			image_yscale = 0.4375
+		[node name="i_268" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(1696.0, 424.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.81249994
+			image_yscale = 0.4375
+		[node name="i_269" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2912.0, 216.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.5
+			image_yscale = 0.8125001
+		[node name="i_270" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(3664.0, 232.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.625
+			image_yscale = 0.6875
+		[node name="i_271" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2392.0, 896.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.6875
+			image_yscale = 0.25
+		[node name="i_272" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(2432.0, 856.0)
+			gm_name = "obj_solid_block"
+			sprite_name = "spr_block"
+			gm_visible = false
+			image_xscale = 0.375
+			image_yscale = 0.3125
+		[node name="i_273" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(4544.0, 0.0)
+			gm_name = "obj_solid_block2"
+			sprite_name = "spr_block2"
+			gm_visible = false
+			image_xscale = 0.25
+			image_yscale = 14.8125
+		[node name="i_274" type="Node2D" parent="Instances"]
+			script = ExtResource("x4")
+			gm_static = true
+			depth = 0
+			position = Vector2(-40.0, 0.0)
+			gm_name = "obj_solid_block2"
+			sprite_name = "spr_block2"
+			gm_visible = false
+			image_xscale = 0.3125
+			image_yscale = 5.3125
+
+[node name="Assets_1" type="Node2D" parent="."]
+		[node name="asset_275" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(316.0, 520.0)
+			sprite_name = "spr_dot_fountain"
+			image_speed = 1.0
+		[node name="asset_276" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(2596.0, 232.0)
+			sprite_name = "spr_dot_fountain"
+			image_speed = 1.0
+		[node name="asset_277" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(4292.0, 230.0)
+			sprite_name = "spr_dot_fountain"
+			image_speed = 1.0
+		[node name="asset_278" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(3608.0, 582.0)
+			sprite_name = "spr_dot_fountain2"
+			image_speed = 1.0
+		[node name="asset_279" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(1805.0, 838.0)
+			sprite_name = "spr_dot_fountain2"
+			image_speed = 1.0
+		[node name="asset_280" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(2747.0, 1350.0)
+			sprite_name = "spr_dot_fountain3"
+			image_speed = 1.0
+		[node name="asset_281" type="Node2D" parent="Assets_1"]
+			script = ExtResource("x2")
+			depth = 100
+			position = Vector2(4006.0, 1414.0)
+			sprite_name = "spr_dot_fountain3"
+			image_speed = 1.0
+
+[node name="Background" type="Node2D" parent="."]
+		script = ExtResource("x14")
+		depth = 200
+		sprite_name = "background_dotdotdot"
+		htiled = true
+		vtiled = true
+		hspeed = 0.0
+		vspeed = 0.0
+		layer_colour = Color(0.6980392156862745, 0.6980392156862745, 0.6980392156862745, 1.0)
+
+[node name="tiles_spr_dot_tiles1" type="Node2D" parent="."]
+		[node name="t_0_0_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(0, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_0_0_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(0, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_0_1_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(1024, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_0_1_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(1024, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+		[node name="t_1_0_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(1136, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_1_0_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(1136, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_1_1_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(2160, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_1_1_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(2160, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+		[node name="t_2_0_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(2272, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_2_0_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(2272, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_2_1_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(3296, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_2_1_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(3296, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+		[node name="t_3_0_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(3408, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_3_0_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(3408, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_3_1_0" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(4432, 0)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_3_1_1" type="Node2D" parent="tiles_spr_dot_tiles1"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = -50
+			position = Vector2(4432, 1024)
+			sprite_name = "spr_dot_tiles1"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+
+[node name="tiles_spr_dot_tiles" type="Node2D" parent="."]
+		[node name="t_0_0_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(0, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_0_0_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(0, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_0_1_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(1024, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_0_1_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(1024, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 0
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+		[node name="t_1_0_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(1136, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_1_0_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(1136, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_1_1_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(2160, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_1_1_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(2160, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 1
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+		[node name="t_2_0_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(2272, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_2_0_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(2272, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_2_1_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(3296, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_2_1_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(3296, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 2
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
+		[node name="t_3_0_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(3408, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 0
+		[node name="t_3_0_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(3408, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 0
+			chunk_y = 1024
+		[node name="t_3_1_0" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(4432, 0)
+			sprite_name = "spr_dot_tiles"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 0
+		[node name="t_3_1_1" type="Node2D" parent="tiles_spr_dot_tiles"]
+			script = ExtResource("x15")
+			gm_static = true
+			gm_name = "gm_tile"
+			depth = 50
+			position = Vector2(4432, 1024)
+			sprite_name = "spr_dot_tiles"
+			image_index = 3
+			image_speed = 0
+			chunk_x = 1024
+			chunk_y = 1024
