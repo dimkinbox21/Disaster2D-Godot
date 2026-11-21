@@ -1,18 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://src/net/obj_menu_waiting.gd" id="1"]
-[ext_resource type="Script" path="res://src/menu/obj_menu_particlespawner.gd" id="2"]
 
 [node name="room_waiting" type="Node2D"]
 
 [node name="waiting" type="Node2D" parent="."]
 script = ExtResource("1")
-depth = 0
+depth = 100
 position = Vector2(247.0, 135.0)
 gm_name = "obj_menu_waiting"
-
-[node name="particles" type="Node2D" parent="."]
-script = ExtResource("2")
-depth = 1300
-position = Vector2(16.0, -16.0)
-gm_name = "obj_menu_particlespawner"

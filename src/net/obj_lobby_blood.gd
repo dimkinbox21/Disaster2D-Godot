@@ -4,13 +4,16 @@ extends GMNode
 ## — the sprite plays once (image_speed = 1) and the instance destroys itself on the
 ## last frame.
 
+
 func _ready() -> void:
 	gm_name = "obj_lobby_blood"  # spawned dynamically — must self-stamp its group
 	super._ready()
 
+
 func _gm_step() -> void:
 	if int(image_index) >= GM.sprite_count(sprite_name) - 1:
 		queue_free()
+
 
 func _gm_draw() -> void:
 	draw_self()

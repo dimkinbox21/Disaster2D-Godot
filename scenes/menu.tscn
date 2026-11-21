@@ -2575,6 +2575,9 @@ script = ExtResource("1")
 
 [node name="Sextra" type="Node2D" parent="."]
 
+[node name="Achivements" type="Node2D" parent="Sextra"]
+	visible = false
+
 [node name="ExtraMoney" type="Node2D" parent="Sextra"]
 	visible = false
 
@@ -5839,7 +5842,7 @@ script = ExtResource("1")
 	position = Vector2(25.0, 92.0)
 	gm_name = "gm_asset"
 	sprite_name = "spr_logo"
-	image_speed = 0.333333
+	image_speed = 0.2
 
 [node name="asset_526" type="Node2D" parent="Main2"]
 	script = ExtResource("24")
@@ -5847,7 +5850,7 @@ script = ExtResource("1")
 	position = Vector2(344.0, 40.0)
 	gm_name = "gm_asset"
 	sprite_name = "spr_luigikid"
-	image_speed = 0.333333
+	image_speed = 1.0
 
 [node name="Bars" type="Node2D" parent="."]
 	script = ExtResource("26")
@@ -5898,6 +5901,7 @@ script = ExtResource("1")
 	position = Vector2(216.0, 49.0)
 	gm_name = "obj_menu_characters"
 	sprite_name = "spr_menu_characters"
+	image_blend = Color(0.4666666667, 0.4666666667, 0.4666666667, 1.0)
 
 [node name="Background" type="Node2D" parent="."]
 	script = ExtResource("26")

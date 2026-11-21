@@ -1,12 +1,9 @@
 extends Node2D
 ## Generic map controller (port of room creation code):
-## spawns the player, camera, HUD, debug overlay and art collision; plays the
+## spawns the player, camera and HUD; plays the
 ## room music; feeds the parallax layer list to obj_parallax.
 
-var _spawn_override := Vector2.ZERO
-var _dbg_hp := -1
-var _dbg_rings := -1
-var _dbg_fly = null
+var rules: Node
 
 @export var music := ""
 @export var parallax_json := ""
@@ -18,7 +15,14 @@ var parallax: Array = []
 ## converter; drives the title card sprite frame and the level music table
 @export var lvl_id := -1
 
+
 func _ready() -> void:
+	# Resolve the local role from the lobby assignment before selecting a spawn.
+	if Net.state == Net.STATE_GAME:
+		if Net.nid == Net.exeId:
+			Globals.character = Globals.CHARACTER_EXE
+		elif Net.players.has(Net.nid):
+			Globals.character = int(Net.players[Net.nid].get("character", Globals.character))
 	# solo map launch (no lobby → no char select): the player runs on the exe
 	# movement values (player.gd uses EXE_ACC/EXE_MAXSPEED), so the HUD and the
 	# ability icons must describe the exe too. Netplay overwrites both on entry.
@@ -26,26 +30,16 @@ func _ready() -> void:
 		Globals.character = Globals.CHARACTER_EXE
 	if Globals.exeCharacter < 0:
 		Globals.exeCharacter = Globals.EXE_ORIGINAL
-	# dev: DISASTER_CHAR=n — test a survivor's HUD/ability icons without a lobby
-	# (1 tails … 6 sally); the character system itself is a later stage
-	# dev: DISASTER_HP=n / DISASTER_RINGS=n / DISASTER_FLY=n — the start values
-	# (the fly one drains the flight charge so jumps stay plain)
-	var _hp := OS.get_environment("DISASTER_HP")
-	_dbg_hp = int(_hp) if _hp != "" else -1
-	var _rg := OS.get_environment("DISASTER_RINGS")
-	_dbg_rings = int(_rg) if _rg != "" else -1
-	var _fl := OS.get_environment("DISASTER_FLY")
-	_dbg_fly = int(_fl) if _fl != "" else null
-	var _ch := OS.get_environment("DISASTER_CHAR")
-	if _ch != "":
-		Globals.character = clampi(int(_ch), Globals.CHARACTER_TAILS, Globals.CHARACTER_SALLY)
 	# the room converter stamps the level id; netplay overwrites Net.lvlId
 	if Net.lvlId < 0 and lvl_id >= 0:
 		Net.lvlId = lvl_id
 	var spawn: Node2D = null
-	for n in get_tree().get_nodes_in_group("obj_exespawn"):
-		spawn = n
-		break
+	var spawn_group := (
+		"obj_exespawn" if Globals.character == Globals.CHARACTER_EXE else "obj_spawnpoint"
+	)
+	var spawn_points := get_tree().get_nodes_in_group(spawn_group)
+	if not spawn_points.is_empty():
+		spawn = spawn_points.pick_random()
 	if spawn == null:
 		for n in get_tree().get_nodes_in_group("obj_spawnpoint"):
 			spawn = n
@@ -53,24 +47,11 @@ func _ready() -> void:
 	if spawn == null:
 		spawn = self
 
-	# dev: DISASTER_SPAWN=x,y — start the player at room coords (map testing)
-	var sp_env := OS.get_environment("DISASTER_SPAWN")
-	if sp_env != "":
-		var xy := sp_env.split(",")
-		spawn = null
-		_spawn_override = Vector2(float(xy[0]), float(xy[1]))
-
 	var player := Node2D.new()
 	player.set_script(load("res://src/game/player.gd"))
-	player.position = (_spawn_override if _spawn_override != Vector2.ZERO else spawn.position + Vector2(0, -18))
+	player.position = spawn.position + Vector2(0, -18)
+	player.fall_limit_y = room_h
 	add_child(player)
-	# after _ready/_apply_character (which sets the character's base hp)
-	if _dbg_hp > 0:
-		player.hp = _dbg_hp
-	if _dbg_rings >= 0:
-		player.rings = _dbg_rings
-	if _dbg_fly != null:
-		player.flyTimer = _dbg_fly
 
 	var cam := Node2D.new()
 	cam.set_script(load("res://src/game/obj_camera.gd"))
@@ -84,18 +65,28 @@ func _ready() -> void:
 	level.position = Vector2.ZERO
 	add_child(level)
 
-	var dbg := Node2D.new()
-	dbg.set_script(load("res://src/game/obj_debugcollider.gd"))
-	dbg.position = Vector2.ZERO
-	add_child(dbg)
+	if lvl_id == 0 and Globals.character == Globals.CHARACTER_EXE:
+		var indicator_canvas := CanvasLayer.new()
+		indicator_canvas.layer = 9
+		add_child(indicator_canvas)
+		indicator_canvas.add_child(load("res://src/game/obj_exe_sprindicator.gd").new())
 
-	# rings at spawner positions
-	for rs in get_tree().get_nodes_in_group("obj_ring_spawner"):
-		var ring := Node2D.new()
-		ring.set_script(load("res://src/game/obj_ring.gd"))
-		ring.position = rs.position   # the original: instance_create_depth(_inst.x, _inst.y, 0, obj_ring) — no offset
-		ring.gm_name = "obj_ring"
-		add_child(ring)
+	# obj_netclient Other_4 (Room Start): spawn the other players' puppets —
+	# non-Tails first, then Tails (the original's two passes fix the draw order)
+	if Net.state == Net.STATE_GAME:
+		var tails_list: Array = []
+		for k in Net.players:
+			if k == Net.nid:
+				continue
+			var plr: Dictionary = Net.players[k]
+			if int(plr.get("character", -1)) == -1:
+				continue
+			if int(plr.get("character", -1)) == Globals.CHARACTER_TAILS:
+				tails_list.append(plr)
+				continue
+			_spawn_puppet(plr)
+		for plr in tails_list:
+			_spawn_puppet(plr)
 
 	# collision comes from the room's own invisible obj_solid_block instances
 	# (emitted by the room converter) — no art-generated rects (they were wrong)
@@ -115,12 +106,32 @@ func _ready() -> void:
 	if music != "":
 		GameAudio.play_music(music)
 
-	# dev movement watchdog — logs anything that moves without permission
-	var wd := Node.new()
-	wd.set_script(load("res://src/game/move_watchdog.gd"))
-	wd.name = "MoveWatchdog"
-	call_deferred("add_child", wd)  # after all spawns settle
+	if rules == null:
+		rules = load(preload("res://src/data/maps.gd").rules_path(lvl_id)).new()
+		rules.map = self
+		add_child(rules)
+	var overlay_layer = CanvasLayer.new()
+	overlay_layer.layer = 11
+	add_child(overlay_layer)
+	var overlay = load(preload("res://src/data/maps.gd").hud_path(lvl_id)).new()
+	overlay.rules = rules
+	overlay_layer.add_child(overlay)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		Net.net_reset()
+
+## obj_netclient Other_4: instance_create_depth(0, 0, 0, obj_player_puppet) +
+## the players-map field assignment
+func _spawn_puppet(plr: Dictionary) -> void:
+	var pup := GMNode.new()
+	pup.set_script(load("res://src/game/obj_player_puppet.gd"))
+	pup.setup(
+		int(plr.get("nid", 0)),
+		str(plr.get("nickname", "")),
+		int(plr.get("character", -1)),
+		int(plr.get("exeCharacter", 0))
+	)
+	add_child(pup)
+	pup.apply_anim()
+	if pup.pcharacter == Globals.CHARACTER_TAILS:
+		var tail := preload("res://src/game/obj_puppet_tail.gd").new()
+		tail.target = pup
+		add_child(tail)

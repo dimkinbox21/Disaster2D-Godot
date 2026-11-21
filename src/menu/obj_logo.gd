@@ -5,6 +5,7 @@ var start := false
 var ind := 0
 var _alarm := -1
 
+
 func _ready() -> void:
 	super._ready()
 	if Globals.init:
@@ -13,7 +14,10 @@ func _ready() -> void:
 	Globals.init = true
 	image_speed = 0.0
 
+
 func _gm_step() -> void:
+	if SaveStore.startup_pending:
+		return
 	# Draw_77 (begin draw) start logic — runs once on the first frame
 	if not start:
 		start = true
@@ -33,6 +37,7 @@ func _gm_step() -> void:
 		ind = GM.sprite_count(sprite_name)
 		_alarm = 1
 		GameAudio.stop_all()
+
 
 func _alarm0() -> void:
 	ind += 1

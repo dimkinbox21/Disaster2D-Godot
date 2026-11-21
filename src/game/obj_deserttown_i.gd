@@ -11,6 +11,7 @@ var show := true
 var coll := false
 var _fog: Node = null
 
+
 func _gm_step() -> void:
 	coll = false
 	var cam: GMNode = null
@@ -52,8 +53,17 @@ func _gm_step() -> void:
 				t.queue_redraw()
 	if _fog == null:
 		_fog = get_tree().current_scene.find_child("TilesBalls", true, false)
+		if _fog != null:
+			# The original's TilesBalls layer and the scr_level_split(…, -400) wall
+			# chunks share depth -400. In the original the fog draws in FRONT of
+			# them; with Godot's equal-z_index tree order the fog (earlier in the
+			# .tscn) came out behind — pull it one depth step lower so it covers
+			# the fading walls (the interior chunks at -300 stay behind it).
+			_fog.depth = -401
+			_fog.z_index = -_fog.depth
 	if _fog != null and "layer_colour" in _fog:
 		_fog.layer_colour.a = 1.0 - v
+
 
 func _gm_draw() -> void:
 	pass

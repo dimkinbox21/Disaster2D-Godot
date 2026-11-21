@@ -1,5 +1,5 @@
 ; Engine configuration file.
-; Sonic.exe The Disaster 2D Remake — Godot port (stage 1: menu)
+; Sonic.exe The Disaster 2D Remake — Godot client
 config_version=5
 
 [application]
@@ -27,13 +27,13 @@ window/stretch/scale_mode="integer"
 GM="*res://src/autoload/gm.gd"
 Globals="*res://src/autoload/globals.gd"
 Palletes="*res://src/autoload/palletes.gd"
+VisualEffects="*res://src/autoload/visual_effects.gd"
+SaveStore="*res://src/autoload/save_store.gd"
 GameConfig="*res://src/autoload/game_config.gd"
 Unlockables="*res://src/autoload/unlockables.gd"
 Achievements="*res://src/autoload/achievements.gd"
 GameAudio="*res://src/autoload/game_audio.gd"
 Net="*res://src/autoload/net.gd"
-DbgShot="*res://src/autoload/dbg_shot.gd"
-DbgProbe="*res://src/autoload/dbg_probe.gd"
 
 [input_devices]
 

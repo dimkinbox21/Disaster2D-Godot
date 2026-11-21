@@ -4,12 +4,16 @@ extends GMNode
 var yy := -1.0
 var xspd := 0.2
 
+
 func _ready() -> void:
+	depth = 1999
+	gm_name = "obj_menu_particle"
 	super._ready()
 	yy = -1.0
 	var choices := [0.1, 0.2, 0.3, 0.4]
 	xspd = choices[randi() % choices.size()]
 	z_index = clampi(-1999, -4096, 4096)
+
 
 func _gm_step() -> void:
 	if yy == -1:

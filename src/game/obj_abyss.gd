@@ -4,6 +4,7 @@ extends GMNode
 
 var shouldStun := false
 
+
 func _gm_step() -> void:
 	var player: GMNode = null
 	for p in GMNode.all_of("obj_player"):
@@ -25,8 +26,10 @@ func _gm_step() -> void:
 		player.xspd = 0
 		player.gspd = 0
 		player.yspd = 0
-		if shouldStun:
+		player.player_hurt(1, 0, 0)
+		if shouldStun and (Globals.character == Globals.CHARACTER_EXE or player.revivalTimes >= 2):
 			player.shockedTimer += 30
+
 
 func _gm_draw() -> void:
 	pass

@@ -6,9 +6,10 @@ extends GMNode
 
 const CELL := 256
 
-static var _grid: Dictionary = {}        # Vector2i cell -> Array[GMFloor]
+static var _grid: Dictionary = {}  # Vector2i cell -> Array[GMFloor]
 static var _grid_scene: Node = null
 static var _floors: Array = []
+static var _jump_grid: Dictionary = {}
 
 var _bbox_cache: Rect2 = Rect2()
 var _bbox_cached := false
@@ -16,6 +17,7 @@ var _bbox_cached := false
 ## mask only exists on its extended frames). Checked at QUERY time so the
 ## grid stays valid while nodes toggle it per frame.
 var collision_active := true
+var canStuck := true  # obj_floor_parent Create; block2/spikes opt out.
 # cached mask test data (static level geometry — scale/rotation never change)
 var _mrect := Rect2()
 var _mox := 0.0
@@ -28,6 +30,7 @@ var _mcached := false
 ## solid region is exactly cached_bbox, so walks can be computed analytically
 var _mask_simple := false
 
+
 ## fast point_in_mask: mask rect/origin/rotation cached once
 func point_in_mask(px: float, py: float) -> bool:
 	if not _mcached:
@@ -37,12 +40,23 @@ func point_in_mask(px: float, py: float) -> bool:
 		var r: float
 		var b: float
 		if int(m.get("bboxMode", 1)) == 1:
-			l = 0; t = 0; r = float(m["w"]) - 1; b = float(m["h"]) - 1
+			l = 0
+			t = 0
+			r = float(m["w"]) - 1
+			b = float(m["h"]) - 1
 		else:
-			l = float(m["bbox"][0]); t = float(m["bbox"][1])
-			r = float(m["bbox"][2]); b = float(m["bbox"][3])
+			l = float(m["bbox"][0])
+			t = float(m["bbox"][1])
+			r = float(m["bbox"][2])
+			b = float(m["bbox"][3])
 		_mrect = Rect2(l, t, r - l + 1.0, b - t + 1.0)
-		_mask_simple = sprite_rotation == 0.0 			and l == 0 and t == 0 and r >= float(m["w"]) - 1.0 and b >= float(m["h"]) - 1.0
+		_mask_simple = (
+			sprite_rotation == 0.0
+			and l == 0
+			and t == 0
+			and r >= float(m["w"]) - 1.0
+			and b >= float(m["h"]) - 1.0
+		)
 		_mox = float(m["xorigin"])
 		_moy = float(m["yorigin"])
 		if sprite_rotation != 0.0:
@@ -60,7 +74,17 @@ func point_in_mask(px: float, py: float) -> bool:
 		ly = ry
 	lx = lx / image_xscale + _mox
 	ly = ly / image_yscale + _moy
-	return lx >= _mrect.position.x and lx < _mrect.end.x 		and ly >= _mrect.position.y and ly < _mrect.end.y
+	return (
+		lx >= _mrect.position.x
+		and lx < _mrect.end.x
+		and ly >= _mrect.position.y
+		and ly < _mrect.end.y
+	)
+
+
+func grid_bbox() -> Rect2:
+	return cached_bbox()
+
 
 func cached_bbox() -> Rect2:
 	if not _bbox_cached:
@@ -68,7 +92,10 @@ func cached_bbox() -> Rect2:
 		_bbox_cached = true
 	return _bbox_cache
 
+
 func _ready() -> void:
+	if gm_name in ["obj_solid_block2", "obj_spike"]:
+		canStuck = false
 	# the room converter stamps gm_name per node (obj_spike, obj_solid_block,
 	# obj_platform_jumptrough…). Clobbering it here silently destroyed every
 	# subclass's identity — obj_spike nodes became "gm_floor", so the player's
@@ -79,6 +106,7 @@ func _ready() -> void:
 	add_to_group("gm_floor")
 	super._ready()
 
+
 static func _rebuild_if_needed() -> void:
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null:
@@ -87,6 +115,7 @@ static func _rebuild_if_needed() -> void:
 	if scene == _grid_scene and not _grid.is_empty():
 		return
 	_grid.clear()
+	_jump_grid.clear()
 	_floors.clear()
 	_grid_scene = scene
 	if scene == null:
@@ -97,7 +126,8 @@ static func _rebuild_if_needed() -> void:
 		if f is GMFloor:
 			_floors.append(f)
 	for f in _floors:
-		var r: Rect2 = f.cached_bbox()
+		var jump: bool = f.is_in_group("gm_jumpthrough")
+		var r: Rect2 = f.grid_bbox()
 		var c0 := Vector2i(int(r.position.x) / CELL, int(r.position.y) / CELL)
 		var c1 := Vector2i(int(r.end.x) / CELL, int(r.end.y) / CELL)
 		var cx := c0.x
@@ -108,22 +138,31 @@ static func _rebuild_if_needed() -> void:
 				if not _grid.has(key):
 					_grid[key] = []
 				_grid[key].append(f)
+				if jump:
+					if not _jump_grid.has(key):
+						_jump_grid[key] = []
+					_jump_grid[key].append(f)
 				cy += 1
 			cx += 1
+
 
 static func _cell_floors(x: float, y: float) -> Array:
 	var key := Vector2i(int(x) / CELL, int(y) / CELL)
 	return _grid.get(key, [])
 
+
 ## collision_circle_list(x, y, 80, obj_floor_parent) port — floors whose bbox
 ## lies within the radius of the point (the original gathers _near once per
 ## step and tests every sensor against that short list, not the whole room)
-static var _gather_out: Array = []   # reused — no per-frame allocation
+static var _gather_out: Array = []  # reused — no per-frame allocation
+static var _gather_seen: Dictionary = {}
+
 
 static func gather_near(x: float, y: float, radius: float) -> Array:
 	_rebuild_if_needed()
 	var out: Array = _gather_out
 	out.clear()
+	_gather_seen.clear()
 	var c0 := Vector2i(int(x - radius) / CELL, int(y - radius) / CELL)
 	var c1 := Vector2i(int(x + radius) / CELL, int(y + radius) / CELL)
 	var cx := c0.x
@@ -131,7 +170,12 @@ static func gather_near(x: float, y: float, radius: float) -> Array:
 		var cy := c0.y
 		while cy <= c1.y:
 			for f in _grid.get(Vector2i(cx, cy), []):
-				if is_instance_valid(f) and not out.has(f):
+				if not is_instance_valid(f):
+					continue
+				if _gather_seen.has(f):
+					continue
+				_gather_seen[f] = true
+				if f.collision_active and f.visible:
 					# circle vs bbox (GM precise=false)
 					var r: Rect2 = f.cached_bbox()
 					var px: float = clampf(x, r.position.x, r.end.x)
@@ -142,28 +186,61 @@ static func gather_near(x: float, y: float, radius: float) -> Array:
 		cx += 1
 	return out
 
+
 static func point_meeting_floor(x: float, y: float) -> bool:
 	_rebuild_if_needed()
 	for f in _cell_floors(x, y):
-		if is_instance_valid(f) and f.collision_active and f.visible 				and f.point_in_mask(x, y):
+		if is_instance_valid(f) and f.collision_active and f.visible and f.point_in_mask(x, y):
 			return true
 	return false
+
 
 static func position_floor_inst(x: float, y: float) -> GMFloor:
 	_rebuild_if_needed()
 	for f in _cell_floors(x, y):
-		if is_instance_valid(f) and f.collision_active and f.visible 				and f.point_in_mask(x, y):
+		if is_instance_valid(f) and f.collision_active and f.visible and f.point_in_mask(x, y):
 			return f
 	return null
 
-static func rect_meeting_floor(r: Rect2) -> bool:
+
+static func rect_floor_inst(r: Rect2) -> GMFloor:
 	_rebuild_if_needed()
-	for f in _cell_floors(r.get_center().x, r.get_center().y):
-		if is_instance_valid(f) and f.collision_active and f.visible 				and f.cached_bbox().intersects(r):
-			return true
-	return false
+	if r.size.x <= 0 or r.size.y <= 0:
+		return null
+	var first := Vector2i(int(r.position.x) / CELL, int(r.position.y) / CELL)
+	var last := Vector2i(int(r.end.x) / CELL, int(r.end.y) / CELL)
+	for cx in range(first.x, last.x + 1):
+		for cy in range(first.y, last.y + 1):
+			for f in _grid.get(Vector2i(cx, cy), []):
+				if (
+					is_instance_valid(f)
+					and f.collision_active
+					and f.visible
+					and f.cached_bbox().intersects(r)
+				):
+					return f
+	return null
+
+
+static func rect_meeting_floor(r: Rect2) -> bool:
+	return rect_floor_inst(r) != null
+
 
 static func point_meeting_group(x: float, y: float, group: String) -> GMNode:
+	if group == "gm_floor":
+		return position_floor_inst(x, y)
+	if group == "gm_jumpthrough":
+		_rebuild_if_needed()
+		var key := Vector2i(int(x) / CELL, int(y) / CELL)
+		for floor_node in _jump_grid.get(key, []):
+			if (
+				is_instance_valid(floor_node)
+				and floor_node.visible
+				and floor_node.collision_active
+				and floor_node.point_in_mask(x, y)
+			):
+				return floor_node
+		return null
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null:
 		return null
@@ -172,7 +249,10 @@ static func point_meeting_group(x: float, y: float, group: String) -> GMNode:
 			return n
 	return null
 
+
 static func rect_meeting_group(r: Rect2, group: String) -> GMNode:
+	if group == "gm_floor":
+		return rect_floor_inst(r)
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null:
 		return null

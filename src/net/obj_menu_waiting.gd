@@ -1,7 +1,8 @@
 extends GMNode
 ## Port of obj_menu_waiting — waiting room: player list, chat, countdown clock.
-## (The snake minigame is stage-3 polish; obj_minigame is stubbed.)
+## The original asteroid minigame has not yet been ported.
 
+var waiting_confirmed := false
 var draw_clock := false
 var time_minutes := 0
 var time_seconds := 0
@@ -13,6 +14,7 @@ var chat: Array = []
 var chatMsg := ""
 var chatMode := false
 var voteKick := false
+
 
 func _ready() -> void:
 	super._ready()
@@ -27,6 +29,7 @@ func _ready() -> void:
 	chatMode = false
 	voteKick = false
 
+
 func lobby_add_message(sender: String, msg: String) -> void:
 	if Globals.muteChat:
 		return
@@ -36,14 +39,31 @@ func lobby_add_message(sender: String, msg: String) -> void:
 	if chat.size() >= 9:
 		chat.pop_front()
 
+
 func _gm_step() -> void:
+	queue_redraw()
+	if (
+		(not voteKick and not chatMode and kp(Globals.KeyB))
+		or (
+			GM.mouse_x >= 223
+			and GM.mouse_x <= 255
+			and GM.mouse_y >= 153
+			and GM.mouse_y <= 169
+			and GM.mouse_pressed(2)
+		)
+	):
+		Net.net_reset()
+		return
 	if chatMode:
 		if GM.key_down(GM.VK_CONTROL) and GM.key_pressed(86):
 			GM.keyboard_string = DisplayServer.clipboard_get()
-		chatMsg = GameConfig._gm_string_copy(GM.keyboard_string.to_lower(), 0, 48)
-		if GM.keyboard_string.length() > 48:
+		chatMsg = GameConfig._gm_string_copy(GM.keyboard_string.to_lower(), 0, 36)
+		if GM.keyboard_string.length() > 36:
 			GM.keyboard_string = chatMsg
 
+	if GM.key_pressed(84) and not voteKick and not chatMode:
+		chatMode = true
+		GM.keyboard_string = chatMsg
 	if GM.key_pressed(GM.VK_ENTER) and not voteKick:
 		# Enter toggles chat / sends message (KeyPress_13)
 		if not chatMode:
@@ -61,8 +81,8 @@ func _gm_step() -> void:
 						Globals.muteChat = false
 						lobby_add_message("(mute)", "@chat is now unmuted.~")
 					else:
-						Globals.muteChat = true
 						lobby_add_message("(mute)", "\\chat is now muted.~")
+						Globals.muteChat = true
 				_:
 					var packet := Net.cpacket_tcp(Net.PacketType.CLIENT_CHAT_MESSAGE, true)
 					packet.put_u16(Net.nid)
@@ -72,11 +92,12 @@ func _gm_step() -> void:
 			chatMsg = ""
 			GM.keyboard_string = ""
 
+
 func _gm_draw() -> void:
 	# original only has a Draw GUI event — the banner itself auto-draws
 	draw_self()
 	# chat is drawn while waiting music plays (Draw_64 port)
-	if true:
+	if waiting_confirmed:
 		var str_ := ""
 		for c in chat:
 			str_ += c + "\n"
@@ -98,10 +119,14 @@ func _gm_draw() -> void:
 			if plr.icon == 19954:
 				if plr.exe:
 					match plr.char:
-						0: sprite = "spr_lobby_exeicon"
-						1: sprite = "spr_lobby_exeicon2"
-						2: sprite = "spr_lobby_exeicon3"
-						3: sprite = "spr_lobby_exeicon4"
+						0:
+							sprite = "spr_lobby_exeicon"
+						1:
+							sprite = "spr_lobby_exeicon2"
+						2:
+							sprite = "spr_lobby_exeicon3"
+						3:
+							sprite = "spr_lobby_exeicon4"
 				else:
 					sprite = "spr_lobby_icon"
 					index = plr.char + 2
@@ -129,11 +154,16 @@ func _gm_draw() -> void:
 	draw_counter(time_minutes, 224, 4)
 	draw_counter_m(time_seconds, 244, 4, 2)
 
-func draw_sprite_ext_port(name_: String, index: float, x: float, y: float, xs: float, ys: float) -> void:
+
+func draw_sprite_ext_port(
+	name_: String, index: float, x: float, y: float, xs: float, ys: float
+) -> void:
 	draw_sprite(name_, index, x, y, xs, ys)
+
 
 func draw_counter(number: int, xx: float, yy: float) -> void:
 	draw_sprite("spr_counter", number, xx, yy)
+
 
 func draw_counter_m(number: int, xx: float, yy: float, zeros: int) -> void:
 	var s := str(number)

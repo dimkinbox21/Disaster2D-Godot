@@ -15,12 +15,13 @@ extends GMFloor
 ## side approach is simply blocked by the solid (a wall bump) and only
 ## standing ON TOP puts the feet inside the mask.
 
-var canStuck := false
 
 func _ready() -> void:
+	canStuck = false
 	add_to_group("obj_damage")
 	super._ready()
 	gm_name = "obj_spike"  # after super: GMFloor keeps the scene's stamp, this is the belt-and-braces one
+
 
 func _gm_draw() -> void:
 	draw_self()

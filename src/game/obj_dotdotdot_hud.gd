@@ -4,8 +4,10 @@ extends Node2D
 
 var ctrl: Node = null
 
+
 func _physics_process(_d: float) -> void:
 	queue_redraw()
+
 
 func _draw() -> void:
 	if ctrl == null or not is_instance_valid(ctrl):

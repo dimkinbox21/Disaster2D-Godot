@@ -1,13 +1,19 @@
 extends GMNode
 ## Port of obj_spring_parent family — springs launch the player (xdir/ydir).
 
-var xdir := 0
-var ydir := -12
+var hold_sensitive := false
+@export_storage var xdir := 0
+@export_storage var ydir := -12
+
 
 func _ready() -> void:
 	add_to_group("obj_spring_parent")
 	super._ready()
 	image_speed = 0.0
+	# Keep image_blend for the ready/cooldown checks; silhouette is draw-only.
+	if Net.lvlId == 8:
+		self_modulate = Color.BLACK
+
 
 func _gm_step() -> void:
 	# alarm[0] = 0.5s → image_index back to 0; alarm[1] = 4s → blend white
@@ -20,8 +26,10 @@ func _gm_step() -> void:
 		if _alarm1_t == 0:
 			image_blend = GM.C_WHITE
 
+
 var _alarm0_t := 0
 var _alarm1_t := 0
+
 
 func spring_hit() -> void:
 	image_index = 1
@@ -29,6 +37,7 @@ func spring_hit() -> void:
 	_alarm0_t = 30
 	_alarm1_t = 240
 	GameAudio.play_sound("snd_spring")
+
 
 func _gm_draw() -> void:
 	draw_self()

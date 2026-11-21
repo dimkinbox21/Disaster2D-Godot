@@ -3,5 +3,6 @@ extends GMNode
 
 var text := "aaaaaaaaaaaaaaaaaaaaaa"
 
+
 func _gm_draw() -> void:
 	GM.scr_text_spr(self, position.x, position.y, text)

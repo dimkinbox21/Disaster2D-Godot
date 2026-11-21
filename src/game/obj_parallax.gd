@@ -9,6 +9,11 @@ var parallax: Array = []  # set by the map controller
 var _cache: Dictionary = {}
 var _cache_root: Node = null
 
+
+func _ready() -> void:
+	process_physics_priority = 110  # after the camera has published render_origin
+
+
 func _physics_process(_d: float) -> void:
 	var cam: GMNode = null
 	for c in GMNode.all_of("obj_camera"):
@@ -33,5 +38,9 @@ func _physics_process(_d: float) -> void:
 		var xspd: float = entry[1]
 		var yspd: float = entry[2]
 		var yoff: float = entry[3] if entry.size() > 3 else 0.0
-		lay.position.x = cam.position.x * xspd
-		lay.position.y = (cam.position.y + yoff) * yspd
+		lay.position.x = floorf(cam.render_origin.x * xspd)
+		lay.position.y = floorf((cam.render_origin.y + yoff) * yspd)
+
+		# Tiled backgrounds draw only the current camera window in local space.
+		# A transform update alone reuses the old window's draw commands.
+		lay.queue_redraw()

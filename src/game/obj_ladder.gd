@@ -6,6 +6,7 @@ extends GMNode
 
 var coll := false
 
+
 func _gm_step() -> void:
 	coll = false
 	var player: GMNode = null
@@ -14,8 +15,10 @@ func _gm_step() -> void:
 		break
 	if player == null:
 		return
-	if position_meeting(player._sens_L_x, player._sens_L_y) \
-			or position_meeting(player._sens_R_x, player._sens_R_y):
+	if (
+		position_meeting(player._sens_L_x, player._sens_L_y)
+		or position_meeting(player._sens_R_x, player._sens_R_y)
+	):
 		coll = true
 		if not player.isSlow:
 			if player.xspd > 7:
@@ -28,6 +31,7 @@ func _gm_step() -> void:
 		# Draw_72 — slow the walk animation while on the ladder
 		if player.state == player.WALK:
 			player.image_speed /= 2.5
+
 
 func _gm_draw() -> void:
 	pass  # original Draw_0 is empty — the stretched spr_merfurmu2 never draws

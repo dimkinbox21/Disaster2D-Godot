@@ -64,16 +64,19 @@ var mobSelectedButton := 0
 
 ## injected by the scene generator
 var bars: GMNode = null
-var layers: Dictionary = {}   # layer name -> Node
+var layers: Dictionary = {}  # layer name -> Node
 var characters_node: GMNode = null
+
 
 func _ready() -> void:
 	super._ready()
 	call_deferred("_alarm0")
 	call_deferred("_config_alarm0")
 
+
 func _alarm0() -> void:
 	buttonSelected(0, -1, 0, false)
+
 
 ## Port of obj_config Alarm_0: fills saved settings into the menu widgets
 func _config_alarm0() -> void:
@@ -93,11 +96,18 @@ func _config_alarm0() -> void:
 	if nick_tb:
 		nick_tb.text = Globals.nickname
 	var binds := {
-		"left": Globals.KeyLeft, "right": Globals.KeyRight, "up": Globals.KeyUp,
-		"down": Globals.KeyDown, "jump": Globals.KeyA, "special1": Globals.KeyB,
-		"special2": Globals.KeyC, "playerlist": Globals.KeyPList,
-		"emotion1": Globals.KeyEm1, "emotion2": Globals.KeyEm2,
-		"emotion3": Globals.KeyEm3, "emotion4": Globals.KeyIdle,
+		"left": Globals.KeyLeft,
+		"right": Globals.KeyRight,
+		"up": Globals.KeyUp,
+		"down": Globals.KeyDown,
+		"jump": Globals.KeyA,
+		"special1": Globals.KeyB,
+		"special2": Globals.KeyC,
+		"playerlist": Globals.KeyPList,
+		"emotion1": Globals.KeyEm1,
+		"emotion2": Globals.KeyEm2,
+		"emotion3": Globals.KeyEm3,
+		"emotion4": Globals.KeyIdle,
 		"hidegui": Globals.KeyHide,
 	}
 	for tid: String in binds:
@@ -105,11 +115,13 @@ func _config_alarm0() -> void:
 		if panel:
 			panel.text = GM.keycode_to_key(binds[tid])
 
+
 func findButton(tid: String) -> GMNode:
 	for b in GMNode.all_of("obj_menu_button"):
 		if b.tid == tid:
 			return b
 	return null
+
 
 func findTextbox(tid) -> GMNode:
 	for b in GMNode.all_of("obj_menu_textbox"):
@@ -117,15 +129,18 @@ func findTextbox(tid) -> GMNode:
 			return b
 	return null
 
+
 func findTextpanel(tid: String) -> GMNode:
 	for b in GMNode.all_of("obj_menu_textpanel"):
 		if b.tid == tid:
 			return b
 	return null
 
+
 func _set_layer_visible(name_: String, vis: bool) -> void:
 	if layers.has(name_):
 		layers[name_].visible = vis
+
 
 func _button_iterate(_bid: int, _bcolumn: Variant, dir: int, anim: bool, press: bool) -> void:
 	# Shared core of buttonSelected/buttonPressed with()-loops.
@@ -159,13 +174,18 @@ func _button_iterate(_bid: int, _bcolumn: Variant, dir: int, anim: bool, press: 
 				b.offset = 3
 		else:
 			# --- buttonPressed body ---
-			if b.gm_object_name() == "obj_menu_skin" or b.gm_object_name() == "obj_menu_icon" \
-					or b.gm_object_name() == "obj_menu_taunt" or b.gm_object_name() == "obj_menu_pet":
+			if (
+				b.gm_object_name() == "obj_menu_skin"
+				or b.gm_object_name() == "obj_menu_icon"
+				or b.gm_object_name() == "obj_menu_taunt"
+				or b.gm_object_name() == "obj_menu_pet"
+			):
 				b.click()
 				return
 			if b.gm_object_name() == "obj_menu_togglebutton":
 				b.state = not b.state
 			break
+
 
 func buttonSelected(_bid: int, _bcolumn: Variant, dir: int, anim: bool) -> void:
 	if bind:
@@ -188,6 +208,7 @@ func buttonSelected(_bid: int, _bcolumn: Variant, dir: int, anim: bool) -> void:
 				bColumnCount = 2
 	_button_iterate(_bid, _bcolumn, dir, anim, false)
 
+
 func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 	if buttonA:
 		return
@@ -202,18 +223,19 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 	match submenu:
 		SUBMENU_NONE:
 			match _bid:
-				0: changeSubmenu(SUBMENU_JOIN)
+				0:
+					changeSubmenu(SUBMENU_JOIN)
 				1:
 					changeSubmenu(SUBMENU_OPTIONSGENERAL)
 					buttonSelected(4, -1, 0, false)
-				2: changeSubmenu(SUBMENU_EXTRA_ACHIVEMENTS)
+				2:
+					changeSubmenu(SUBMENU_EXTRA_ACHIVEMENTS)
 				3:
 					changeSubmenu(SUBMENU_MECH_SPIN)
 					buttonSelected(1, -1, 0, false)
-				4: get_tree().quit()
+				4:
+					get_tree().quit()
 		SUBMENU_JOIN, SUBMENU_JOIN_MOBILE:
-			if OS.get_environment("JOINTRACE") == "1":
-				print("JOINTRACE pressed bid=", _bid, " col=", _bcolumn, " sub=", submenu)
 			if _bid == 0:
 				for tb in GMNode.all_of("obj_menu_textbox"):
 					if tb.bid != _bid:
@@ -225,8 +247,13 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 			elif _bid == 2:
 				changeSubmenu(SUBMENU_NONE)
 			else:
-				var server_ips := ["155.138.243.246", "216.238.117.232", "185.114.72.187",
-					"45.95.203.244", "194.36.178.150"]
+				var server_ips := [
+					"155.138.243.246",
+					"216.238.117.232",
+					"185.114.72.187",
+					"45.95.203.244",
+					"194.36.178.150"
+				]
 				if _bcolumn is int and _bcolumn >= 0 and _bcolumn < server_ips.size():
 					Net.join(server_ips[_bcolumn])
 		SUBMENU_OPTIONSGENERAL:
@@ -274,46 +301,77 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 				bind = true
 				if _bcolumn == 0:
 					match _bid:
-						0: bindBtn = "up"
-						1: bindBtn = "down"
-						2: bindBtn = "left"
-						3: bindBtn = "right"
+						0:
+							bindBtn = "up"
+						1:
+							bindBtn = "down"
+						2:
+							bindBtn = "left"
+						3:
+							bindBtn = "right"
 				elif _bcolumn == 1:
 					match _bid:
-						0: bindBtn = "jump"
-						1: bindBtn = "special1"
-						2: bindBtn = "special2"
-						3: bindBtn = "hidegui"
+						0:
+							bindBtn = "jump"
+						1:
+							bindBtn = "special1"
+						2:
+							bindBtn = "special2"
+						3:
+							bindBtn = "hidegui"
 				else:
 					match _bid:
-						4: bindBtn = "playerlist"
-						5: bindBtn = "emotion1"
-						6: bindBtn = "emotion2"
-						7: bindBtn = "emotion3"
-						8: bindBtn = "emotion4"
+						4:
+							bindBtn = "playerlist"
+						5:
+							bindBtn = "emotion1"
+						6:
+							bindBtn = "emotion2"
+						7:
+							bindBtn = "emotion3"
+						8:
+							bindBtn = "emotion4"
 				var panel := findTextpanel(bindBtn)
 				if panel:
 					panel.text = "press..."
 		SUBMENU_OPTIONSCONTROLSMOBILE:
 			if _bid == 1:
-				GameConfig.dpadX = 68; GameConfig.dpadY = 187
-				GameConfig.jScale = 1; GameConfig.jOpacity = 0.6
-				GameConfig.bAX = 378; GameConfig.bAY = 221
-				GameConfig.bAScale = 1; GameConfig.bAOpacity = 0.6
-				GameConfig.bBX = 416; GameConfig.bBY = 171
-				GameConfig.bBScale = 1; GameConfig.bBOpacity = 0.6
-				GameConfig.bCX = 452; GameConfig.bCY = 221
-				GameConfig.bCScale = 1; GameConfig.bCOpacity = 0.6
-				GameConfig.bDX = 466; GameConfig.bDY = 48
-				GameConfig.bDScale = 1; GameConfig.bDOpacity = 0.6
-				GameConfig.bEX = 466; GameConfig.bEY = 80
-				GameConfig.bEScale = 1; GameConfig.bEOpacity = 0.6
-				GameConfig.bFX = 466; GameConfig.bFY = 112
-				GameConfig.bFScale = 1; GameConfig.bFOpacity = 0.6
-				GameConfig.bWX = 466; GameConfig.bWY = 144
-				GameConfig.bWScale = 1; GameConfig.bWOpacity = 0.6
-				GameConfig.bGX = 23; GameConfig.bGY = 51
-				GameConfig.bGScale = 1; GameConfig.bGOpacity = 0.6
+				GameConfig.dpadX = 68
+				GameConfig.dpadY = 187
+				GameConfig.jScale = 1
+				GameConfig.jOpacity = 0.6
+				GameConfig.bAX = 378
+				GameConfig.bAY = 221
+				GameConfig.bAScale = 1
+				GameConfig.bAOpacity = 0.6
+				GameConfig.bBX = 416
+				GameConfig.bBY = 171
+				GameConfig.bBScale = 1
+				GameConfig.bBOpacity = 0.6
+				GameConfig.bCX = 452
+				GameConfig.bCY = 221
+				GameConfig.bCScale = 1
+				GameConfig.bCOpacity = 0.6
+				GameConfig.bDX = 466
+				GameConfig.bDY = 48
+				GameConfig.bDScale = 1
+				GameConfig.bDOpacity = 0.6
+				GameConfig.bEX = 466
+				GameConfig.bEY = 80
+				GameConfig.bEScale = 1
+				GameConfig.bEOpacity = 0.6
+				GameConfig.bFX = 466
+				GameConfig.bFY = 112
+				GameConfig.bFScale = 1
+				GameConfig.bFOpacity = 0.6
+				GameConfig.bWX = 466
+				GameConfig.bWY = 144
+				GameConfig.bWScale = 1
+				GameConfig.bWOpacity = 0.6
+				GameConfig.bGX = 23
+				GameConfig.bGY = 51
+				GameConfig.bGScale = 1
+				GameConfig.bGOpacity = 0.6
 				GameConfig.save()
 			elif _bid == 2:
 				changeSubmenu(SUBMENU_OPTIONSGENERAL)
@@ -346,9 +404,7 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 			elif _bid == 3:
 				changeSubmenu(SUBMENU_MECH_SPIN)
 				buttonSelected(1, 0, -1, false)
-		SUBMENU_MECH_SPIN, SUBMENU_MECH_STEAL, SUBMENU_MECH_HIT, SUBMENU_MECH_PAR, \
-		SUBMENU_MECH_RINGS, SUBMENU_MECH_REB, SUBMENU_MECH_REDRINGS, SUBMENU_MECH_DEMON, \
-		SUBMENU_MECH_SUDDEN, SUBMENU_MECH_ESCAPE, SUBMENU_MECH_DIFF:
+		SUBMENU_MECH_SPIN, SUBMENU_MECH_STEAL, SUBMENU_MECH_HIT, SUBMENU_MECH_PAR, SUBMENU_MECH_RINGS, SUBMENU_MECH_REB, SUBMENU_MECH_REDRINGS, SUBMENU_MECH_DEMON, SUBMENU_MECH_SUDDEN, SUBMENU_MECH_ESCAPE, SUBMENU_MECH_DIFF:
 			if _bid == 2:
 				changeSubmenu(SUBMENU_CHAR_TAILS)
 				buttonSelected(1, 0, -1, false)
@@ -370,9 +426,7 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 				changeSubmenu(submenu - 1)
 			for g in GMNode.all_of("obj_menu_gif"):
 				g.image_index = 0
-		SUBMENU_CHAR_TAILS, SUBMENU_CHAR_KNUX, SUBMENU_CHAR_EGG, SUBMENU_CHAR_AMY, \
-		SUBMENU_CHAR_SALLY, SUBMENU_CHAR_CREAM, SUBMENU_CHAR_EXE, SUBMENU_CHAR_CHAOS, \
-		SUBMENU_CHAR_EXETIOR, SUBMENU_CHAR_EXELLER:
+		SUBMENU_CHAR_TAILS, SUBMENU_CHAR_KNUX, SUBMENU_CHAR_EGG, SUBMENU_CHAR_AMY, SUBMENU_CHAR_SALLY, SUBMENU_CHAR_CREAM, SUBMENU_CHAR_EXE, SUBMENU_CHAR_CHAOS, SUBMENU_CHAR_EXETIOR, SUBMENU_CHAR_EXELLER:
 			if _bid == 2:
 				changeSubmenu(SUBMENU_MECH_SPIN)
 				buttonSelected(1, 0, -1, false)
@@ -410,7 +464,8 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 					changeSubmenu(SUBMENU_NONE)
 		SUBMENU_EXTRA_BACK:
 			match _bid:
-				0: changeSubmenu(SUBMENU_NONE)
+				0:
+					changeSubmenu(SUBMENU_NONE)
 				1:
 					changeSubmenu(SUBMENU_EXTRA_TAILS)
 					buttonSelected(3, -1, 0, false)
@@ -427,9 +482,7 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 					changeSubmenu(SUBMENU_EXTRA_ACHIVEMENTS)
 					buttonSelected(1, 0, -1, false)
 			return
-		SUBMENU_EXTRA_TAILS, SUBMENU_EXTRA_KNUX, SUBMENU_EXTRA_EGG, SUBMENU_EXTRA_AMY, \
-		SUBMENU_EXTRA_CREAM, SUBMENU_EXTRA_SALLY, SUBMENU_EXTRA_EXE, SUBMENU_EXTRA_CHAOS, \
-		SUBMENU_EXTRA_EXETIOR, SUBMENU_EXTRA_EXELLER:
+		SUBMENU_EXTRA_TAILS, SUBMENU_EXTRA_KNUX, SUBMENU_EXTRA_EGG, SUBMENU_EXTRA_AMY, SUBMENU_EXTRA_CREAM, SUBMENU_EXTRA_SALLY, SUBMENU_EXTRA_EXE, SUBMENU_EXTRA_CHAOS, SUBMENU_EXTRA_EXETIOR, SUBMENU_EXTRA_EXELLER:
 			if _bcolumn == 5:
 				match _bid:
 					0:
@@ -571,6 +624,7 @@ func buttonPressed(_bid: int, _bcolumn: Variant) -> void:
 				7:
 					changeSubmenu(SUBMENU_NONE)
 
+
 func buttonListed(_bid: int, _bcolumn: Variant, dir: bool) -> bool:
 	match submenu:
 		SUBMENU_OPTIONSGENERAL:
@@ -616,9 +670,7 @@ func buttonListed(_bid: int, _bcolumn: Variant, dir: bool) -> bool:
 				changeSubmenu(SUBMENU_OPTIONSCONTROLS)
 				buttonSelected(10, -1, -1, true)
 			return true
-		SUBMENU_MECH_SPIN, SUBMENU_MECH_STEAL, SUBMENU_MECH_HIT, SUBMENU_MECH_PAR, \
-		SUBMENU_MECH_RINGS, SUBMENU_MECH_REB, SUBMENU_MECH_REDRINGS, SUBMENU_MECH_DEMON, \
-		SUBMENU_MECH_SUDDEN, SUBMENU_MECH_ESCAPE, SUBMENU_MECH_DIFF:
+		SUBMENU_MECH_SPIN, SUBMENU_MECH_STEAL, SUBMENU_MECH_HIT, SUBMENU_MECH_PAR, SUBMENU_MECH_RINGS, SUBMENU_MECH_REB, SUBMENU_MECH_REDRINGS, SUBMENU_MECH_DEMON, SUBMENU_MECH_SUDDEN, SUBMENU_MECH_ESCAPE, SUBMENU_MECH_DIFF:
 			if _bid == 0:
 				if dir:
 					if submenu + 1 > SUBMENU_MECH_DIFF:
@@ -639,9 +691,7 @@ func buttonListed(_bid: int, _bcolumn: Variant, dir: bool) -> bool:
 				else:
 					changeSubmenu(SUBMENU_ABOUT_BACK)
 			return false
-		SUBMENU_CHAR_TAILS, SUBMENU_CHAR_KNUX, SUBMENU_CHAR_EGG, SUBMENU_CHAR_AMY, \
-		SUBMENU_CHAR_SALLY, SUBMENU_CHAR_CREAM, SUBMENU_CHAR_EXE, SUBMENU_CHAR_CHAOS, \
-		SUBMENU_CHAR_EXETIOR, SUBMENU_CHAR_EXELLER:
+		SUBMENU_CHAR_TAILS, SUBMENU_CHAR_KNUX, SUBMENU_CHAR_EGG, SUBMENU_CHAR_AMY, SUBMENU_CHAR_SALLY, SUBMENU_CHAR_CREAM, SUBMENU_CHAR_EXE, SUBMENU_CHAR_CHAOS, SUBMENU_CHAR_EXETIOR, SUBMENU_CHAR_EXELLER:
 			if _bid == 0:
 				if dir:
 					if submenu + 1 > SUBMENU_CHAR_EXELLER:
@@ -691,9 +741,7 @@ func buttonListed(_bid: int, _bcolumn: Variant, dir: bool) -> bool:
 				changeSubmenu(SUBMENU_EXTRA_TAUNT)
 				buttonSelected(2, -1, 0, true)
 			return true
-		SUBMENU_EXTRA_TAILS, SUBMENU_EXTRA_KNUX, SUBMENU_EXTRA_EGG, SUBMENU_EXTRA_AMY, \
-		SUBMENU_EXTRA_CREAM, SUBMENU_EXTRA_SALLY, SUBMENU_EXTRA_EXE, SUBMENU_EXTRA_CHAOS, \
-		SUBMENU_EXTRA_EXETIOR, SUBMENU_EXTRA_EXELLER:
+		SUBMENU_EXTRA_TAILS, SUBMENU_EXTRA_KNUX, SUBMENU_EXTRA_EGG, SUBMENU_EXTRA_AMY, SUBMENU_EXTRA_CREAM, SUBMENU_EXTRA_SALLY, SUBMENU_EXTRA_EXE, SUBMENU_EXTRA_CHAOS, SUBMENU_EXTRA_EXETIOR, SUBMENU_EXTRA_EXELLER:
 			if _bid == 0 and (_bcolumn is int and _bcolumn <= -1):
 				if dir:
 					if submenu + 1 > SUBMENU_EXTRA_EXELLER:
@@ -786,19 +834,65 @@ func buttonListed(_bid: int, _bcolumn: Variant, dir: bool) -> bool:
 			return false
 	return false
 
+
 func changeSubmenu(_menu: int) -> void:
 	submenu = _menu
-	for lname in ["Main", "Main2", "Main3", "JoinGame", "JoinGameMobile", "OptionsGeneral",
-			"OptionsControls", "OptionsControlsMobile", "OptionsBack", "AboutSpin", "AboutHit",
-			"AboutPar", "AboutReb", "AboutSteal", "AboutRings", "AboutRedRings", "AboutDemon",
-			"AboutSudden", "AboutEscape", "AboutDiff", "AboutCredits", "AboutCreditsText",
-			"AboutBack", "AboutTails", "AboutKnux", "AboutEgg", "AboutAmy", "AboutCream",
-			"AboutSally", "AboutExe", "AboutChaos", "AboutExetior", "AboutExeller",
-			"AboutCharacter", "ExtraAchivements", "ExtraAchivementsList", "Achivements",
-			"ExtraTails", "ExtraKnux", "ExtraEgg", "ExtraAmy", "ExtraCream", "ExtraSally",
-			"ExtraExe", "ExtraChaos", "ExtraExetior", "ExtraExeller", "ExtraBack",
-			"ExtraSkins1", "ExtraSkins2", "ExtraSkins3", "ExtraMoney", "ExtraPenis",
-			"ExtraTaunts"]:
+	for lname in [
+		"Main",
+		"Main2",
+		"Main3",
+		"JoinGame",
+		"JoinGameMobile",
+		"OptionsGeneral",
+		"OptionsControls",
+		"OptionsControlsMobile",
+		"OptionsBack",
+		"AboutSpin",
+		"AboutHit",
+		"AboutPar",
+		"AboutReb",
+		"AboutSteal",
+		"AboutRings",
+		"AboutRedRings",
+		"AboutDemon",
+		"AboutSudden",
+		"AboutEscape",
+		"AboutDiff",
+		"AboutCredits",
+		"AboutCreditsText",
+		"AboutBack",
+		"AboutTails",
+		"AboutKnux",
+		"AboutEgg",
+		"AboutAmy",
+		"AboutCream",
+		"AboutSally",
+		"AboutExe",
+		"AboutChaos",
+		"AboutExetior",
+		"AboutExeller",
+		"AboutCharacter",
+		"ExtraAchivements",
+		"ExtraAchivementsList",
+		"Achivements",
+		"ExtraTails",
+		"ExtraKnux",
+		"ExtraEgg",
+		"ExtraAmy",
+		"ExtraCream",
+		"ExtraSally",
+		"ExtraExe",
+		"ExtraChaos",
+		"ExtraExetior",
+		"ExtraExeller",
+		"ExtraBack",
+		"ExtraSkins1",
+		"ExtraSkins2",
+		"ExtraSkins3",
+		"ExtraMoney",
+		"ExtraPenis",
+		"ExtraTaunts"
+	]:
 		_set_layer_visible(lname, false)
 
 	match submenu:
@@ -846,27 +940,48 @@ func changeSubmenu(_menu: int) -> void:
 			bColumnCount = 0
 			scheme = true
 			_set_layer_visible("OptionsBack", true)
-		SUBMENU_MECH_SPIN: _mech_submenu("AboutSpin")
-		SUBMENU_MECH_HIT: _mech_submenu("AboutHit")
-		SUBMENU_MECH_PAR: _mech_submenu("AboutPar")
-		SUBMENU_MECH_REB: _mech_submenu("AboutReb")
-		SUBMENU_MECH_STEAL: _mech_submenu("AboutSteal")
-		SUBMENU_MECH_RINGS: _mech_submenu("AboutRings")
-		SUBMENU_MECH_REDRINGS: _mech_submenu("AboutRedRings")
-		SUBMENU_MECH_DEMON: _mech_submenu("AboutDemon")
-		SUBMENU_MECH_SUDDEN: _mech_submenu("AboutSudden")
-		SUBMENU_MECH_ESCAPE: _mech_submenu("AboutEscape")
-		SUBMENU_MECH_DIFF: _mech_submenu("AboutDiff")
-		SUBMENU_CHAR_TAILS: _char_submenu("AboutTails", "spr_menu_tails")
-		SUBMENU_CHAR_KNUX: _char_submenu("AboutKnux", "spr_menu_knux")
-		SUBMENU_CHAR_EGG: _char_submenu("AboutEgg", "spr_menu_egg")
-		SUBMENU_CHAR_AMY: _char_submenu("AboutAmy", "spr_menu_amy")
-		SUBMENU_CHAR_CREAM: _char_submenu("AboutCream", "spr_menu_cream")
-		SUBMENU_CHAR_SALLY: _char_submenu("AboutSally", "spr_menu_sally")
-		SUBMENU_CHAR_EXE: _char_submenu("AboutExe", "spr_menu_exe")
-		SUBMENU_CHAR_CHAOS: _char_submenu("AboutChaos", "spr_menu_chaos")
-		SUBMENU_CHAR_EXETIOR: _char_submenu("AboutExetior", "spr_menu_exetior")
-		SUBMENU_CHAR_EXELLER: _char_submenu("AboutExeller", "spr_menu_exeller")
+		SUBMENU_MECH_SPIN:
+			_mech_submenu("AboutSpin")
+		SUBMENU_MECH_HIT:
+			_mech_submenu("AboutHit")
+		SUBMENU_MECH_PAR:
+			_mech_submenu("AboutPar")
+		SUBMENU_MECH_REB:
+			_mech_submenu("AboutReb")
+		SUBMENU_MECH_STEAL:
+			_mech_submenu("AboutSteal")
+		SUBMENU_MECH_RINGS:
+			_mech_submenu("AboutRings")
+		SUBMENU_MECH_REDRINGS:
+			_mech_submenu("AboutRedRings")
+		SUBMENU_MECH_DEMON:
+			_mech_submenu("AboutDemon")
+		SUBMENU_MECH_SUDDEN:
+			_mech_submenu("AboutSudden")
+		SUBMENU_MECH_ESCAPE:
+			_mech_submenu("AboutEscape")
+		SUBMENU_MECH_DIFF:
+			_mech_submenu("AboutDiff")
+		SUBMENU_CHAR_TAILS:
+			_char_submenu("AboutTails", "spr_menu_tails")
+		SUBMENU_CHAR_KNUX:
+			_char_submenu("AboutKnux", "spr_menu_knux")
+		SUBMENU_CHAR_EGG:
+			_char_submenu("AboutEgg", "spr_menu_egg")
+		SUBMENU_CHAR_AMY:
+			_char_submenu("AboutAmy", "spr_menu_amy")
+		SUBMENU_CHAR_CREAM:
+			_char_submenu("AboutCream", "spr_menu_cream")
+		SUBMENU_CHAR_SALLY:
+			_char_submenu("AboutSally", "spr_menu_sally")
+		SUBMENU_CHAR_EXE:
+			_char_submenu("AboutExe", "spr_menu_exe")
+		SUBMENU_CHAR_CHAOS:
+			_char_submenu("AboutChaos", "spr_menu_chaos")
+		SUBMENU_CHAR_EXETIOR:
+			_char_submenu("AboutExetior", "spr_menu_exetior")
+		SUBMENU_CHAR_EXELLER:
+			_char_submenu("AboutExeller", "spr_menu_exeller")
 		SUBMENU_ABOUT_CREDITS:
 			_bars_set(5)
 			bCount = 1
@@ -894,16 +1009,26 @@ func changeSubmenu(_menu: int) -> void:
 			_set_layer_visible("ExtraMoney", true)
 			_set_layer_visible("ExtraAchivements", true)
 			_set_layer_visible("ExtraAchivementsList", true)
-		SUBMENU_EXTRA_TAILS: _extra_char_submenu("ExtraTails")
-		SUBMENU_EXTRA_KNUX: _extra_char_submenu("ExtraKnux")
-		SUBMENU_EXTRA_EGG: _extra_char_submenu("ExtraEgg")
-		SUBMENU_EXTRA_AMY: _extra_char_submenu("ExtraAmy")
-		SUBMENU_EXTRA_CREAM: _extra_char_submenu("ExtraCream")
-		SUBMENU_EXTRA_SALLY: _extra_char_submenu("ExtraSally")
-		SUBMENU_EXTRA_EXE: _extra_char_submenu("ExtraExe")
-		SUBMENU_EXTRA_CHAOS: _extra_char_submenu("ExtraChaos")
-		SUBMENU_EXTRA_EXETIOR: _extra_char_submenu("ExtraExetior")
-		SUBMENU_EXTRA_EXELLER: _extra_char_submenu("ExtraExeller")
+		SUBMENU_EXTRA_TAILS:
+			_extra_char_submenu("ExtraTails")
+		SUBMENU_EXTRA_KNUX:
+			_extra_char_submenu("ExtraKnux")
+		SUBMENU_EXTRA_EGG:
+			_extra_char_submenu("ExtraEgg")
+		SUBMENU_EXTRA_AMY:
+			_extra_char_submenu("ExtraAmy")
+		SUBMENU_EXTRA_CREAM:
+			_extra_char_submenu("ExtraCream")
+		SUBMENU_EXTRA_SALLY:
+			_extra_char_submenu("ExtraSally")
+		SUBMENU_EXTRA_EXE:
+			_extra_char_submenu("ExtraExe")
+		SUBMENU_EXTRA_CHAOS:
+			_extra_char_submenu("ExtraChaos")
+		SUBMENU_EXTRA_EXETIOR:
+			_extra_char_submenu("ExtraExetior")
+		SUBMENU_EXTRA_EXELLER:
+			_extra_char_submenu("ExtraExeller")
 		SUBMENU_EXTRA_SKINS1:
 			_bars_set(6)
 			bCount = 4
@@ -955,10 +1080,12 @@ func changeSubmenu(_menu: int) -> void:
 
 	buttonSelected(0, -1, 0, false)
 
+
 func _bars_set(index: int) -> void:
 	if bars:
 		bars.sprite_name = "spr_menu_bars"
 		bars.image_index = index
+
 
 func _mech_submenu(layer_name: String) -> void:
 	_bars_set(4)
@@ -967,11 +1094,13 @@ func _mech_submenu(layer_name: String) -> void:
 	scheme = true
 	_set_layer_visible(layer_name, true)
 
+
 func _char_submenu(layer_name: String, char_sprite: String) -> void:
 	_mech_submenu(layer_name)
 	_set_layer_visible("AboutCharacter", true)
 	for c in GMNode.all_of("obj_menu_character"):
 		c.sprite_name = char_sprite
+
 
 func _extra_char_submenu(layer_name: String) -> void:
 	_bars_set(6)
@@ -982,6 +1111,7 @@ func _extra_char_submenu(layer_name: String) -> void:
 	_set_layer_visible("ExtraMoney", true)
 	_set_layer_visible(layer_name, true)
 
+
 func textChanged(_bid: int, _text: String) -> void:
 	if submenu == SUBMENU_JOIN or submenu == SUBMENU_JOIN_MOBILE:
 		GameConfig.ip = _text
@@ -990,32 +1120,55 @@ func textChanged(_bid: int, _text: String) -> void:
 		Globals.nickname = GameConfig.validate_nickname(_text)
 		GameConfig.save()
 
+
 func bindChanged(_bid: String, key: int) -> void:
 	var panel := findTextpanel(_bid)
 	if panel:
 		panel.text = GM.keycode_to_key(key)
 	match _bid:
-		"up": Globals.KeyUp = key
-		"down": Globals.KeyDown = key
-		"left": Globals.KeyLeft = key
-		"right": Globals.KeyRight = key
-		"jump": Globals.KeyA = key
-		"special1": Globals.KeyB = key
-		"special2": Globals.KeyC = key
-		"hidegui": Globals.KeyHide = key
-		"playerlist": Globals.KeyPList = key
-		"emotion1": Globals.KeyEm1 = key
-		"emotion2": Globals.KeyEm2 = key
-		"emotion3": Globals.KeyEm3 = key
-		"emotion4": Globals.KeyIdle = key
+		"up":
+			Globals.KeyUp = key
+		"down":
+			Globals.KeyDown = key
+		"left":
+			Globals.KeyLeft = key
+		"right":
+			Globals.KeyRight = key
+		"jump":
+			Globals.KeyA = key
+		"special1":
+			Globals.KeyB = key
+		"special2":
+			Globals.KeyC = key
+		"hidegui":
+			Globals.KeyHide = key
+		"playerlist":
+			Globals.KeyPList = key
+		"emotion1":
+			Globals.KeyEm1 = key
+		"emotion2":
+			Globals.KeyEm2 = key
+		"emotion3":
+			Globals.KeyEm3 = key
+		"emotion4":
+			Globals.KeyIdle = key
 	GameConfig.save()
 
+
 func sliderChanged(_value: float) -> void:
-	pass  # mobile-only in the original
+	if submenu != SUBMENU_OPTIONSCONTROLSMOBILE:
+		return
+	for control in get_tree().get_nodes_in_group("menu_mobile_editor"):
+		if control.bid == mobSelectedButton:
+			GameConfig.buttonSetProp(mobSelectedButton, control.scale_v, _value)
+			control._sync_layout()
+
 
 func _gm_step() -> void:
 	buttonA = false
 
+	# menu (headless 2-client testing without mouse clicks); once per process —
+	# a menu reload after net_reset must not re-join
 	if bind:
 		if GM.key_pressed(GM.VK_ANYKEY):
 			bindChanged(bindBtn, GM.keyboard_lastkey)

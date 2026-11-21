@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/game/maps/imported_map.gd" id="1"]
+
+[node name="map_angelisland" type="Node2D"]
+script = ExtResource("1")
+manifest_path = "res://assets/gm/maps/angelisland.json"

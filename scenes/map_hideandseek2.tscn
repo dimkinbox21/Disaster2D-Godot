@@ -1,0 +1,1967 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://src/game/map_controller.gd" id="x1"]
+[ext_resource type="Script" path="res://src/menu/gm_background.gd" id="x2"]
+[ext_resource type="Script" path="res://src/menu/gm_plain.gd" id="x3"]
+[ext_resource type="Script" path="res://src/game/gm_tile.gd" id="x4"]
+[ext_resource type="Script" path="res://src/game/obj_solid_block.gd" id="x5"]
+[ext_resource type="Script" path="res://src/game/obj_platform_jumptrough.gd" id="x6"]
+[ext_resource type="Script" path="res://src/game/obj_spike.gd" id="x7"]
+[ext_resource type="Script" path="res://src/game/obj_spring.gd" id="x8"]
+[ext_resource type="Script" path="res://src/game/obj_hiding_box.gd" id="x9"]
+[ext_resource type="Script" path="res://src/game/obj_deathtp.gd" id="x10"]
+
+[node name="map_hideandseek2" type="Node2D"]
+script = ExtResource("x1")
+lvl_id = 0
+music = "mus_hideandseek2"
+parallax_json = "[[\"Background\",0.3,1],[\"Background2\",0.2,1]]"
+room_w = 4608
+room_h = 1664
+
+[node name="Background2" type="Node2D" parent="."]
+script = ExtResource("x2")
+depth = 100
+position = Vector2(0,16)
+sprite_name = "background_hn22"
+htiled = true
+vtiled = false
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("x2")
+depth = 200
+position = Vector2(0,0)
+sprite_name = "background_hn2"
+htiled = true
+vtiled = false
+
+[node name="Instances" type="Node2D" parent="."]
+
+[node name="inst_1633EFC2_1" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(0.0,-16.0)
+gm_name = "obj_parallax"
+sprite_name = ""
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_5A651B5A" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(0.0,0.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.5000002
+image_yscale = 6.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_7474EEB3" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(320.99994,3.0596588e-05)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 9.0
+image_yscale = 1.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_6A26BB33" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(1472.0,0.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 13.0078125
+image_yscale = 3.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_5C86BD92" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3136.0,0.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 11.5078125
+image_yscale = 1.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_739EC0BC" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(896.00104,704.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 8.5
+image_yscale = 3.0000002
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_2591EE78" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(192.00003,960.0663)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 5.0078125
+image_yscale = 2.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1F20796" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(768.0,832.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 2.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_490C5E13" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(959.99994,1216.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 4.0078125
+image_yscale = 2.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3A80760B" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(0.0,1344.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.5
+image_yscale = 2.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_8D872B5" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(320.0,1408.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 2.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_5209837A" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(448.8846,1472.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 22.999996
+image_yscale = 1.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_45362C9D" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3008.0,1088.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 3.0
+image_yscale = 3.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4EBEA1C4" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3392.0,1344.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 3.4921875
+image_yscale = 2.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_593E0FFB" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2688.0,1344.8607)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.5
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_7A7D8C" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3839.9995,1344.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 6.0078125
+image_yscale = 2.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_27B52131" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2368.0,704.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 4.0078125
+image_yscale = 3.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_71B4F3FE" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2944.001,576.9337)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.5078125
+image_yscale = 2.9921875
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3F3F3D9A" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2881.1326,704.99994)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4921875
+image_yscale = 1.9921875
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3C5794A3" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3776.0,832.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.9921875
+image_yscale = 2.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_70DF7A8A" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3903.9993,832.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 5.5078125
+image_yscale = 2.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_11295BAF" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4095.9998,704.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 4.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_745DD3E7" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4480.0,576.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_62D5A2FA" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(832.0,384.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 3.0
+image_yscale = 1.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_50E6DD53" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(960.0,320.99997)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.0
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1C17327D" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(512.0,512.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 5.0
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_545B2FAC" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(320.0,704.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 3.875
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_19571EF3" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(568.0,768.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 4.25
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_524DDB8F" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(0.0,1024.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 3.0
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4EFDF3DF" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(1472.0,1280.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 5.0
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4A3B5F41" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(1984.0,1216.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 6.0
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_28EE02AE" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(3137.0,832.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 4.984375
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_62F8D2D1" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(3480.0,1024.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 3.75
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_A2E317E" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(3328.0,496.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 6.75
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_429913AB" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(3840.0,512.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 6.0
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_52339171" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(1984.0,704.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 1.25
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1B0F5914" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(2288.0,704.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 1.25
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_40677A26" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3167.0,1024.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.546875
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_5F99C17" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4466.0,1280.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.109375
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1EFE367C" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(4224.0,1280.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_3CCA8E79" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(3291.0,768.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_42D09B06" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(640.0,1408.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_375C179B" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(320.0,640.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_5ED0AE18" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(576.0,448.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_16D1003E" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(1664.0,640.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_5CFBD0E4" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(1600.0,640.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_63056DD9" type="Node2D" parent="Instances"]
+script = ExtResource("x6")
+depth = 0
+position = Vector2(1216.0,320.0)
+gm_name = "obj_platform_jumptrough"
+sprite_name = "spr_platform"
+image_xscale = 2.9999998
+image_yscale = 0.75
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_68F292A9" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2704.8403,1371.5696)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.2656252
+image_yscale = 0.2421875
+sprite_rotation = 153.5
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_34F94A8" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(696.0,896.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.5625
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1AF879CC" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(664.0,928.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_77EA7756" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(1472.0,1440.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_6A1529C8" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(1504.0,1440.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_6D2A8838" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(1536.0,1440.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_7613B49F" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(1568.0,1440.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_17AF21D5" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(1600.0,1440.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_52EE5294" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(3552.0,1312.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_36E8F7B5" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(3584.0,1312.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_277D97F7" type="Node2D" parent="Instances"]
+script = ExtResource("x7")
+depth = 0
+position = Vector2(3616.0,1312.0)
+gm_name = "obj_spike"
+sprite_name = "spr_spike"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+image_speed = 0
+
+[node name="inst_379B1616" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(664.0,472.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_128875C0" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(696.0,472.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_34068115" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(728.0,472.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_66584585" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1384.0,288.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_2117250" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2040.0,680.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_703FB701" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2168.0,632.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_5BE18DE1" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2296.0,680.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4461B73C" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2112.0,1192.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4CD4C951" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2160.0,1192.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_2CF075FE" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2208.0,1192.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_8080F8B" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1184.0,1192.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3C24B42F" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1216.0,1192.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_56882F72" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1248.0,1192.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_631A40D" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(80.0,1344.0)
+gm_name = "obj_spring_up"
+sprite_name = "spr_spring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -12
+
+[node name="inst_3FD07199" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(88.0,1296.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_31A742C7" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(88.0,1264.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_48A8B1E4" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(88.0,1232.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_76A01A3A" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(448.0,704.0)
+gm_name = "obj_bspring_up"
+sprite_name = "spr_bspring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -10
+
+[node name="inst_208B93F2" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(704.0,688.0)
+gm_name = "obj_ringspawn"
+sprite_name = "spr_ringspawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_337C499A" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(384.0,1368.0)
+gm_name = "obj_ringspawn"
+sprite_name = "spr_ringspawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_6CA4049C" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1552.0,1224.0)
+gm_name = "obj_ringspawn"
+sprite_name = "spr_ringspawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3DF16F41" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(1688.0,1472.0)
+gm_name = "obj_bspring_up"
+sprite_name = "spr_bspring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -10
+
+[node name="inst_29063BC7" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(3281.0,1088.0)
+gm_name = "obj_spring_right"
+sprite_name = "spr_spring_right"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 12
+ydir = -12
+
+[node name="inst_1952D505" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3568.0,992.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_34C330A3" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3240.0,792.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_5E0472B9" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3536.0,472.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_2E85A08" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3544.0,432.0)
+gm_name = "obj_ringspawn"
+sprite_name = "spr_ringspawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_6BCEEC6" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4032.0,488.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_A352AF7" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4192.0,1256.0)
+gm_name = "obj_ringspawn"
+sprite_name = "spr_ringspawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_10340823" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4496.0,1256.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_102E40C1" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4536.0,1256.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_13823946" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4576.0,1256.0)
+gm_name = "obj_ring_spawner"
+sprite_name = "spr_ring"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_7C12D2F1" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1320.0,320.0)
+gm_name = "obj_spawnpoint"
+sprite_name = "spr_spawnpoint"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_89152BD" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(624.0,768.0)
+gm_name = "obj_exespawn"
+sprite_name = "spr_exespawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3CD451CC" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(264.0,1344.0)
+gm_name = "obj_spawnpoint"
+sprite_name = "spr_spawnpoint"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_45229D86" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1926.0,705.0)
+gm_name = "obj_spawnpoint"
+sprite_name = "spr_spawnpoint"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3252E7E0" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2168.0,1216.0)
+gm_name = "obj_exespawn"
+sprite_name = "spr_exespawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1107F07" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(2864.0,1344.0)
+gm_name = "obj_spawnpoint"
+sprite_name = "spr_spawnpoint"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_7998FBBC" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4424.0,1344.0)
+gm_name = "obj_exespawn"
+sprite_name = "spr_exespawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_39F8524B" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(4160.0,704.0)
+gm_name = "obj_spawnpoint"
+sprite_name = "spr_spawnpoint"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_7D4A2E01" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3616.0,496.0)
+gm_name = "obj_exespawn"
+sprite_name = "spr_exespawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_6C26EB9E" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3000.0,576.0)
+gm_name = "obj_exespawn"
+sprite_name = "spr_exespawn"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_277F9DC5" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(3393.0,1344.0)
+gm_name = "obj_yspring_up"
+sprite_name = "spr_yspring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -11
+
+[node name="inst_5409A051" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(3136.0,832.0)
+gm_name = "obj_yspring_up"
+sprite_name = "spr_yspring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -11
+
+[node name="inst_227B923C" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2958.0,604.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.2500002
+image_yscale = 0.2421875
+sprite_rotation = 153.5
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_22C6D76F" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4111.0,732.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.2500002
+image_yscale = 0.2421875
+sprite_rotation = 153.5
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1E4AD083" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4495.0,604.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.2500002
+image_yscale = 0.2421875
+sprite_rotation = 153.5
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4600BA31" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2624.0,1088.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.0078125
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_616ADDA9" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(1472.0,448.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 4.0078125
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4AC59255" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(576.0,1216.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 2.0078125
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_74347E8C" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(3608.0,960.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_22A4ACC3" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(4520.0,512.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_2A574266" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(1600.0,1216.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_354D5A04" type="Node2D" parent="Instances"]
+script = ExtResource("x9")
+depth = 0
+position = Vector2(408.0,896.0)
+gm_name = "obj_jack_in_the_box"
+sprite_name = "spr_hs2_box"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+gm_static = true
+
+[node name="inst_430EE429" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(2976.0,1344.0)
+gm_name = "obj_yspring_up"
+sprite_name = "spr_yspring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -11
+
+[node name="inst_4EB23B9E" type="Node2D" parent="Instances"]
+script = ExtResource("x8")
+depth = 0
+position = Vector2(928.0,1472.0)
+gm_name = "obj_yspring_up"
+sprite_name = "spr_yspring_up"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = true
+xdir = 0
+ydir = -11
+
+[node name="inst_4459179F" type="Node2D" parent="Instances"]
+script = ExtResource("x10")
+depth = 0
+position = Vector2(1552.0,1448.0)
+gm_name = "obj_deathtp"
+sprite_name = "spr_deathtp"
+image_xscale = 5.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+
+[node name="inst_221A64F7" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(1760.0,1440.0)
+gm_name = "obj_deathtp_point"
+sprite_name = "spr_deathtp_point"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_2D0E284E" type="Node2D" parent="Instances"]
+script = ExtResource("x10")
+depth = 0
+position = Vector2(680.0,936.0)
+gm_name = "obj_deathtp"
+sprite_name = "spr_deathtp"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+
+[node name="inst_58B1C239" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(568.0,928.0)
+gm_name = "obj_deathtp_point"
+sprite_name = "spr_deathtp_point"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_B859A59" type="Node2D" parent="Instances"]
+script = ExtResource("x10")
+depth = 0
+position = Vector2(3600.0,1312.0)
+gm_name = "obj_deathtp"
+sprite_name = "spr_deathtp"
+image_xscale = 3.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+
+[node name="inst_5F8DBDA1" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3704.0,1312.0)
+gm_name = "obj_deathtp_point"
+sprite_name = "spr_deathtp_point"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_2D55BC22" type="Node2D" parent="Instances"]
+script = ExtResource("x3")
+depth = 0
+position = Vector2(3464.0,1312.0)
+gm_name = "obj_deathtp_point"
+sprite_name = "spr_deathtp_point"
+image_xscale = 1.0
+image_yscale = 1.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_7746326B" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(760.0,448.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.5625
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_506DAF27" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2816.0,640.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_41102BC2" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2888.0,608.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_102E537B" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2760.0,672.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1BBEC587" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2504.0,1440.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_1DD27192" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2560.0,1408.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_660A9147" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(2632.0,1376.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_49AA498E" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3912.0,800.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_3CC3D081" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(3968.0,768.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_61BF55A4" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4040.0,736.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_385728E1" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4296.0,672.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_4AE99F18" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4352.0,640.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 1.0
+image_yscale = 0.5
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_753B5165" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4424.0,608.0)
+gm_name = "obj_solid_block"
+sprite_name = "spr_block"
+image_xscale = 0.4375
+image_yscale = 0.25
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_23C204ED" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(-72.0,0.0)
+gm_name = "obj_solid_block2"
+sprite_name = "spr_block2"
+image_xscale = 0.5625
+image_yscale = 13.0
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="inst_78E1E67B" type="Node2D" parent="Instances"]
+script = ExtResource("x5")
+depth = 0
+position = Vector2(4608.0,0.0)
+gm_name = "obj_solid_block2"
+sprite_name = "spr_block2"
+image_xscale = 0.375
+image_yscale = 12.999999
+sprite_rotation = 0.0
+gm_visible = false
+gm_static = true
+image_speed = 0
+
+[node name="tiles_spr_hs2_tiles" type="Node2D" parent="."]
+
+[node name="t_0_0_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(0,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 0
+image_speed = 0
+chunk_x = 0
+chunk_y = 0
+
+[node name="t_0_0_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(0,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 0
+image_speed = 0
+chunk_x = 0
+chunk_y = 1024
+
+[node name="t_0_1_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(1024,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 0
+image_speed = 0
+chunk_x = 1024
+chunk_y = 0
+
+[node name="t_0_1_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(1024,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 0
+image_speed = 0
+chunk_x = 1024
+chunk_y = 1024
+
+[node name="t_1_0_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(1152,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 1
+image_speed = 0
+chunk_x = 0
+chunk_y = 0
+
+[node name="t_1_0_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(1152,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 1
+image_speed = 0
+chunk_x = 0
+chunk_y = 1024
+
+[node name="t_1_1_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(2176,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 1
+image_speed = 0
+chunk_x = 1024
+chunk_y = 0
+
+[node name="t_1_1_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(2176,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 1
+image_speed = 0
+chunk_x = 1024
+chunk_y = 1024
+
+[node name="t_2_0_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(2304,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 2
+image_speed = 0
+chunk_x = 0
+chunk_y = 0
+
+[node name="t_2_0_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(2304,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 2
+image_speed = 0
+chunk_x = 0
+chunk_y = 1024
+
+[node name="t_2_1_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(3328,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 2
+image_speed = 0
+chunk_x = 1024
+chunk_y = 0
+
+[node name="t_2_1_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(3328,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 2
+image_speed = 0
+chunk_x = 1024
+chunk_y = 1024
+
+[node name="t_3_0_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(3456,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 3
+image_speed = 0
+chunk_x = 0
+chunk_y = 0
+
+[node name="t_3_0_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(3456,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 3
+image_speed = 0
+chunk_x = 0
+chunk_y = 1024
+
+[node name="t_3_1_0" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(4480,0)
+sprite_name = "spr_hs2_tiles"
+image_index = 3
+image_speed = 0
+chunk_x = 1024
+chunk_y = 0
+
+[node name="t_3_1_1" type="Node2D" parent="tiles_spr_hs2_tiles"]
+script = ExtResource("x4")
+gm_static = true
+depth = 90
+position = Vector2(4480,1024)
+sprite_name = "spr_hs2_tiles"
+image_index = 3
+image_speed = 0
+chunk_x = 1024
+chunk_y = 1024

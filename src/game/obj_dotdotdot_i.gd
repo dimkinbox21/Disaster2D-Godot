@@ -13,6 +13,7 @@ var fade2 := 0.0
 var fade3 := 0.0
 var _hud: Node2D = null
 
+
 func _ready() -> void:
 	super._ready()
 	depth = -999
@@ -29,11 +30,13 @@ func _ready() -> void:
 	_hud.ctrl = self
 	cl.add_child(_hud)
 
+
 func _find_bg() -> GMNode:
 	for b in GMNode.all_of("gm_background"):
 		if b.sprite_name == "background_dotdotdot":
 			return b
 	return null
+
 
 func _gm_step() -> void:
 	queue_redraw()
@@ -44,8 +47,7 @@ func _gm_step() -> void:
 		player = p
 		break
 	if player and not player.isSlow:
-		player.maxHSpeed = 12.0   # EXE_MAXSPEED
-		player.acc = 0.056875     # EXE_ACC
+		player.restore_speed()
 	# lazy BG lookup: the Background layer nodes may initialize AFTER this
 	# controller (tree order), so retry until the group exists
 	if BG == null:
@@ -96,10 +98,14 @@ func _gm_step() -> void:
 			_switch("background_dotdotdot", 0)
 		return
 
+
 func _switch(new_bg: String, phase: int) -> void:
 	fadeB = true
 	state = true
 	bgnew = new_bg
+	for level in GMNode.all_of("obj_level"):
+		if level.state == 1:
+			return
 	# original audio_sound_gain(track, vol, 2000) — crossfades only:
 	# zone 2 (background_dotdotdot2) touches NO track at all
 	if phase == 2:
@@ -108,6 +114,7 @@ func _switch(new_bg: String, phase: int) -> void:
 	elif phase == 0:
 		GameAudio.crossfade_music("mus_dotdotdot2", 0.0)
 		GameAudio.crossfade_music("mus_dotdotdot", 1.0)
+
 
 func _gm_draw() -> void:
 	pass  # overlays are drawn by the HUD layer child

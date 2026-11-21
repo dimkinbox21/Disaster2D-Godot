@@ -6,7 +6,7 @@
 
 [node name="connecting" type="Node2D" parent="."]
 script = ExtResource("1")
-depth = 0
-position = Vector2(0.0, 0.0)
+depth = 100
+position = Vector2(0.0, -32.0)
 gm_name = "obj_connecting"
 sprite_name = ""

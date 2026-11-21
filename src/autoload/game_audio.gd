@@ -8,6 +8,7 @@ var _music_player: AudioStreamPlayer
 var _sound_pool: Array[AudioStreamPlayer] = []
 var _streams: Dictionary = {}
 
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_music_player = AudioStreamPlayer.new()
@@ -17,6 +18,7 @@ func _ready() -> void:
 		var p := AudioStreamPlayer.new()
 		add_child(p)
 		_sound_pool.append(p)
+
 
 func _stream(sound_name: String) -> AudioStream:
 	if _streams.has(sound_name):
@@ -30,6 +32,7 @@ func _stream(sound_name: String) -> AudioStream:
 	var s: AudioStream = load(path) if path != "" else null
 	_streams[sound_name] = s
 	return s
+
 
 ## scr_play_music(bid) — menu/music tracks loop (audio_play_sound(bid,0,true))
 func play_music(sound_name: String) -> void:
@@ -51,11 +54,13 @@ func play_music(sound_name: String) -> void:
 	_music_player.play()
 	music_id = 1
 
+
 ## audio_sound_gain(track, vol, ms) port — dual-track crossfade:
 ## both music tracks loop simultaneously, only the gain changes (2000ms).
 ## Used by obj_dotdotdot_i zone phases (zone 2 touches no track at all).
-var _cross_players: Dictionary = {}   # track name -> AudioStreamPlayer
+var _cross_players: Dictionary = {}  # track name -> AudioStreamPlayer
 var _cross_targets: Dictionary = {}  # track name -> target linear gain
+
 
 func crossfade_music(track: String, gain_to: float, seconds := 2.0) -> void:
 	var p: AudioStreamPlayer = _cross_players.get(track)
@@ -84,8 +89,10 @@ func crossfade_music(track: String, gain_to: float, seconds := 2.0) -> void:
 	_fade_left = maxf(_fade_left, seconds)
 	_fade_dur = maxf(_fade_dur, seconds)
 
+
 var _fade_left := 0.0
 var _fade_dur := 1.0
+
 
 func _process(delta: float) -> void:
 	if _fade_left <= 0.0 or _cross_targets.is_empty():
@@ -114,16 +121,28 @@ func _process(delta: float) -> void:
 				if p2:
 					p2.stop()
 
+
 ## scr_stop_music()
 func stop_music() -> void:
+	for player in _cross_players.values():
+		player.stop()
+		player.queue_free()
+	_cross_players.clear()
+	_cross_targets.clear()
+	_fade_left = 0.0
 	_music_player.stop()
 	music_id = -1
+
 
 ## audio_stop_all() — stops music and every one-shot sound
 func stop_all() -> void:
 	stop_music()
+	for player in get_tree().get_nodes_in_group("game_positional_sound"):
+		player.stop()
+		player.queue_free()
 	for p in _sound_pool:
 		p.stop()
+
 
 ## audio_stop_sound(snd) — stops pool players currently playing this stream
 func stop_sound(sound_name: String) -> void:
@@ -133,6 +152,7 @@ func stop_sound(sound_name: String) -> void:
 	for p in _sound_pool:
 		if p.playing and p.stream == s:
 			p.stop()
+
 
 ## audio_play_sound(snd, priority, loop)
 func play_sound(sound_name: String, _priority := 0, _loop := false, gain := 1.0) -> void:
@@ -149,3 +169,58 @@ func play_sound(sound_name: String, _priority := 0, _loop := false, gain := 1.0)
 	_sound_pool[0].stream = s
 	_sound_pool[0].volume_db = linear_to_db(clampf(gain, 0.0005, 1.0))
 	_sound_pool[0].play()
+
+
+## scr_move_basic EMOTION3: survivors animate silently; only the primary
+## hunter plays its own voice. A demonized survivor retains survivor emotions.
+func play_emotion3(character: int, exe_character: int) -> void:
+	if character != Globals.CHARACTER_EXE:
+		return
+	match exe_character:
+		Globals.EXE_ORIGINAL:
+			play_sound("snd_exe_laugh")
+		Globals.EXE_CHAOS:
+			play_sound(["snd_chaos_taunt", "snd_chaos_taunt2"].pick_random())
+		Globals.EXE_EXETIOR:
+			play_sound("snd_exetior_laugh")
+		Globals.EXE_EXELLER:
+			play_sound("snd_exeller_laugh")
+
+
+## scr_exe_stunsound: voice reaction in addition to the shared impact sound.
+func play_exe_stun(exe_character: int) -> void:
+	match exe_character:
+		Globals.EXE_ORIGINAL:
+			play_sound("snd_exe_stun2")
+		Globals.EXE_CHAOS:
+			play_sound("snd_chaos_stun")
+		Globals.EXE_EXETIOR:
+			play_sound("snd_exetior_stun")
+		Globals.EXE_EXELLER:
+			play_sound("snd_exeller_stun")
+
+
+## Original audio_play_sound_at: attach a short-lived positional player to the
+## world canvas so Godot's camera/listener supplies position and attenuation.
+func play_sound_at(
+	sound_name: String, at: Vector2, radius := 700.0, attenuate := true, mirror := true
+) -> void:
+	if mirror and Net.lvlId == 13:
+		if at.x < 512:
+			play_sound_at(sound_name, at + Vector2(3136, 0), radius, attenuate, false)
+		elif at.x >= 3136:
+			play_sound_at(sound_name, at - Vector2(3136, 0), radius, attenuate, false)
+	var stream := _stream(sound_name)
+	if stream == null or get_tree().current_scene == null:
+		return
+	var player := AudioStreamPlayer2D.new()
+	player.stream = stream
+	player.position = at
+	# Keep the cave reverb audible
+	# beyond the 600px echo trigger. Normal puppet sounds fade over 700px.
+	player.max_distance = radius if attenuate else 100000.0
+	player.attenuation = 1.0 if attenuate else 0.0
+	player.add_to_group("game_positional_sound")
+	get_tree().current_scene.add_child(player)
+	player.finished.connect(player.queue_free)
+	player.play()

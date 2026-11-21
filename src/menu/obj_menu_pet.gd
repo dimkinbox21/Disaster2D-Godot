@@ -11,6 +11,7 @@ var pet_name := ""
 var from: Array = [0, 0, 0, 0]
 var to: Array = [0, 0, 0, 0]
 
+
 func _ready() -> void:
 	super._ready()
 	image_speed = 0.0
@@ -56,10 +57,12 @@ func _ready() -> void:
 		from = Unlockables.petPallettes[index]["from"]
 		to = Unlockables.petPallettes[index]["to"]
 
+
 func isAvaiable() -> bool:
 	if price == 0:
 		return true
 	return Unlockables.trades.has("pet%d" % index)
+
 
 func click() -> void:
 	var menu := _menu()
@@ -88,6 +91,7 @@ func click() -> void:
 	Unlockables.pet = index
 	Unlockables.save()
 
+
 func _gm_draw() -> void:
 	var menu := _menu()
 	if menu == null:
@@ -114,13 +118,14 @@ func _gm_draw() -> void:
 		if Unlockables.pet == index:
 			state = "@equipped~"
 
-	var skin_text: String = ("none" if index == -1 else pet_name + percent)
+	var skin_text: String = "none" if index == -1 else pet_name + percent
 	var skin_width := GM.scr_text_spr(self, -200, -200, skin_text)
 	GM.scr_text_spr(self, position.x - skin_width / 2 + 32, position.y + 6, skin_text)
 	var state_width := GM.scr_text_spr(self, -200, -200, state)
-	GM.scr_text_spr(self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state)
-	if GM.mouse_pressed(0) and position_meeting(GM.mouse_x, GM.mouse_y):
-		menu.buttonPressed(bid, bcolumn)
+	GM.scr_text_spr(
+		self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state
+	)
+
 
 func _draw_swapped(spr_name: String, frame: int, gx: float, gy: float) -> void:
 	var tex := GM.swapped_texture(spr_name, frame, from, to)

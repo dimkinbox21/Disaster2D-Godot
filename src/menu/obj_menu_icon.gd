@@ -4,6 +4,7 @@ extends "res://src/menu/obj_menu_button.gd"
 var index := 0
 var price := 25
 
+
 func _ready() -> void:
 	super._ready()
 	image_speed = 0.0
@@ -17,10 +18,12 @@ func _ready() -> void:
 	if index >= 18 and index <= 24:
 		price = 75
 
+
 func isAvaiable() -> bool:
 	if price == 0:
 		return true
 	return Unlockables.trades.has("icon%d" % index)
+
 
 func click() -> void:
 	var menu := _menu()
@@ -45,6 +48,7 @@ func click() -> void:
 	Unlockables.save()
 	GameAudio.play_sound("snd_menu_press")
 
+
 func _gm_draw() -> void:
 	var menu := _menu()
 	if menu == null:
@@ -63,6 +67,6 @@ func _gm_draw() -> void:
 		if Unlockables.lobbyIcon == index:
 			state = "@equipped~"
 	var state_width := GM.scr_text_spr(self, -200, -200, state)
-	GM.scr_text_spr(self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state)
-	if GM.mouse_pressed(0) and position_meeting(GM.mouse_x, GM.mouse_y):
-		menu.buttonPressed(bid, bcolumn)
+	GM.scr_text_spr(
+		self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state
+	)

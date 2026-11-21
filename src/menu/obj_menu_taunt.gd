@@ -8,6 +8,7 @@ var char_name := "exe"
 var spr := "spr_exe_emotion3"
 var off := 0.0
 
+
 func _ready() -> void:
 	super._ready()
 	image_speed = 0.0
@@ -33,10 +34,12 @@ func _ready() -> void:
 				spr = "spr_exeller_emotion2"
 			char_name = "exeller"
 
+
 func isAvaiable() -> bool:
 	if price == 0:
 		return true
 	return Unlockables.trades.has("t%s%d" % [char_name, index % 2])
+
 
 func click() -> void:
 	var menu := _menu()
@@ -57,6 +60,7 @@ func click() -> void:
 	else:
 		GameAudio.play_sound("snd_menu_press")
 
+
 func _gm_draw() -> void:
 	var menu := _menu()
 	if menu == null:
@@ -73,6 +77,6 @@ func _gm_draw() -> void:
 	if Unlockables.trades.has("t%s%d" % [char_name, index % 2]):
 		state = "@equipped~"
 	var state_width := GM.scr_text_spr(self, -200, -200, state)
-	GM.scr_text_spr(self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state)
-	if GM.mouse_pressed(0) and position_meeting(GM.mouse_x, GM.mouse_y):
-		menu.buttonPressed(bid, bcolumn)
+	GM.scr_text_spr(
+		self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state
+	)

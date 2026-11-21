@@ -14,6 +14,7 @@ var percent := ""
 var from: Array = []
 var to: Array = []
 
+
 func _ready() -> void:
 	super._ready()
 	image_speed = 0.0
@@ -55,8 +56,8 @@ func _ready() -> void:
 				from = pal["from"]
 				to = pal["to"]
 			else:
-				from = pal["from"]
-				to = pal["to"]
+				from = Unlockables.custom_sources.get(str(tableIndex), [])
+				to = from.duplicate()
 				if exe:
 					match character:
 						Globals.EXE_EXELLER, Globals.EXE_EXETIOR:
@@ -69,6 +70,7 @@ func _ready() -> void:
 					to = GM.scr_pallete_shift(to, 60, 0, 0)
 					percent = _percent_hue(from, to)
 
+
 func _percent_hue(f: Array, t: Array) -> String:
 	var h1 := Color(f[0], f[1], f[2]).h
 	var h2 := Color(t[0], t[1], t[2]).h
@@ -76,12 +78,14 @@ func _percent_hue(f: Array, t: Array) -> String:
 		return "\n(def.)"
 	return "\n(%d)" % int(h2 * 255.0)
 
+
 func _percent_value(f: Array, t: Array) -> String:
 	var v1 := Color(f[0], f[1], f[2]).v
 	var v2 := Color(t[0], t[1], t[2]).v
 	if is_equal_approx(v1, v2):
 		return "\n(def.)"
 	return "\n(%d)" % int(v2 * 255.0)
+
 
 func _idle_sprites() -> Array:
 	# returns [sprite, frame, offX, offY]
@@ -113,10 +117,12 @@ func _idle_sprites() -> Array:
 				return ["spr_exeller_idle", 0, 0, 0]
 	return ["spr_merfurmu", 0, 0, 0]
 
+
 func isAvaiable() -> bool:
 	if price == 0:
 		return true
 	return Unlockables.trades.has(tradeName)
+
 
 func click() -> void:
 	var menu := _menu()
@@ -150,7 +156,7 @@ func click() -> void:
 		if exe:
 			match character:
 				Globals.EXE_EXELLER, Globals.EXE_EXETIOR:
-					var v1 := Color(from[0], from[1], from[2]).v
+					var v1 := Color(to[0], to[1], to[2]).v
 					if v1 < 155.0 / 255.0:
 						to = GM.scr_pallete_shift(to, 0, 0, 75)
 					else:
@@ -169,6 +175,7 @@ func click() -> void:
 	pal["to"] = to
 	pal["name"] = skinName[palette + 1]
 	Unlockables.save()
+
 
 func _gm_draw() -> void:
 	var menu := _menu()
@@ -206,12 +213,14 @@ func _gm_draw() -> void:
 	var skin_width := GM.scr_text_spr(self, -200, -200, skin_text)
 	var state_width := GM.scr_text_spr(self, -200, -200, state)
 	GM.scr_text_spr(self, position.x - skin_width / 2 + 32, position.y + 6, skin_text)
-	GM.scr_text_spr(self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state)
+	GM.scr_text_spr(
+		self, position.x - state_width / 2 + 32, position.y + sprite_height() - 12, state
+	)
 
-	if GM.mouse_pressed(0) and position_meeting(GM.mouse_x, GM.mouse_y):
-		menu.buttonPressed(bid, bcolumn)
 
-func _draw_swapped(spr_name: String, frame: int, gx: float, gy: float, pat: Array, repl: Array) -> void:
+func _draw_swapped(
+	spr_name: String, frame: int, gx: float, gy: float, pat: Array, repl: Array
+) -> void:
 	var tex := GM.swapped_texture(spr_name, frame, pat, repl)
 	if tex == null:
 		return

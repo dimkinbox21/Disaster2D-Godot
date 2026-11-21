@@ -3,11 +3,30 @@ extends GMNode
 ## Codes are stored Atbash-encrypted exactly as in the original.
 
 var codes := [
-	"kzgfh", "gszmlh", "svsirws", "hgliv", "kfhwvi", "zmpov", "slnhgvi",
-	"glmthdvo", "wzmzo", "kvirwlm", "hloultl", "kraz", "ksromfh", "gfnzir",
-	"hlmrzmt1", "hlmrzmt2", "hlmrzmt3", "eztrmvggv", "nvigslmt",
-	"TUTANHAMONUS DELEGATION EL EGIPET", "lastround", "jojomart",
+	"kzgfh",
+	"gszmlh",
+	"svsirws",
+	"hgliv",
+	"kfhwvi",
+	"zmpov",
+	"slnhgvi",
+	"glmthdvo",
+	"wzmzo",
+	"kvirwlm",
+	"hloultl",
+	"kraz",
+	"ksromfh",
+	"gfnzir",
+	"hlmrzmt1",
+	"hlmrzmt2",
+	"hlmrzmt3",
+	"eztrmvggv",
+	"nvigslmt",
+	"TUTANHAMONUS DELEGATION EL EGIPET",
+	"lastround",
+	"jojomart",
 ]
+
 
 func _gm_step() -> void:
 	var menu: GMNode = null

@@ -10,6 +10,7 @@ var limit := 15
 var text := ""
 var prevText := ""
 
+
 func _gm_step() -> void:
 	var menu: GMNode = null
 	for m in GMNode.all_of("obj_menu"):
@@ -30,6 +31,7 @@ func _gm_step() -> void:
 		menu.ignoreButtons = true
 	# placeholder text handling is in draw
 
+
 func _gm_draw() -> void:
 	var menu: GMNode = null
 	for m in GMNode.all_of("obj_menu"):
@@ -37,9 +39,18 @@ func _gm_draw() -> void:
 		break
 	if menu == null:
 		return
-	if GM.mouse_pressed(0) and position_meeting(GM.mouse_x, GM.mouse_y):
-		menu.buttonSelected(bid, -1)
 	draw_self()
-	if menu.bSelected == bid and menu.submenu == submenu:
-		GM.scr_text_spr(self, position.x + 2, position.y + 5, text if text != "" else placeholder,
-			GM.C_WHITE if text != "" else GM.C_GRAY)
+	GM.scr_text_spr(
+		self,
+		position.x + 2,
+		position.y + 5,
+		text if text != "" else placeholder,
+		GM.C_WHITE if text != "" else GM.C_GRAY
+	)
+
+
+func _gm_interact() -> void:
+	if GM.mouse_pressed(0) and position_meeting(GM.mouse_x, GM.mouse_y):
+		for menu in GMNode.all_of("obj_menu"):
+			if menu.submenu == submenu:
+				menu.buttonSelected(bid, -1, 0, false)

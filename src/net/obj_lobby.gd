@@ -13,10 +13,21 @@ var chat: Array = []
 var chatMsg := ""
 var chatMode := false
 var charIndex := 0.0
+var _last_preview := -1
+var _map_entered := false
 
-var chars := ["spr_menu_tails", "spr_menu_knux", "spr_menu_egg", "spr_menu_amy",
-	"spr_menu_cream", "spr_menu_sally", "spr_menu_exe", "spr_menu_chaos",
-	"spr_menu_exetior", "spr_menu_exeller"]
+var chars := [
+	"spr_menu_tails",
+	"spr_menu_knux",
+	"spr_menu_egg",
+	"spr_menu_amy",
+	"spr_menu_cream",
+	"spr_menu_sally",
+	"spr_menu_exe",
+	"spr_menu_chaos",
+	"spr_menu_exetior",
+	"spr_menu_exeller"
+]
 
 var map1 := 0
 var map2 := 0
@@ -34,6 +45,7 @@ var canUse := false
 var charTimer := 30
 
 var voteKick := false
+
 
 func _ready() -> void:
 	super._ready()
@@ -54,6 +66,7 @@ func _ready() -> void:
 		f.position = Vector2.ZERO
 		f.depth = -100
 		add_child(f)
+
 
 func lobby_player_joined(plr: Dictionary, ng := true) -> void:
 	for ic in GMNode.all_of("obj_lobby_icon"):
@@ -78,6 +91,7 @@ func lobby_player_joined(plr: Dictionary, ng := true) -> void:
 	if ng:
 		GameAudio.play_sound("snd_ring")
 
+
 func lobby_player_left(nid_: int) -> void:
 	playerCnt -= 1
 	for ic in GMNode.all_of("obj_lobby_icon"):
@@ -91,6 +105,7 @@ func lobby_player_left(nid_: int) -> void:
 			ic.queue_free()
 			GameAudio.play_sound("snd_hurt")
 
+
 func lobby_add_message(sender: String, msg: String) -> void:
 	if Globals.muteChat:
 		return
@@ -100,8 +115,10 @@ func lobby_add_message(sender: String, msg: String) -> void:
 	if chat.size() >= 9:
 		chat.pop_front()
 
+
 func _gm_step() -> void:
-	queue_redraw()  # animated UI (chat, countdown, fades) redraws every frame
+	queue_redraw()
+	_step_visuals()
 	if chatMode:
 		if GM.key_down(GM.VK_CONTROL) and GM.key_pressed(86):
 			GM.keyboard_string = DisplayServer.clipboard_get()
@@ -179,8 +196,8 @@ func _gm_step() -> void:
 						Globals.muteChat = false
 						lobby_add_message("(mute)", "@chat is now unmuted.~")
 					else:
-						Globals.muteChat = true
 						lobby_add_message("(mute)", "\\chat is now muted.~")
+						Globals.muteChat = true
 				_:
 					var packet := Net.cpacket_tcp(Net.PacketType.CLIENT_CHAT_MESSAGE, true)
 					packet.put_u16(Net.nid)
@@ -190,15 +207,19 @@ func _gm_step() -> void:
 			chatMsg = ""
 			GM.keyboard_string = ""
 
+
 func _gm_draw() -> void:
 	if state == 0:
 		draw_sprite("spr_lobby_bars", 0, 0, 0)
-		if countScale > 1:
-			countScale -= 0.02
 		if isCounting and not voteKick:
 			draw_sprite("spr_countdown", countdown - 1, 480.0 / 2, 13, countScale, countScale)
 		else:
-			draw_sprite("spr_lobby_votekick" if voteKick else "spr_lobby_waiting", int(Time.get_ticks_msec() / 300) % 4, 240, 8)
+			draw_sprite(
+				"spr_lobby_votekick" if voteKick else "spr_lobby_waiting",
+				int(Time.get_ticks_msec() / 300) % 4,
+				240,
+				8
+			)
 		var str_ := ""
 		for c in chat:
 			str_ += c + "\n"
@@ -211,38 +232,92 @@ func _gm_draw() -> void:
 		GM.scr_text_spr(self, 170, 256, "\\your chance to be exe: %d%%~" % Net.chance)
 	elif state == 1:
 		draw_sprite("spr_vote_bars", 0, 0, 0)
-		if countScale > 1:
-			countScale -= 0.02
 		draw_sprite("spr_counter3", voteTimer, 480.0 / 2, 13, countScale, countScale)
 		var col := GM.C_DKGRAY if not (mapChosen == 0 and not mapChose) else GM.C_WHITE
-		draw_sprite("spr_mapvote", map1, 16, 58 + 20 * mapFade - (0 if mapChosen != 0 else mapOff), 1, 1, 0, col, mapFade)
+		draw_sprite(
+			"spr_mapvote",
+			map1,
+			16,
+			58 + 20 * mapFade - (0 if mapChosen != 0 else mapOff),
+			1,
+			1,
+			0,
+			col,
+			mapFade
+		)
 		col = GM.C_DKGRAY if not (mapChosen == 1 and not mapChose) else GM.C_WHITE
-		draw_sprite("spr_mapvote", map2, 179, 58 + 20 * mapFade - (0 if mapChosen != 1 else mapOff), 1, 1, 0, col, mapFade)
+		draw_sprite(
+			"spr_mapvote",
+			map2,
+			179,
+			58 + 20 * mapFade - (0 if mapChosen != 1 else mapOff),
+			1,
+			1,
+			0,
+			col,
+			mapFade
+		)
 		col = GM.C_DKGRAY if not (mapChosen == 2 and not mapChose) else GM.C_WHITE
-		draw_sprite("spr_mapvote", map3, 341, 58 + 20 * mapFade - (0 if mapChosen != 2 else mapOff), 1, 1, 0, col, mapFade)
-		if mapFade < 1:
-			mapFade += 0.016
-		if mapOff > 0:
-			mapOff -= 0.32
+		draw_sprite(
+			"spr_mapvote",
+			map3,
+			341,
+			58 + 20 * mapFade - (0 if mapChosen != 2 else mapOff),
+			1,
+			1,
+			0,
+			col,
+			mapFade
+		)
 		var _map := map1
 		if mapChosen == 1:
 			_map = map2
 		if mapChosen == 2:
 			_map = map3
-		for pr in GMNode.all_of("obj_lobby_prolet"):
-			pr.visible = true
-			pr.image_blend = GM.C_DKGRAY
-			if pr.map != _map:
-				pr.set_zone(_map)
-		GM.scr_text_spr(self, 4, 233, Globals.levelDescriptions[_map] if _map < Globals.levelDescriptions.size() else "")
+		GM.scr_text_spr(
+			self,
+			4,
+			233,
+			Globals.levelDescriptions[_map] if _map < Globals.levelDescriptions.size() else ""
+		)
 		if not mapChose:
 			return
 		var col0 := Color("27ff23") if (mapChose and mapChosen == 0) else GM.C_WHITE
-		draw_sprite("spr_counter2", map1Votes, 16 + 61, (58 + 20 * mapFade - (0 if mapChosen != 0 else mapOff)) + 53, 1, 1, 0, col0, 1)
+		draw_sprite(
+			"spr_counter2",
+			map1Votes,
+			16 + 61,
+			(58 + 20 * mapFade - (0 if mapChosen != 0 else mapOff)) + 53,
+			1,
+			1,
+			0,
+			col0,
+			1
+		)
 		var col1 := Color("27ff23") if (mapChose and mapChosen == 1) else GM.C_WHITE
-		draw_sprite("spr_counter2", map2Votes, 179 + 61, (58 + 20 * mapFade - (0 if mapChosen != 1 else mapOff)) + 53, 1, 1, 0, col1, 1)
+		draw_sprite(
+			"spr_counter2",
+			map2Votes,
+			179 + 61,
+			(58 + 20 * mapFade - (0 if mapChosen != 1 else mapOff)) + 53,
+			1,
+			1,
+			0,
+			col1,
+			1
+		)
 		var col2 := Color("27ff23") if (mapChose and mapChosen == 2) else GM.C_WHITE
-		draw_sprite("spr_counter2", map3Votes, 341 + 61, (58 + 20 * mapFade - (0 if mapChosen != 2 else mapOff)) + 53, 1, 1, 0, col2, 1)
+		draw_sprite(
+			"spr_counter2",
+			map3Votes,
+			341 + 61,
+			(58 + 20 * mapFade - (0 if mapChosen != 2 else mapOff)) + 53,
+			1,
+			1,
+			0,
+			col2,
+			1
+		)
 	elif state == 2 or state == 3:
 		var sprInd := 0
 		for ic in GMNode.all_of("obj_lobby_icon"):
@@ -251,20 +326,66 @@ func _gm_draw() -> void:
 			sprInd = ic.selected - 1
 			if Net.exeId == Net.nid:
 				sprInd += Globals.CHARACTER_SALLY
-		if Net.exeId == Net.nid or (sprInd + 1 < Net.avCharacters.size() and Net.avCharacters[sprInd + 1]):
+		if (
+			Net.exeId == Net.nid
+			or (sprInd + 1 < Net.avCharacters.size() and Net.avCharacters[sprInd + 1])
+		):
 			draw_sprite(chars[sprInd], charIndex, 132, 230)
 		draw_sprite("spr_char_bars", 1 if Net.exeId == Net.nid else 0, 0, 0)
 		draw_sprite("spr_char_info", sprInd, 1, 232 - 5)
-		if countScale > 1:
-			countScale -= 0.02
-		if Globals.character == -1 or (Globals.character == Globals.CHARACTER_EXE and Globals.exeCharacter == -1):
-			draw_sprite("spr_counter3", charTimer, 480.0 / 2, 13, countScale, countScale, 0, GM.C_RED if charTimer <= 3 else GM.C_WHITE, 1)
-		var meta := GM.sprite_meta(chars[sprInd])
-		charIndex += (1.0 / 60.0) * float(meta["playbackSpeed"]) / 60.0
+		if (
+			Globals.character == -1
+			or (Globals.character == Globals.CHARACTER_EXE and Globals.exeCharacter == -1)
+		):
+			draw_sprite(
+				"spr_counter3",
+				charTimer,
+				480.0 / 2,
+				13,
+				countScale,
+				countScale,
+				0,
+				GM.C_RED if charTimer <= 3 else GM.C_WHITE,
+				1
+			)
 
 	if state == 3:
+		draw_rect(Rect2(0, 0, 480, 270), Color(0, 0, 0, fade))
+
+
+func _step_visuals() -> void:
+	countScale = maxf(1.0, countScale - 0.02)
+	for layer_name in ["Background", "Mercoin1", "Mercoin2"]:
+		var layer := get_parent().get_node_or_null(layer_name)
+		if layer != null:
+			layer.visible = state == 0
+	if state == 1:
+		mapFade = minf(1.0, mapFade + 0.016)
+		mapOff = maxf(0.0, mapOff - 0.32)
+		var selected_map: int = [map1, map2, map3][mapChosen]
+		for pr in GMNode.all_of("obj_lobby_prolet"):
+			pr.visible = true
+			pr.image_blend = GM.C_DKGRAY
+			if pr.map != selected_map:
+				pr.set_zone(selected_map)
+	if state in [2, 3]:
+		var selected_index := 0
+		for ic in GMNode.all_of("obj_lobby_icon"):
+			if ic.master_id == Net.nid:
+				selected_index = ic.selected - 1 + (6 if Net.exeId == Net.nid else 0)
+		selected_index = clampi(selected_index, 0, chars.size() - 1)
+		if selected_index != _last_preview:
+			charIndex = 0.0
+			_last_preview = selected_index
+		var meta := GM.sprite_meta(chars[selected_index])
+		charIndex += (
+			float(meta["playbackSpeed"]) / (60.0 if int(meta["playbackSpeedType"]) == 0 else 1.0)
+		)
+	if state == 3:
+		# Draw_64 in the original covers player icons as well as the preview.
+		z_index = 1000
 		GameAudio.stop_music()
-		draw_sprite("spr_black", 0, 0, 0, 1, 1, 0, GM.C_WHITE, fade)
-		fade += 0.01
-		if fade > 1:
+		fade = minf(1.0, fade + 0.01)
+		if fade >= 1.0 and not _map_entered:
+			_map_entered = true
 			Net.goto_map()

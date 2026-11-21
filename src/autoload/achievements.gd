@@ -25,14 +25,42 @@ var maps: Array = []
 # popup box state
 var boxX := 0
 var boxSide := false
+var popup_ticks = 0
+var autosave = true
+var save_path = "user://3.bin"
+var rules = preload("res://src/game/achievement_rules.gd").new(self)
+
+
+func show_popup():
+	boxSide = true
+	popup_ticks = 240
+	if is_instance_valid(get_node_or_null("/root/GameAudio")):
+		GameAudio.play_sound("snd_achivement")
+
+
+func _physics_process(_dt):
+	if popup_ticks > 0:
+		popup_ticks -= 1
+	boxSide = popup_ticks > 0
+	boxX = move_toward(boxX, 194 if boxSide else 0, 6)
+	if is_instance_valid(get_node_or_null("/root/Net")):
+		rules.tick()
+
 
 func _ready() -> void:
+	if SaveStore.startup_pending:
+		await SaveStore.startup_completed
 	for i in 50:
 		achivements.append(false)
 		prevAchivements.append(false)
 	if not FileAccess.file_exists("user://3.bin"):
 		_write_default()
 	load_data("user://3.bin")
+	var canvas = CanvasLayer.new()
+	canvas.layer = 110
+	add_child(canvas)
+	canvas.add_child(load("res://src/menu/achievement_popup.gd").new())
+
 
 func _write_default() -> void:
 	var b := StreamPeerBuffer.new()
@@ -52,52 +80,43 @@ func _write_default() -> void:
 	if f:
 		f.store_buffer(b.data_array)
 
-func load_data(filename: String) -> void:
-	var f := FileAccess.open(filename, FileAccess.READ)
-	if f == null:
-		return
-	var b := StreamPeerBuffer.new()
-	b.data_array = f.get_buffer(f.get_length())
-	b.big_endian = false
-	b.seek(0)
-	mercoins = int(b.get_u64())
-	survWins = b.get_u32()
-	exeWins = b.get_u32()
-	survStuns = b.get_u32()
-	exeKills = b.get_u32()
-	tails = b.get_u8() != 0
-	knux = b.get_u8() != 0
-	eggman = b.get_u8() != 0
-	amy = b.get_u8() != 0
-	cream = b.get_u8() != 0
-	sally = b.get_u8() != 0
-	exe = b.get_u8() != 0
-	chaos = b.get_u8() != 0
-	exetior = b.get_u8() != 0
-	exeller = b.get_u8() != 0
-	achivements = []
-	prevAchivements = []
-	changed = []
-	var changedCount := b.get_u8()
-	for i in changedCount:
-		changed.append(b.get_u8())
-	for i in 50:
-		achivements.append(b.get_u8() != 0)
-		prevAchivements.append(achivements[i])
-	var mapCount := b.get_u8()
-	maps = []
-	for i in mapCount:
-		var ln := b.get_u16()  # GM buffer_string is null-terminated; u16 read keeps stream aligned below
-		var s := ""
-		var ch := b.get_u8()
-		while ch != 0:
-			s += char(ch)
-			ch = b.get_u8()
-		maps.append(s)
+
+func load_data(filename: String) -> bool:
+	var data = SaveStore.stats_read(filename)
+	if data.is_empty():
+		data = SaveStore.stats_read(filename + ".bak")
+		if data.is_empty():
+			return false
+	for key in [
+		"mercoins",
+		"survWins",
+		"exeWins",
+		"exeKills",
+		"survStuns",
+		"tails",
+		"knux",
+		"eggman",
+		"amy",
+		"cream",
+		"sally",
+		"exe",
+		"chaos",
+		"exetior",
+		"exeller",
+		"achivements",
+		"changed",
+		"maps"
+	]:
+		set(key, data[key])
+	prevAchivements = achivements.duplicate()
+	return true
+
 
 func save() -> void:
+	if not autosave:
+		return
 	for i in achivements.size():
-		if prevAchivements[i] != achivements[i]:
+		if prevAchivements[i] != achivements[i] and not changed.has(i):
 			changed.append(i)
 		prevAchivements[i] = achivements[i]
 	var b := StreamPeerBuffer.new()
@@ -128,6 +147,4 @@ func save() -> void:
 		for i in raw.size():
 			b.put_u8(raw[i])
 		b.put_u8(0)
-	var f := FileAccess.open("user://3.bin", FileAccess.WRITE)
-	if f:
-		f.store_buffer(b.data_array)
+	SaveStore.write_atomic(save_path, b.data_array)

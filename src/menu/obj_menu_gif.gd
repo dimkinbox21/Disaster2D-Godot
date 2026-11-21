@@ -3,5 +3,6 @@ extends GMNode
 
 var spr := "spr_menu_spin"
 
+
 func _gm_step() -> void:
 	sprite_name = spr
