@@ -1,7 +1,7 @@
 extends "res://src/menu/obj_menu_button.gd"
 ## Port of obj_menu_serverbutton.
 
-var region := ""
+@export_storage var region := ""
 var timer := 0.0
 
 

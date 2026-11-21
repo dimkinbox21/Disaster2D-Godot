@@ -1,10 +1,10 @@
 extends GMNode
 ## Port of obj_menu_button (base for togglebutton, skin, icon, taunt, pet, serverbutton).
 
-var bid := 0
-var bcolumn: Variant = -1
-var submenu := 0
-var tid := "0"
+@export_storage var bid := 0
+@export_storage var bcolumn: Variant = -1
+@export_storage var submenu := 0
+@export_storage var tid := "0"
 
 var offset := 0.0
 var sY := 0.0

@@ -1,12 +1,12 @@
 extends "res://src/menu/obj_menu_button.gd"
 ## Port of obj_menu_skin (skins shop with palette previews).
 
-var character := 0
-var palette := -1
-var demon := false
-var exe := false
-var price := 0
-var tradeName := ""
+@export_storage var character := 0
+@export_storage var palette := -1
+@export_storage var demon := false
+@export_storage var exe := false
+@export_storage var price := 0
+@export_storage var tradeName := ""
 
 var skinName := ["default", "classic", "eccentric", "custom"]
 var tableIndex := 0

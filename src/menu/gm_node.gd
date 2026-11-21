@@ -7,7 +7,7 @@ extends Node2D
 @export_storage var sprite_name := ""
 @export_storage var image_index := 0.0
 @export_storage var image_speed := 1.0
-var image_blend := Color.WHITE
+@export_storage var image_blend := Color.WHITE
 var image_alpha := 1.0
 ## GM object "visible" flag: false = helper object (solid blocks, spawns,
 ## angleanullers...) — never drawn, but collision/groups still work

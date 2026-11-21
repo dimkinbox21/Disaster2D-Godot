@@ -1,7 +1,7 @@
 extends GMNode
 ## Port of obj_menu_textpanel.
 
-var tid := ""
+@export_storage var tid := ""
 
 var text := ""
 

@@ -1,8 +1,8 @@
 extends "res://src/menu/obj_menu_button.gd"
 ## Port of obj_menu_taunt (taunts shop).
 
-var index := 0
-var price := 0
+@export_storage var index := 0
+@export_storage var price := 0
 
 var char_name := "exe"
 var spr := "spr_exe_emotion3"

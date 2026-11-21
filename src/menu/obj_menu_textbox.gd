@@ -2,10 +2,10 @@ extends GMNode
 ## Port of obj_menu_textbox.
 
 var bid := 0
-var submenu := 0
-var tid := "0"
-var placeholder := ""
-var limit := 15
+@export_storage var submenu := 0
+@export_storage var tid := "0"
+@export_storage var placeholder := ""
+@export_storage var limit := 15
 
 var text := ""
 var prevText := ""

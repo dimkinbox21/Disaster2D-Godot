@@ -12,7 +12,7 @@ const FALLOFF_NEAR := 250.0
 const FALLOFF_FAR := 500.0
 const GAIN_RANGE := 700.0
 
-var stype := SOUNDEMT_MOVINGSPIKE
+@export_storage var stype := SOUNDEMT_MOVINGSPIKE
 
 
 func _ready() -> void:

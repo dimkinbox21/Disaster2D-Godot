@@ -1,6 +1,6 @@
 extends GMNode
 ## Original mobile layout editor: hold 20 ticks to drag, double-tap to resize.
-var bid := 0
+@export_storage var bid := 0
 var scale_v := 1.0
 var dragTime := 0
 var tapTimer := 0

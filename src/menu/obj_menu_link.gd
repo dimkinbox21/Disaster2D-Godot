@@ -1,7 +1,7 @@
 extends GMNode
 ## Port of obj_menu_link1/obj_menu_link2 (clickable web links).
 
-var open_url := ""
+@export_storage var open_url := ""
 
 
 func _gm_interact() -> void:

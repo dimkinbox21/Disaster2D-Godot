@@ -1,7 +1,7 @@
 extends "res://src/menu/obj_menu_button.gd"
 ## Port of obj_menu_icon (lobby icons shop).
 
-var index := 0
+@export_storage var index := 0
 var price := 25
 
 

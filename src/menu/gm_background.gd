@@ -8,8 +8,8 @@ var stretch := false
 var follow_camera := false
 @export_storage var hspeed := 0.0
 @export_storage var vspeed := 0.0
-var layer_colour := Color.WHITE
-var use_heathaze := false
+@export_storage var layer_colour := Color.WHITE
+@export_storage var use_heathaze := false
 
 var _scroll := Vector2.ZERO
 ## parallax: layer origin = camera_topleft * factor (port of obj_parallax)

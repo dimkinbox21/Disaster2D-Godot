@@ -1,7 +1,7 @@
 extends GMNode
 ## Port of obj_menu_abouttext (styled description text on About screens).
 
-var text := "aaaaaaaaaaaaaaaaaaaaaa"
+@export_storage var text := "aaaaaaaaaaaaaaaaaaaaaa"
 
 
 func _gm_draw() -> void:

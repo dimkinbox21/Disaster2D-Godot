@@ -15,6 +15,7 @@ A Godot port of **Sonic.exe The Disaster 2D Remake**, maintained by
 
 To host a game, download the matching [DisasterServer](https://github.com/dimkinbox21/DisasterServer-Godot/releases/latest)
 release and run **DisasterServer.exe**. Client and server must use the same build.
+Client hotfix **v1130.1** fixes exported menu selection and animations and remains compatible with server build **1130**.
 Godot does not need to be installed to play a release build. No BAT launchers are required.
 
 ## Features

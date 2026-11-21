@@ -1,8 +1,8 @@
 extends "res://src/menu/obj_menu_button.gd"
 ## Port of obj_menu_pet (pets shop).
 
-var index := 0
-var price := 0
+@export_storage var index := 0
+@export_storage var price := 0
 
 var offff := 0.0
 var spr := "spr_pet_flicky"

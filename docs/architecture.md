@@ -41,3 +41,13 @@ Map IDs are part of the protocol and saved progress; keep them stable.
 Local test launchers and server emulators are not shipped. Use the server's `.test`
 command for solo gameplay checks. `tools/export_map_geometry.gd` is a maintenance
 utility that exports actual client collision masks to a selected server map file.
+
+## Scene properties in release exports
+
+Every script property assigned by a `.tscn` scene must use `@export_storage` (or
+an appropriate exported property). The editor can load unmarked assignments from
+text scenes, but the release scene converter does not preserve them. This includes
+menu button IDs, columns and submenu IDs, world-map regions, shop items, demo
+sprites, layer colours and sound-emitter types. Runtime-only animation state stays
+unexported. After changing storage annotations, make a clean export and compare
+stored scene values with the source scenes before publishing a release.
