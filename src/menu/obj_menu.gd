@@ -1114,7 +1114,7 @@ func _extra_char_submenu(layer_name: String) -> void:
 
 func textChanged(_bid: int, _text: String) -> void:
 	if submenu == SUBMENU_JOIN or submenu == SUBMENU_JOIN_MOBILE:
-		GameConfig.ip = _text
+		GameConfig.ip = _text.strip_edges()
 		GameConfig.save()
 	if submenu == SUBMENU_OPTIONSGENERAL:
 		Globals.nickname = GameConfig.validate_nickname(_text)

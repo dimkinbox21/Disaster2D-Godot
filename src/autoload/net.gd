@@ -230,6 +230,7 @@ func flush_chat():
 
 ## net_join(host, selected_lobby) port
 func join(host: String, selected_lobby: int = -1) -> void:
+	host = host.strip_edges()
 	# ENet is IPv4-only: make sure "localhost" resolves to 127.0.0.1
 	if host.to_lower() == "localhost":
 		host = "127.0.0.1"
@@ -288,9 +289,10 @@ func connect_to_server() -> bool:
 	# saved config when nothing was passed (a direct scene launch) — and map
 	# "localhost" to the IPv4 literal, because Godot's ENet resolves it to ::1
 	# while the server binds 0.0.0.0 (IPv4) and the handshake never lands.
+	ip = ip.strip_edges()
 	if ip == "":
-		ip = GameConfig.ip if GameConfig.ip != "" else "127.0.0.1"
-	if ip.to_lower() == "localhost":
+		ip = GameConfig.ip.strip_edges()
+	if ip == "" or ip.to_lower() == "localhost":
 		ip = "127.0.0.1"
 	_host = ENetConnection.new()
 	var err := _host.create_host(4, 2)

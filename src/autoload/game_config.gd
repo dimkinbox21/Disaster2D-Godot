@@ -108,7 +108,7 @@ func _apply_buffer() -> void:
 	var b := _buffer
 	screenMode = b["screenMode"]
 	nickname = _gm_string_copy(b["nickname"], 0, 15)
-	ip = b["ip"]
+	ip = b["ip"].strip_edges()
 	showFps = b["showFps"]
 	showPing = b["showPing"]
 	Globals.KeyLeft = b["left"]

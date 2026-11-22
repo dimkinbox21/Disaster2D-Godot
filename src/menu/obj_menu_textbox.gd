@@ -22,6 +22,8 @@ func _gm_step() -> void:
 		if GM.key_down(GM.VK_CONTROL) and GM.key_pressed(86):  # Ctrl+V
 			GM.keyboard_string = DisplayServer.clipboard_get()
 		if GM.keyboard_string != prevText:
+			if tid in ["ip", "ip_mobile"]:
+				GM.keyboard_string = GM.keyboard_string.strip_edges()
 			if GM.keyboard_string.length() > limit:
 				GM.keyboard_string = GM.keyboard_string.substr(0, limit)
 			text = GM.keyboard_string.to_lower()
