@@ -9,6 +9,9 @@ var electro := false
 func _ready():
 	process_physics_priority = 60
 	z_index = 200
+	# Original obj_ghz_water Draw draws only electricity; its green mask is hidden.
+	for water in GMNode.all_of("obj_ghz_water"):
+		water.gm_visible = false
 	var audio := AudioStreamPlayer.new()
 	audio.stream = GameAudio._stream("snd_rain").duplicate()
 	audio.stream.set("loop", true)
