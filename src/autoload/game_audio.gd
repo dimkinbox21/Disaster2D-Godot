@@ -7,6 +7,7 @@ var music_gain := 1.0
 var _music_player: AudioStreamPlayer
 var _sound_pool: Array[AudioStreamPlayer] = []
 var _streams: Dictionary = {}
+var _sound_paths: Dictionary = {}
 
 
 func _ready() -> void:
@@ -23,10 +24,15 @@ func _ready() -> void:
 func _stream(sound_name: String) -> AudioStream:
 	if _streams.has(sound_name):
 		return _streams[sound_name]
+	if _sound_paths.is_empty():
+		for file in DirAccess.get_files_at("res://assets/sounds"):
+			file = file.trim_suffix(".remap").trim_suffix(".import")
+			if file.get_extension().to_lower() in ["ogg", "wav", "mp3"]:
+				_sound_paths[file.to_lower()] = "res://assets/sounds/" + file
 	var path := ""
 	for ext in [".ogg", ".wav", ".mp3"]:
-		var p := "res://assets/sounds/%s%s" % [sound_name, ext]
-		if ResourceLoader.exists(p):
+		var p: String = _sound_paths.get((sound_name + ext).to_lower(), "")
+		if not p.is_empty() and ResourceLoader.exists(p):
 			path = p
 			break
 	var s: AudioStream = load(path) if path != "" else null
@@ -63,6 +69,8 @@ var _cross_targets: Dictionary = {}  # track name -> target linear gain
 
 
 func crossfade_music(track: String, gain_to: float, seconds := 2.0) -> void:
+	if Net.motion.replaying:
+		return
 	var p: AudioStreamPlayer = _cross_players.get(track)
 	if p == null:
 		var st := _stream(track)
@@ -146,6 +154,8 @@ func stop_all() -> void:
 
 ## audio_stop_sound(snd) — stops pool players currently playing this stream
 func stop_sound(sound_name: String) -> void:
+	if Net.motion.replaying:
+		return
 	var s := _stream(sound_name)
 	if s == null:
 		return
@@ -156,6 +166,8 @@ func stop_sound(sound_name: String) -> void:
 
 ## audio_play_sound(snd, priority, loop)
 func play_sound(sound_name: String, _priority := 0, _loop := false, gain := 1.0) -> void:
+	if Net.motion.replaying:
+		return
 	var s := _stream(sound_name)
 	if s == null:
 		push_warning("missing sound: " + sound_name)
@@ -166,14 +178,22 @@ func play_sound(sound_name: String, _priority := 0, _loop := false, gain := 1.0)
 			p.volume_db = linear_to_db(clampf(gain, 0.0005, 1.0))
 			p.play()
 			return
-	_sound_pool[0].stream = s
-	_sound_pool[0].volume_db = linear_to_db(clampf(gain, 0.0005, 1.0))
-	_sound_pool[0].play()
+	# Preserve playing voices when several players emit effects at once.
+	if _sound_pool.size() >= 128:
+		return
+	var player := AudioStreamPlayer.new()
+	add_child(player)
+	_sound_pool.append(player)
+	player.stream = s
+	player.volume_db = linear_to_db(clampf(gain, 0.0005, 1.0))
+	player.play()
 
 
 ## scr_move_basic EMOTION3: survivors animate silently; only the primary
 ## hunter plays its own voice. A demonized survivor retains survivor emotions.
 func play_emotion3(character: int, exe_character: int) -> void:
+	if Net.motion.replaying:
+		return
 	if character != Globals.CHARACTER_EXE:
 		return
 	match exe_character:
@@ -205,6 +225,8 @@ func play_exe_stun(exe_character: int) -> void:
 func play_sound_at(
 	sound_name: String, at: Vector2, radius := 700.0, attenuate := true, mirror := true
 ) -> void:
+	if Net.motion.replaying:
+		return
 	if mirror and Net.lvlId == 13:
 		if at.x < 512:
 			play_sound_at(sound_name, at + Vector2(3136, 0), radius, attenuate, false)

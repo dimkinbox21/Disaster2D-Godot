@@ -66,7 +66,11 @@ func receive(data: Dictionary):
 						randi_range(2, 4) * [-1, 1].pick_random(), randi_range(-4, -2)
 					)
 					map.add_child(n)
-				if int(event.player) == Net.nid and is_instance_valid(Globals.player):
+				if (
+					int(event.player) == Net.nid
+					and is_instance_valid(Globals.player)
+					and not event.heal
+				):
 					GameAudio.play_sound("snd_heal" if event.heal else "snd_ring")
 					Globals.player.quick_effect(
 						Globals.player.position.x,

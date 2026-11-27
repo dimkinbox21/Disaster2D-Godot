@@ -9,6 +9,9 @@ var shakeTime := 0
 var shakeMagnitude := 0.0
 var shakeFade := 0.25
 var shaking := false
+var _death_hold := 0
+var _spectating := false
+var _cycle_spectator := false
 @export_storage var room_w := 4544.0
 @export_storage var room_h := 1888.0
 
@@ -56,6 +59,8 @@ func _gm_step() -> void:
 			target = killer
 			position.x = clampf(killer.position.x - 240, 0, maxf(0, room_w - 480))
 			position.y = clampf(killer.position.y - 135, 0, maxf(0, room_h - 270))
+		return
+	if _death_camera():
 		return
 	var scene := get_tree().current_scene
 	if scene != null and scene.get("rules") != null and scene.rules.get("eye_target") != null:
@@ -130,6 +135,50 @@ func camera_shake(time: int, magnitude: float, fade := 0.25) -> void:
 	shakeMagnitude = magnitude
 	shakeFade = fade
 	shaking = true
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if _spectating and event is InputEventKey and event.pressed and not event.echo:
+		_cycle_spectator = true
+
+
+func _death_camera() -> bool:
+	var player = Globals.player
+	if not is_instance_valid(player) or not player.isDead:
+		_death_hold = 0
+		_spectating = false
+		_cycle_spectator = false
+		return false
+	if not _spectating:
+		_death_hold += 1
+		if _death_hold <= 180:
+			return true
+		_spectating = true
+		Globals.cameraMode = 2
+		target = null
+	var candidates: Array[GMNode] = []
+	for puppet in GMNode.all_of("obj_player_puppet"):
+		if (
+			not puppet.isInactive
+			and puppet.hp > 0
+			and not puppet.isDemonized
+			and puppet.pstate != 6
+		):
+			candidates.append(puppet)
+	var index := candidates.find(target)
+	if _cycle_spectator or index < 0:
+		target = candidates[(index + 1) % candidates.size()] if not candidates.is_empty() else null
+		_cycle_spectator = false
+	if is_instance_valid(target):
+		var destination := target.position.floor() - Vector2(240, 135)
+		position = (
+			position.lerp(destination, 0.5)
+			if position.distance_to(destination) > 10
+			else destination
+		)
+		position.x = clampf(position.x, 0, maxf(0, room_w - 480))
+		position.y = clampf(position.y, 0, maxf(0, room_h - 270))
+	return true
 
 
 func _gm_draw() -> void:

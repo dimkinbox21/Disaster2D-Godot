@@ -13,6 +13,7 @@ const FALLOFF_FAR := 500.0
 const GAIN_RANGE := 700.0
 
 @export_storage var stype := SOUNDEMT_MOVINGSPIKE
+@export_storage var properties: Dictionary = {}
 
 
 func _ready() -> void:

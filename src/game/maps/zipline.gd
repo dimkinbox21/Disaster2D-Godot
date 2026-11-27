@@ -29,7 +29,13 @@ func _gm_step() -> void:
 		for n in all_of("obj_aiz_zipline_end"):
 			if int(n.properties.get("gid", 0)) == gid:
 				zend = n
-	if not is_instance_valid(p) or not is_instance_valid(zstart) or not is_instance_valid(zend):
+	if (
+		not is_instance_valid(p)
+		or not p.is_inside_tree()
+		or p.is_queued_for_deletion()
+		or not is_instance_valid(zstart)
+		or not is_instance_valid(zend)
+	):
 		return
 	if (
 		not hasPlayer

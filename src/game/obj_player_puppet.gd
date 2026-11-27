@@ -336,9 +336,13 @@ func _ready() -> void:
 	super._ready()
 	sprite_name = ""
 	image_speed = 0.0
+	Net.health.attach(self, master_id)
+	Net.motion.attach(self, master_id)
 
 
 func _gm_step() -> void:
+	if hp <= 0 and revivalTimes < 2 and pcharacter > 0:
+		pstate = 6
 	if pcharacter != Globals.CHARACTER_EXE:
 		isHiding = (
 			pstate == 8 and GMFloor.rect_meeting_group(bbox_rect(), "obj_hiding_parent") != null
@@ -553,9 +557,6 @@ func net_update(rb: StreamPeerBuffer) -> void:
 		isHiding = pexe_character == Globals.EXE_ORIGINAL and bitflags & Net.PLAYER_INVIS != 0
 		visible = not isHiding
 	else:
-		hp = rb.get_8()
-		revivalTimes = rb.get_u8()
-		rings = rb.get_16()
 		var bitflags := rb.get_u8()
 		if pcharacter == Globals.CHARACTER_TAILS:
 			tailsCharge = rb.get_u8()

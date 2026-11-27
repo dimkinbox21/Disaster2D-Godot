@@ -86,15 +86,14 @@ func ring_break() -> void:
 	if used:
 		return
 	used = true
-	GameAudio.play_sound("snd_exe_ringshutter")
-	Net.spawn_ring_parts(position, player_xspd())
 	if Net.state == Net.STATE_GAME:
 		# netplay: broadcast the break — the others spawn the particles from
 		# CLIENT_RING_BROKE and every client's copy dies via RING_STATE(1)
 		Net.report_ring_broke(iid, nid, int(position.x), int(position.y), player_xspd())
-		_despawn()
 		return
 
+	GameAudio.play_sound("snd_exe_ringshutter")
+	Net.spawn_ring_parts(position, player_xspd())
 	_despawn()
 
 

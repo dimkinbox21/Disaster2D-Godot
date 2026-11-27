@@ -40,7 +40,7 @@ func update_ycr():
 		n.change(phase)
 	if phase != previous_spike and phase in [1, 3]:
 		for n in nodes("obj_soundemitter"):
-			if str(n.properties.get("stype", "")) in ["0", "SOUNDEMT_MOVINGSPIKE"]:
+			if str(n.properties.get("stype", n.stype)) in ["0", "SOUNDEMT_MOVINGSPIKE"]:
 				GameAudio.play_sound_at("snd_movingspike", n.position)
 	previous_spike = phase
 	var gas := int(state.gas_id)

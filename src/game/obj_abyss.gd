@@ -6,6 +6,8 @@ var shouldStun := false
 
 
 func _gm_step() -> void:
+	if Net.state == Net.STATE_GAME:
+		return
 	var player: GMNode = null
 	for p in GMNode.all_of("obj_player"):
 		player = p

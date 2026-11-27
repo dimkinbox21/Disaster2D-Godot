@@ -5,7 +5,7 @@ A Godot port of **Sonic.exe The Disaster 2D Remake**, maintained by
 
 ![Godot](https://img.shields.io/badge/Godot-4.7.2-478cbf)
 ![Platform](https://img.shields.io/badge/Windows-x86__64-blue)
-![Build](https://img.shields.io/badge/build-1130-green)
+![Build](https://img.shields.io/badge/build-1131-green)
 
 ## Download and play
 
@@ -15,9 +15,8 @@ A Godot port of **Sonic.exe The Disaster 2D Remake**, maintained by
 
 To host a game, download the matching [DisasterServer](https://github.com/dimkinbox21/DisasterServer-Godot/releases/latest)
 release and run **DisasterServer.exe**. Client and server must use the same build.
-Client hotfix **v1130.2** trims copied or saved server addresses before connecting,
-including trailing spaces that caused address-resolution failures. It includes the
-v1130.1 menu fixes and remains compatible with server build **1130**.
+Build **1131** requires server build **1131**. It includes the earlier menu,
+address-whitespace and save-import fixes.
 Godot does not need to be installed to play a release build. No BAT launchers are required.
 
 ## Features
@@ -26,7 +25,8 @@ Godot does not need to be installed to play a release build. No BAT launchers ar
 - Six survivors and four hunter variants, with separate ability modules.
 - Multiplayer lobby, map voting, character selection, rounds and results.
 - Skins, palettes, emotions, 50 achievements and original save support.
-- Server-controlled damage, rings, cooldowns and profile events.
+- Server-owned HP, rings, death, revival, hit tests, projectile damage and profile events.
+- Immediate movement prediction with input-only server physics and checkpoint replay.
 - A dedicated module for every map on both client and server.
 
 This port uses its own network protocol. It does not connect to the original GameMaker server.

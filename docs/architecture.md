@@ -51,3 +51,52 @@ menu button IDs, columns and submenu IDs, world-map regions, shop items, demo
 sprites, layer colours and sound-emitter types. Runtime-only animation state stays
 unexported. After changing storage annotations, make a clean export and compare
 stored scene values with the source scenes before publishing a release.
+
+## Game authority and synchronization
+
+Build 1131 changes the protocol; update both client and server.
+
+Clients send only the round ID, input sequence and held buttons for movement.
+The server calculates position, velocity, collision, animation state and character
+abilities. It owns HP, damage, healing, death, revival, pickups, ring destruction,
+projectiles, map schedules and round outcomes. Client damage, death and character
+ability reports cannot authorize these actions.
+
+`src/net/player_health.gd` applies a separate revisioned health stream to owners,
+puppets and cached players. `src/net/predicted_movement.gd` retains up to 256 local
+input frames. An authoritative checkpoint restores the actor state, then replays
+unacknowledged input without repeating sounds, particles or network commands.
+Round IDs and warp epochs reject obsolete corrections. Rendering, camera, sound,
+menus and local profile storage remain client responsibilities.
+
+The server's `src/simulation/generated/` contains actor and character logic exported
+from this client's source, with rendering replaced by small headless adapters.
+Animation timing is retained because several abilities depend on animation frames.
+`src/net/movement_state.gd` defines the matching checkpoint schema in both projects.
+Generated controllers belong to individual files; do not edit their server copies.
+
+After changing actor or character logic, synchronize the matching server:
+
+```powershell
+python tools/export_server_simulation.py C:/path/to/DisasterServer-Godot
+godot --headless --path . --script res://tools/export_map_geometry.gd -- C:/path/to/DisasterServer-Godot
+```
+
+The map exporter writes static masks, hazard regions, spawn pools, ring positions
+and gameplay objects for all 21 maps. Server map rules supply moving walls, doors,
+ice, lifts and lava platforms. Artwork is not part of the server simulation.
+The generated manifest records hashes of the client controller sources.
+
+The server budgets input simulation using elapsed server ticks. It buffers brief
+packet jitter, limits catch-up work, and releases controls after a stalled sender.
+Sending extra packets cannot grant extra simulation time. The network event loop
+also has a per-tick work limit.
+
+Downed players have the original 31-second rescue window. The primary hunter
+within 240 pixels pauses it; a nearby demon halves its speed. Below two minutes
+of round time, downed players are resolved immediately. On expiry, the server
+allows at most `floor(non-primary players / 2)` demons; other casualties remain
+dead without a second countdown. Helping uses the actors' sprite bounds, costs
+the helper's rings and restores two health sections. Progress is broadcast to
+all clients and drawn above foreground scenery. The death camera holds for three
+seconds, then follows living survivors until revival or demonization.

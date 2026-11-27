@@ -71,7 +71,7 @@ func warp(at: Vector2, reset: bool):
 			camera.dist = 0
 		camera.render_origin = camera.position.floor()
 	# The player's near-floor cache must be rebuilt at the destination.
-	p._near = GMFloor.gather_near(at.x, at.y, 80)
+	p._near.assign(GMFloor.gather_near(at.x, at.y, 80))
 	p._near_refresh()
 
 

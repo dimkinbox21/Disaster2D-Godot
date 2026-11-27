@@ -307,9 +307,23 @@ func _ready() -> void:
 	z_index = 0
 	Globals.player = self
 	_apply_character()
+	Net.health.attach(self, Net.nid)
+	Net.motion.attach(self, Net.nid)
+
+
+func _enter_tree() -> void:
+	Globals.player = self
 
 
 func _exit_tree() -> void:
+	if Globals.player == self:
+		Globals.player = null
+
+
+func _notification(what: int) -> void:
+	# Palette CanvasGroups reparent live actors; only destruction releases controllers.
+	if what != NOTIFICATION_PREDELETE:
+		return
 	if hunter != null:
 		hunter.p = null
 		hunter = null
@@ -698,6 +712,8 @@ func move_ground() -> void:
 
 ## scr_camera_shake — with(obj_camera) { shake = true; ... }
 func camera_shake(time: int, magnitude: float, fade := 0.25) -> void:
+	if Net.motion.replaying:
+		return
 	for c in GMNode.all_of("obj_camera"):
 		c.camera_shake(time, magnitude, fade)
 		return
@@ -797,6 +813,8 @@ func exe_special() -> void:
 
 
 func quick_effect(x: float, y: float, spr: String, fade := true, direction := 1.0) -> GMNode:
+	if Net.motion.replaying:
+		return Net.motion.silent_effect()
 	var e := GMNode.new()
 	e.set_script(load("res://src/game/obj_quickfx.gd"))
 	e.position = Vector2(x, y)
@@ -830,7 +848,7 @@ func collision_basic() -> void:
 
 	# fell out of the room → respawn at deathtp_point, snapped onto the
 	# nearest floor below it (the original relies on death-respawn here)
-	if position.y - 30 >= fall_limit_y:
+	if Net.state != Net.STATE_GAME and position.y - 30 >= fall_limit_y:
 		var nearest: GMNode = null
 		var best := 1e18
 		for d in GMNode.all_of("obj_deathtp_point"):
@@ -871,7 +889,8 @@ func collision_basic() -> void:
 
 	collision_objects_before()
 
-	_near = GMFloor.gather_near(position.x, position.y, 80)
+	# The query buffer is shared; each actor retains its own parallel sensor cache.
+	_near.assign(GMFloor.gather_near(position.x, position.y, 80))
 	_near_refresh()
 	collision_check_walls()
 	position.x += xspd
@@ -1240,30 +1259,24 @@ func player_hurt(
 	ypw := -6.0,
 	snd_id := "snd_hurt",
 	blood := "spr_blood1",
-	network_hit := false
+	network_hit := false,
+	server_confirmed := false
 ) -> void:
-	if Net.gameEnds or isDead or (hurttime > 0 and damage > 0):
+	if Net.state == Net.STATE_GAME and not server_confirmed and damage > 0:
 		return
-	if damage > 0 and survivor != null and survivor.absorb_damage():
-		if Net.state == Net.STATE_GAME and not network_hit:
-			var report := Net.cpacket_tcp(Net.PacketType.CLIENT_STATS_REPORT)
-			report.put_u8(3)
-			report.put_u8(damage)
-			Net.send_server_tcp(report)
+	if Net.gameEnds or isDead or (hurttime > 0 and damage > 0 and not server_confirmed):
+		return
+	if not server_confirmed and damage > 0 and survivor != null and survivor.absorb_damage():
 		return
 	var was_survivor := _is_survivor() and revivalTimes < 2
-	if was_survivor and damage > 0:
-		if Net.state == Net.STATE_GAME and not network_hit:
-			var report := Net.cpacket_tcp(Net.PacketType.CLIENT_STATS_REPORT)
-			report.put_u8(3)
-			report.put_u8(clampi(mini(damage, hp), 0, 255))
-			Net.send_server_tcp(report)
+	if was_survivor and damage > 0 and Net.state != Net.STATE_GAME:
 		hp -= damage
 		if hp <= 0:
-			player_instakill()
+			player_instakill(server_confirmed)
 			return
 	if rings > 0 and damage > 0:
-		rings = 0
+		if Net.state != Net.STATE_GAME:
+			rings = 0
 		GameAudio.play_sound("snd_ringlose")
 		quick_effect(position.x, position.y - 10, "spr_ringlose")
 		camera_shake(25, 1, 0.2)
@@ -1290,23 +1303,22 @@ func player_hurt(
 ## scr_player_instakill — solo emulation of the server-driven death: the client
 ## reports it, the server ticks the dead timer and answers with the revival
 ## (revivalTimes = 1, hp 2) or the demonization (revivalTimes = 2, hp 5)
-func player_instakill() -> void:
+func player_instakill(server_confirmed := false) -> void:
+	if Net.state == Net.STATE_GAME and not server_confirmed:
+		return
 	if Net.gameEnds or isDead:
 		return
 	hp = 0
-	if Net.state == Net.STATE_GAME:
-		server_death = true
-		var packet := Net.cpacket_tcp(Net.PacketType.CLIENT_PLAYER_DEATH_STATE)
-		packet.put_u8(1)
-		packet.put_u8(revivalTimes)
-		Net.send_server_tcp(packet)
+	server_death = Net.state == Net.STATE_GAME
 	deadTimer = 31
 	deadColor = Color.WHITE
 	isDead = true
+	_dead_pin = false
+	image_index = 0
 	isHurt = false
 	shards = 0
 	xspd = image_xscale * 2.0
-	yspd = 0.0
+	Globals.cameraMode = 3
 	isGrounded = false
 	isSpinning = false
 	isLookingDown = false
@@ -1318,6 +1330,8 @@ func player_instakill() -> void:
 
 ## solo revival/demonization (SERVER_GAME_DEATHTIMER_END + SERVER_REVIVAL_REVIVED)
 func _revival_step() -> void:
+	if Net.state == Net.STATE_GAME:
+		return
 	if not isDead or _dead_timer <= 0:
 		return
 	if server_death:
@@ -1353,6 +1367,8 @@ var server_death := false
 ## EVERY ring gain while rings >= 10 && hp < 5 && _canHeal, and zeroes the
 ## rings — repeatable, the next heal needs 10 collected again)
 func try_heal() -> void:
+	if Net.state == Net.STATE_GAME:
+		return
 	if not _is_survivor() or revivalTimes >= 2 or isDead:
 		return
 	if rings >= 10 and hp < 5:
@@ -1364,6 +1380,8 @@ func try_heal() -> void:
 
 ## ring pickup (obj_ring Step_0, survivor branch) — rings += n, then the heal check
 func ring_collected(count := 1) -> void:
+	if Net.state == Net.STATE_GAME:
+		return
 	rings += count
 	GameAudio.play_sound("snd_ring")
 	quick_effect(position.x, position.y, "spr_ring_sparkle")
@@ -1600,11 +1618,16 @@ func frame_texture() -> Texture2D:
 
 
 func _physics_process(delta: float) -> void:
+	Net.motion.before_step(self)
 	super._physics_process(delta)
 	_step_visual_effects()
 
 
 func _step_visual_effects() -> void:
+	if Net.motion.replaying:
+		if effectTime > 0:
+			effectTime -= 1
+		return
 	if hunter != null:
 		hunter.draw_effect()
 	if effectTime > 0:

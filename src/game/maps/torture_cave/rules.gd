@@ -32,7 +32,7 @@ func acid_packet(group: int, on: bool) -> void:
 			cloud.gm_visible = true
 	if on:
 		for emitter in GMNode.all_of("obj_soundemitter"):
-			if int(emitter.properties.get("stype", 0)) == group:
+			if int(emitter.properties.get("stype", emitter.stype)) == group:
 				GameAudio.play_sound_at("snd_acid", emitter.position)
 
 

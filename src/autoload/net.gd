@@ -159,6 +159,8 @@ enum PacketType {
 	SERVER_TOWER_WARP,
 	SERVER_FREEDOM_STATE,
 	SERVER_PROFILE_EVENT,
+	SERVER_PLAYER_HEALTH,
+	SERVER_PLAYER_MOTION,
 }
 
 const STATE_PENDING := -1
@@ -177,6 +179,8 @@ const PLAYER_INVIS := 1 << 6
 const PLAYER_SLIME := 1 << 7
 
 # ---------------------------------------------------------------- client state
+var motion = preload("res://src/net/predicted_movement.gd").new(self)
+var health = preload("res://src/net/player_health.gd").new(self)
 var queued_chat: Array = []
 var isConnected := false
 var isReady := false
@@ -200,6 +204,7 @@ var exeId := 0
 var chance := 0
 var test_round := false
 var lvlId := -1
+var round_id := 0
 var round_ticks := -1
 var pings: Dictionary = {}
 var players: Dictionary = {}  # nid -> Dictionary (mirrors ds_map)
@@ -211,6 +216,7 @@ var _udp_timeout := 60 * 5
 
 
 func _ready() -> void:
+	process_physics_priority = 90
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().node_added.connect(
 		func(node):
@@ -267,6 +273,8 @@ func shutdown() -> void:
 	nid = -1
 	state = STATE_PENDING
 	players.clear()
+	health.clear()
+	motion.clear()
 	queued_chat.clear()
 	pings.clear()
 	test_round = false
@@ -311,31 +319,36 @@ func _physics_process(_delta: float) -> void:
 	if _pd_timer % 60 == 0:
 		var pb := cpacket_tcp(PacketType.CLIENT_PING)
 		send_server_tcp(pb)
-	if state == STATE_GAME and isReady:
+	if state == STATE_GAME and isReady and not gameEnds:
+		motion.sending = true
 		_send_player_data()
+		motion.sending = false
 	# net_poll() port
-	while true:
+	motion.deferred = true
+	for _event_index in 256:
 		var ev := _host.service(0)
 		var event: int = ev[0]
 		if event == ENetConnection.EVENT_ERROR:
-			return
+			break
 		match event:
 			ENetConnection.EVENT_NONE:
-				return
+				break
 			ENetConnection.EVENT_CONNECT:
 				_on_connected()
-				return
+				break
 			ENetConnection.EVENT_DISCONNECT:
 				_on_disconnected(ev[2])
-				return
+				break
 			ENetConnection.EVENT_RECEIVE:
 				var pkt: ENetPacketPeer = ev[1]
 				var data := pkt.get_packet()
 				if data.size() >= 2:
 					net_tcpprocess(data)
 				if _host == null:
-					return
+					break
 				continue
+
+	motion.flush()
 
 
 func _on_connected() -> void:
@@ -384,6 +397,8 @@ func cpacket_tcp(type: int, passthrough := false) -> StreamPeerBuffer:
 
 
 func send_server_tcp(b: StreamPeerBuffer) -> void:
+	if motion.replaying:
+		return
 	if _peer == null:
 		return
 	_peer.put_packet(b.data_array)
@@ -493,8 +508,8 @@ func report_parry(other_pid: int) -> void:
 func report_spring_use(at: Vector2) -> void:
 	var packet := cpacket_tcp(PacketType.CLIENT_SPRING_USE, true)
 	packet.put_u16(nid)
-	packet.put_u16(int(at.x))
-	packet.put_u16(int(at.y))
+	packet.put_16(int(at.x))
+	packet.put_16(int(at.y))
 	send_server_tcp(packet)
 
 
@@ -588,8 +603,8 @@ func report_egg_tracker(at: Vector2) -> void:
 	if state == STATE_GAME:
 		_send_player_data(8)  # crouch and its position must precede the placement event
 		var b := cpacket_tcp(PacketType.CLIENT_ETRACKER)
-		b.put_u16(int(at.x))
-		b.put_u16(int(at.y))
+		b.put_16(int(at.x))
+		b.put_16(int(at.y))
 		send_server_tcp(b)
 	else:
 		spawn_tracker(0, nid, at, Globals.player.revivalTimes >= 2)
@@ -612,8 +627,8 @@ func report_cream_rings(at: Vector2, demon: bool) -> void:
 	if state == STATE_GAME:
 		_send_player_data(15)
 		var b := cpacket_tcp(PacketType.CLIENT_CREAM_SPAWN_RINGS)
-		b.put_u16(int(at.x))
-		b.put_u16(int(at.y))
+		b.put_16(int(at.x))
+		b.put_16(int(at.y))
 		b.put_u8(int(demon))
 		send_server_tcp(b)
 	else:
@@ -641,20 +656,12 @@ var profile_interaction: Dictionary = {}
 
 
 func draw_profile_interaction(node: GMNode, id: int):
-	if (
-		gameEnds
-		or int(profile_interaction.get("target", -1)) != id
-		or float(profile_interaction.get("progress", 0)) <= 0
-	):
-		return
-	var sprite = "spr_revival" if profile_interaction.get("revive", false) else "spr_heal"
-	node.draw_sprite(
-		sprite,
-		int(float(profile_interaction.progress) * GM.sprite_count(sprite)),
-		floorf(node.position.x),
-		floorf(node.position.y) - 35
-	)
-	node.queue_redraw()
+	if not node.has_meta("revival_indicator"):
+		var indicator = load("res://src/game/effects/revival_indicator.gd").new()
+		indicator.actor = node
+		indicator.actor_id = id
+		node.set_meta("revival_indicator", true)
+		node.get_parent().add_child(indicator)
 
 
 func send_palette() -> void:
@@ -684,73 +691,17 @@ func send_palette() -> void:
 		send_server_tcp(b)
 
 
-func _send_player_data(state_override := -1) -> void:
+func _send_player_data(_state_override := -1) -> void:
+	if not motion.sending or motion.replaying:
+		return
 	var p: GMNode = Globals.player
-	if p == null:
+	if p == null or not active_game_map():
 		return
 	send_palette()
 	var b := cpacket_tcp(PacketType.CLIENT_PLAYER_DATA)
-	# Torture Cave entrances start above the room (Y=-448): retain the sign.
-	b.put_16(int(p.position.x))
-	b.put_16(int(p.position.y))
-	put_f16(b, p.xspd)
-	put_f16(b, p.yspd)
-	b.put_u8(state_override if state_override >= 0 else p.state)
-	b.put_16(int(p.angle))
-	b.put_u8(int(p.image_index))
-	b.put_8(int(p.image_xscale))
-	var bitflags := 0
-	if p.effectTime > 0:
-		bitflags |= PLAYER_EFFECT
-	if Globals.character != Globals.CHARACTER_EXE:
-		b.put_8(p.hp)
-		b.put_u8(p.revivalTimes)
-		b.put_16(p.rings)
-		if p.hurttime > 0:
-			bitflags |= PLAYER_HURT
-		if p.redRingTimer > 0:
-			bitflags |= PLAYER_REDRING
-		if (
-			Globals.character
-			in [
-				Globals.CHARACTER_KNUX,
-				Globals.CHARACTER_AMY,
-				Globals.CHARACTER_SALLY,
-				Globals.CHARACTER_EGGMAN
-			]
-		):
-			if p.isAttacking:
-				bitflags |= PLAYER_ATTACKING
-		if Globals.character == 4 and p.survivor.combat_attack():
-			bitflags |= PLAYER_ATTACKING
-		if Globals.character == 6 and p.shieldTimer > 0:
-			bitflags |= PLAYER_SALLYSHIELD
-		b.put_u8(bitflags)
-		if Globals.character == Globals.CHARACTER_TAILS:
-			b.put_u8(p.attackCharge)
-			# the tail angle: -radtodeg(arctan2(yspd, grounded ? gspd : xspd))
-			var vx: float = p.gspd if p.isGrounded else p.xspd
-			b.put_16(int(-rad_to_deg(atan2(p.yspd, vx))))
-	else:
-		var attacking: bool = p.isAttacking
-		if Globals.exeCharacter == Globals.EXE_ORIGINAL:
-			if not (
-				(p.state == p.EXE_ATTACK and p.image_index > 0)
-				or (p.state == p.EXE_AIR_ATTACK and p.image_index >= 3)
-			):
-				attacking = false
-		if Globals.exeCharacter == Globals.EXE_CHAOS and p.hunter != null:
-			if p.hunter.slimeTimer > 0:
-				attacking = false
-				if p.hunter.slimeAnim:
-					bitflags |= PLAYER_SLIME
-		if attacking:
-			bitflags |= PLAYER_ATTACKING
-		if p.hurttime > 0:
-			bitflags |= PLAYER_HURT
-		if Globals.exeCharacter == Globals.EXE_ORIGINAL and p.invisTimer > 0:
-			bitflags |= PLAYER_INVIS
-		b.put_u8(bitflags)
+	b.put_u32(round_id)
+	b.put_u32(motion.record(p))
+	b.put_u16(motion.frame_inputs)
 	send_server_tcp(b)
 
 
@@ -766,6 +717,12 @@ func net_tcpprocess(data: PackedByteArray) -> void:
 	var _passthrough := rb.get_u8() != 0
 	var nps := rb.get_u8()
 	match nps:
+		PacketType.SERVER_PLAYER_MOTION:
+			if not _passthrough:
+				motion.receive(rb)
+		PacketType.SERVER_PLAYER_HEALTH:
+			if not _passthrough:
+				health.receive(rb)
 		PacketType.CLIENT_CHAT_MESSAGE:
 			if _passthrough or rb.get_available_bytes() < 3:
 				return
@@ -842,14 +799,15 @@ func net_tcpprocess(data: PackedByteArray) -> void:
 		PacketType.CLIENT_RING_BROKE:
 			# a relayed ring break — spawn the 4 particles (the original's
 			# handler builds them from x/y/xspd alone)
-			var bx := rb.get_u16()
-			var by := rb.get_u16()
+			var bx := rb.get_16()
+			var by := rb.get_16()
 			var bxs := get_f16(rb)
+			GameAudio.play_sound_at("snd_exe_ringshutter", Vector2(bx, by))
 			spawn_ring_parts(Vector2(bx, by), bxs)
 		PacketType.CLIENT_PLAYER_DATA:
 			# the server relays the other clients' packets with their pid
 			# (net_udpprocess port)
-			if state != STATE_GAME:
+			if state != STATE_GAME or not active_game_map():
 				return
 			var pid := rb.get_u16()
 			for pup in GMNode.all_of("obj_player_puppet"):
@@ -1035,13 +993,27 @@ func net_state_pending(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> voi
 # ---------------------------------------------------------------- net_state_game
 ## the in-round packets — the server owns all of this state (stage: netplay sync)
 func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
+	if (
+		not active_game_map()
+		and (
+			nps
+			not in [
+				PacketType.SERVER_GAME_TIME_SYNC,
+				PacketType.SERVER_GAME_EXE_WINS,
+				PacketType.SERVER_GAME_SURVIVOR_WIN,
+				PacketType.SERVER_GAME_TIME_OVER,
+				PacketType.SERVER_GAME_PING
+			]
+		)
+	):
+		return
 	match nps:
 		PacketType.SERVER_FART_STATE:
 			if passthrough or lvlId != 20 or rb.get_available_bytes() < 4:
 				return
 			var scene = get_tree().current_scene
 			if scene != null and scene.get("rules") != null:
-				scene.rules.dummy_position(Vector2(rb.get_u16(), rb.get_u16()))
+				scene.rules.dummy_position(Vector2(rb.get_16(), rb.get_16()))
 				if rb.get_available_bytes() >= 9:
 					scene.rules.ball = rb.get_float()
 					scene.rules.ball_dir = rb.get_float()
@@ -1081,7 +1053,11 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 			)
 			if payload is Dictionary:
 				if payload.get("kind") == "interaction":
-					profile_interaction = payload
+					var helper := int(payload.get("helper", -1))
+					if float(payload.get("progress", 0)) > 0:
+						profile_interaction[helper] = payload
+					else:
+						profile_interaction.erase(helper)
 				else:
 					Achievements.rules.event(
 						str(payload.get("kind", "")),
@@ -1118,8 +1094,8 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 				return
 			var red := rb.get_u8() != 0
 			var heal := rb.get_u8() != 0
-			if not red:
-				GameAudio.play_sound("snd_heal" if heal else "snd_ring")
+			if not red and not heal:
+				GameAudio.play_sound("snd_ring")
 				Globals.player.quick_effect(
 					Globals.player.position.x,
 					Globals.player.position.y - 10,
@@ -1154,7 +1130,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 		PacketType.SERVER_TOWER_WARP:
 			if passthrough or lvlId != 13 or rb.get_available_bytes() < 5:
 				return
-			var at := Vector2(rb.get_u16(), rb.get_u16())
+			var at := Vector2(rb.get_16(), rb.get_16())
 			var reset := rb.get_u8() != 0
 			var scene := get_tree().current_scene
 			if scene != null and scene.get("rules") != null and scene.rules.has_method("warp"):
@@ -1275,7 +1251,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 		PacketType.SERVER_PLAYER_BACKTRACK:
 			if passthrough or rb.get_available_bytes() < 4 or not is_instance_valid(Globals.player):
 				return
-			var at := Vector2(rb.get_u16(), rb.get_u16())
+			var at := Vector2(rb.get_16(), rb.get_16())
 			var p: GMNode = Globals.player
 			p.position = at
 			p.xspd = 0
@@ -1293,27 +1269,13 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 			var invul := rb.get_u16()
 			var dead := rb.get_u8() != 0
 			var p: GMNode = Globals.player
-			# Explicit ring absorption: the count may already be synchronized.
+			# Map packets carry effect hints; the canonical health stream owns values.
+			health.hints[nid] = {"mode": mode}
+			if mode in [4, 6] and rb.get_available_bytes() > 0:
+				health.hints[nid].push = rb.get_8() * (3 if mode == 4 else 4)
 			if mode == 5:
 				GameAudio.play_sound("snd_ringabsorb")
-			if mode == 3 and p.hp > hp:
-				GameAudio.play_sound("snd_blackring")
-				for level in GMNode.all_of("obj_level"):
-					level.bloodFade = 0.4
-			if dead and not p.isDead:
-				p.player_instakill()
-			elif mode == 6 and p.hp > hp:
-				var push := rb.get_8() if rb.get_available_bytes() > 0 else -int(p.image_xscale)
-				p.player_hurt(1, push * 4, -2, "snd_lavahit", "spr_blood1", true)
-			elif mode == 4 and p.hp > hp:
-				p.player_hurt(1, rb.get_8() * 3)
-			elif mode == 2 and (p.hp > hp or Globals.character == 0 or p.revivalTimes >= 2):
-				p.player_hurt(1, -p.image_xscale * 4, -6, "snd_hurt", "spr_blood1", true)
-			elif mode != 5 and rings < p.rings and hp == p.hp:
-				GameAudio.play_sound("snd_ringabsorb")
-			p.hp = hp
-			p.rings = rings
-			p.hurttime = invul
+
 		PacketType.CLIENT_SOUND_EMIT:
 			if not passthrough or rb.get_available_bytes() < 4:
 				return
@@ -1343,6 +1305,10 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 				Globals.player.isAttacking = false
 				Globals.player.shieldRechrage = ticks
 			elif kind == 3:
+				if Globals.player.shockedTimer <= 0:
+					GameAudio.play_sound("snd_exe_stun")
+					if Globals.character == 0:
+						GameAudio.play_exe_stun(Globals.exeCharacter)
 				Globals.player.shockedTimer = ticks
 				Globals.player.hurttime = ticks + 120
 				Globals.player.xspd = rb.get_8()
@@ -1404,7 +1370,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 			var mode := rb.get_u8()
 			var id := rb.get_u16()
 			if mode == 0:
-				var at := Vector2(rb.get_u16(), rb.get_u16())
+				var at := Vector2(rb.get_16(), rb.get_16())
 				var owner := rb.get_u16()
 				spawn_tracker(id, owner, at, rb.get_u8() != 0)
 			else:
@@ -1437,7 +1403,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 			if lvlId != 0 or gameEnds or rb.get_available_bytes() < 6:
 				return
 			rb.get_u16()  # sender
-			var at := Vector2(rb.get_u16(), rb.get_u16())
+			var at := Vector2(rb.get_16(), rb.get_16())
 			GameAudio.play_sound_at("snd_spring", at)
 			if Globals.character != Globals.CHARACTER_EXE:
 				return
@@ -1451,7 +1417,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 		PacketType.CLIENT_SPAWN_EFFECT:
 			if gameEnds or rb.get_available_bytes() < 13:
 				return
-			var at := Vector2(rb.get_u16(), rb.get_u16())
+			var at := Vector2(rb.get_16(), rb.get_16())
 			var fade := rb.get_u8() != 0
 			var direction := rb.get_8()
 			var effect_id := rb.get_u8()
@@ -1623,7 +1589,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 					shot._destroy()
 			elif action == 0 and get_tree().current_scene != null:
 				var shot := preload("res://src/game/obj_tails_projectile.gd").new()
-				shot.position = Vector2(rb.get_u16(), rb.get_u16())
+				shot.position = Vector2(rb.get_16(), rb.get_16())
 				shot.owner_id = rb.get_u16()
 				shot.is_owner = shot.owner_id == nid
 				shot.image_xscale = rb.get_8()
@@ -1666,43 +1632,12 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 			# [_demonize bool] — for THIS client (the server decided)
 			if passthrough:
 				return
-			var _demonize := rb.get_u8() != 0
-			var mp: GMNode = Globals.player
-			if mp == null:
-				return
-			if not _demonize:
-				mp.deadTimer = 31
-				mp.revivalTimes = 1
-				return
-			# demonization (obj_demon_indicator / the teleport effect land later)
-			GameAudio.play_sound("snd_demonization")
-			mp.server_death = false
-			mp.hp = 5
-			mp.isDead = false
-			mp.revivalTimes = 2
-			Achievements.rules.event("demon")
-			mp.hurttime = 60 * 2
-			mp.attackTimer = 0
-			mp.reset_character_abilities()
+			rb.get_u8()  # HP, death and team changes arrive in SERVER_PLAYER_HEALTH.
 		PacketType.SERVER_REVIVAL_REVIVED:
-			if passthrough:
-				return
-			var rp: GMNode = Globals.player
-			if rp == null or rp.revivalTimes >= 2:
-				return
-			# the canonical revive: hp 2, up, hurttime 4s (SERVER_REVIVAL_RINGSUB
-			# clears the rings separately)
-			rp.server_death = false
-			rp.hp = 2
-			rp.isDead = false
-			rp.revivalTimes += 1
-			rp.hurttime = 60 * 4
+			pass  # Canonical health snapshot applies the revival once.
+
 		PacketType.SERVER_REVIVAL_RINGSUB:
-			if passthrough:
-				return
-			if Globals.player != null:
-				Globals.player.rings = 0
-			Achievements.rules.event("revive")
+			pass  # Ring cost is canonical; the server emits the achievement event.
 		PacketType.SERVER_RING_STATE:
 			# state 1: the server confirmed a collection/break — everyone
 			# destroys THEIR copy of that spawner's ring (iid matches across
@@ -1764,18 +1699,7 @@ func net_state_game(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> void:
 					return
 				cp.take_red_ring()
 				return
-			cp.rings += 1
-			if cp.redRingTimer >= 60:
-				var cnt := (
-					(2.0 if (Globals.timeMinutes <= 0 and Globals.timeSeconds < 60) else 0.5) * 60
-				)
-				cp.redRingTimer = int(maxf(cp.redRingTimer - cnt, 60))
-			if cp.rings >= 10 and cp.hp < 5 and _can_heal:
-				cp.rings = 0
-				cp.hp = mini(5, cp.hp + 1)
-				GameAudio.play_sound("snd_heal")
-				cp.quick_effect(cp.position.x, cp.position.y - 10, "spr_heal_part")
-			else:
+			if not _can_heal:
 				GameAudio.play_sound("snd_ring")
 				cp.quick_effect(cp.position.x, cp.position.y, "spr_ring_sparkle")
 
@@ -1962,7 +1886,11 @@ func net_state_charselect(rb: StreamPeerBuffer, nps: int, passthrough: bool) -> 
 		PacketType.SERVER_LOBBY_GAME_START:
 			if passthrough:
 				return
+			gameEnds = false
+			health.clear()
+			motion.clear()
 			test_round = rb.get_available_bytes() > 0 and rb.get_u8() != 0
+			round_id = rb.get_u32() if rb.get_available_bytes() >= 4 else 0
 			Achievements.rules.begin()
 			_palette_sent = 0
 			profile_interaction.clear()
@@ -2243,7 +2171,7 @@ func consume_black_ring(id: int, apply_cost := true):
 		effect.fade = false
 		get_tree().current_scene.add_child(effect)
 		ring.queue_free()
-		if not apply_cost:
+		if not apply_cost or state == STATE_GAME:
 			return
 		var player: GMNode = Globals.player
 		if not is_instance_valid(player):
@@ -2358,3 +2286,8 @@ func _mark_escaped(id: int) -> void:
 		effect.sprite_name = "spr_ring_teleport"
 		effect.image_speed = 2.0
 		get_tree().current_scene.add_child(effect)
+
+
+func active_game_map() -> bool:
+	var scene = get_tree().current_scene
+	return scene != null and scene.get("lvl_id") == lvlId

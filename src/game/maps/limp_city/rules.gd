@@ -45,7 +45,10 @@ func update_city():
 	var chain := int(state.chain)
 	if chain != previous_chain:
 		for n in nodes("obj_soundemitter"):
-			if str(n.properties.get("stype", "")) in ["1", "SOUNDEMT_LCCHAIN"] and chain in [0, 1]:
+			if (
+				str(n.properties.get("stype", n.stype)) in ["1", "SOUNDEMT_LCCHAIN"]
+				and chain in [0, 1]
+			):
 				GameAudio.play_sound_at(
 					"snd_echain_prepare" if chain == 0 else "snd_echain", n.position
 				)

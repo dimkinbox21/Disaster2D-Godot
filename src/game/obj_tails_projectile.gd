@@ -55,6 +55,8 @@ func _gm_step() -> void:
 
 
 func _hit_local_player() -> bool:
+	if Net.state == Net.STATE_GAME:
+		return false
 	if Net.gameEnds:
 		return false
 	var player: GMNode = Globals.player
